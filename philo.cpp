@@ -50,15 +50,20 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 
 void	Alkash::eat()
 {
-
+	start = P_Clock::now();
 }
 
 void	Alkash::sleep()
 {
-	
+	start = P_Clock::now();
 }
 
 void	Alkash::think()
+{
+	start = P_Clock::now();
+}
+
+void	Alkash::checktime()
 {
 	
 }

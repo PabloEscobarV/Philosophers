@@ -13,18 +13,19 @@
 #include <thread>
 #include <chrono>
 
-using Clock = std::chrono::high_resolution_clock;
-using Duration = std::chrono::milliseconds;
+using P_Clock = std::chrono::high_resolution_clock;
+using P_Duration = std::chrono::milliseconds;
 
 class	Alkash
 {
-	int								t_td;
-	int								t_te;
-	int								t_ts;
-	int								t_tt;
-	long							timer;
-	std::chrono::time_point<Clock>	start;
-	std::chrono::time_point<Clock>	end;
+	int									t_td;
+	int									t_te;
+	int									t_ts;
+	int									t_tt;
+	long								timer;
+	P_Duration							duration;
+	std::chrono::time_point<P_Clock>	start;
+	std::chrono::time_point<P_Clock>	end;
 public:
 	Alkash(int ttd = 0, int tte = 0, int tts = 0, int ttt = 0);
 	~Alkash() {};
@@ -34,4 +35,5 @@ public:
 	void	eat();
 	void	sleep();
 	void	think();
+	void	checktime();
 };
