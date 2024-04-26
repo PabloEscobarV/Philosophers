@@ -5,37 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 12:07:02 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/25 13:37:50 by polenyc          ###   ########.fr       */
+/*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
+/*   Updated: 2024/04/26 14:35:17 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <thread>
-#include <chrono>
+#include <mutex>
+#include <iostream>
 
 using namespace std;
 
-using P_Clock = chrono::high_resolution_clock;
-using P_Duration = chrono::milliseconds;
-
 class	Alkash
 {
-	long								t_die;
-	long								t_buchat;
-	long								t_sleep;
-	long								t_finding;
-	long								timer;
-	P_Duration							duration;
-	std::chrono::time_point<P_Clock>	start;
-	std::chrono::time_point<P_Clock>	end;
+	long	buchat;
 public:
-	Alkash(int ttd = 0, int tte = 0, int tts = 0, int ttt = 0);
-	~Alkash() {};
+	Alkash(long _buchat = 0);
 	Alkash(const Alkash& obj);
+	~Alkash();
 	Alkash&	operator=(const Alkash& obj);
+	void	getBuchlo(Buchlo& buchlo, mutex& mt);
+};
 
-	void	buchat();
-	void	sleep(long sleep = -1);
-	void	finding(long t_fb = -1);
-	long	checktime();
+class	Buchlo
+{
+	int	id;
+public:
+	Buchlo();
+	Buchlo(const Buchlo& obj);
+	~Buchlo();
+	Buchlo&	operator=(const Buchlo& obj);
+	void	set_id(int _id = 0);
+	int		get_id();
+	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
 };
