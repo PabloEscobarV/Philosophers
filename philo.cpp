@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:09 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/26 14:24:29 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/04/26 14:44:33 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ Alkash&	Alkash::operator=(const Alkash& obj)
     return (*this);
 }
 
-void	Alkash::getBuchlo(Buchlo& buchlo, thread& th)
+void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 {
-	
+	mt.lock();
+
+	mt.unlock();
 }
 
 Buchlo::Buchlo() :

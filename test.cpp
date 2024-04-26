@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/26 14:44:33 by polenyc          ###   ########.fr       */
+/*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
+/*   Updated: 2024/04/26 14:48:49 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@
 
 using namespace std;
 
-class	Alkash
+void	func(mutex &mt)
 {
-	long	buchat;
-public:
-	Alkash(long _buchat = 0);
-	Alkash(const Alkash& obj);
-	~Alkash();
-	Alkash&	operator=(const Alkash& obj);
-	void	getBuchlo(Buchlo& buchlo, mutex& mt);
-};
+	mt.lock();
+	for (int i = 0; i < 10; ++i)
+	{
+		this_thread::sleep_for(chrono::milliseconds(10));
+		cout << "func[" << i << "]\tID:\t" << hex << this_thread::get_id() << endl;
+	}
+	cout << "----------------------\n";
+	mt.unlock();
+}
 
-class	Buchlo
+int		main(void)
 {
-	int	id;
-public:
-	Buchlo();
-	Buchlo(const Buchlo& obj);
-	~Buchlo();
-	Buchlo&	operator=(const Buchlo& obj);
-	void	set_id(int _id = 0);
-	int		get_id();
-	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
-};
+	mutex	mt;
+	thread	th1(func, ref(mt));
+	thread	th2(func, ref(mt));
+
+	th1.join();
+	th2.join();
+
+	return (0);
+}
