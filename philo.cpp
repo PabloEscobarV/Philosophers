@@ -16,11 +16,11 @@
 
 using namespace std;
 
-Alkash::Alkash(int ttd, int tte, int tts, int ttt) :
-    t_td(ttd),
-    t_te(tte),
-    t_ts(tts),
-    t_tt(ttt),
+Alkash::Alkash(int die, int buchat, int sleep, int finding) :
+    t_die(die),
+    t_buchat(buchat),
+    t_sleep(sleep),
+    t_finding(finding),
     timer(0)
 {
     
@@ -30,10 +30,10 @@ Alkash::Alkash(const Alkash& obj)
 {
     if (this == &obj)
         return ;
-    t_td = obj.t_td;
-    t_te = obj.t_te;
-    t_ts = obj.t_ts;
-    t_tt = obj.t_ts;
+    t_die = obj.t_die;
+    t_buchat = obj.t_buchat;
+    t_sleep = obj.t_sleep;
+    t_finding = obj.t_finding;
     timer = obj.timer;
 }
 
@@ -41,29 +41,39 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 {
     if (this == &obj)
         return ;
-    t_td = obj.t_td;
-    t_te = obj.t_te;
-    t_ts = obj.t_ts;
-    t_tt = obj.t_ts;
+    t_die = obj.t_die;
+    t_buchat = obj.t_buchat;
+    t_sleep = obj.t_sleep;
+    t_finding = obj.t_finding;
     timer = obj.timer;
 }
 
-void	Alkash::eat()
+void	Alkash::buchat(long buchat)
 {
-	start = P_Clock::now();
+    if (buchat < 0)
+        buchat = t_buchat;
+    timer = buchat;
 }
 
-void	Alkash::sleep()
+void	Alkash::sleep(long sleep)
 {
-	start = P_Clock::now();
+    if (sleep < 0)
+        sleep = t_sleep;
+    timer = sleep;
+    this_thread::sleep_for(chrono::milliseconds(sleep));
 }
 
-void	Alkash::think()
+void	Alkash::finding(long finding)
 {
-	start = P_Clock::now();
+    if (!finding)
+        finding = t_finding;
+	timer = finding;
 }
 
-void	Alkash::checktime()
+long	Alkash::checktime()
 {
-	
+	end = P_Clock::now();
+	duration = std::chrono::duration_cast<P_Duration>(end - start);
+	timer = duration.count();
+	return (timer);
 }
