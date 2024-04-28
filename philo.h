@@ -16,7 +16,20 @@
 
 using namespace std;
 
-class	Alkash
+class	Buchlo
+{
+	thread::id	id;
+public:
+	Buchlo();
+	Buchlo(const Buchlo& obj);
+	~Buchlo();
+	Buchlo&	operator=(const Buchlo& obj);
+	void	set_id(thread::id _id);
+	long	get_id();
+	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
+};
+
+class	Alkash : public thread
 {
 	long	buchat;
 public:
@@ -25,17 +38,4 @@ public:
 	~Alkash();
 	Alkash&	operator=(const Alkash& obj);
 	void	getBuchlo(Buchlo& buchlo, mutex& mt);
-};
-
-class	Buchlo
-{
-	int	id;
-public:
-	Buchlo();
-	Buchlo(const Buchlo& obj);
-	~Buchlo();
-	Buchlo&	operator=(const Buchlo& obj);
-	void	set_id(int _id = 0);
-	int		get_id();
-	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
 };

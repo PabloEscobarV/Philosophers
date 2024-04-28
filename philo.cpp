@@ -14,7 +14,7 @@
 
 Alkash::Alkash(long _buchat) : buchat(_buchat)
 {
-
+    
 }
 
 Alkash::Alkash(const Alkash& obj)
@@ -37,13 +37,19 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 
 void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 {
+    this_thread::sleep_for(chrono::milliseconds(7000));
+    cout << "ALKASH HAS BEEN STARTED\n";
 	mt.lock();
-
+    cout << buchlo;
+    cout << "ALKASH ID:\t" << hex << this_thread::get_id() << endl;
+    cout << "--------------------\n";
+    this_thread::sleep_for(chrono::milliseconds(3000));
 	mt.unlock();
+    this_thread::sleep_for(chrono::milliseconds(100));
+    cout << "ALKASH FINISHED\n";
 }
 
-Buchlo::Buchlo() :
-    id(0)
+Buchlo::Buchlo() : id(this_thread::get_id())
 {
 
 }
@@ -66,18 +72,18 @@ Buchlo&	Buchlo::operator=(const Buchlo& obj)
     return (*this);
 }
 
-void	Buchlo::set_id(int _id)
+void	Buchlo::set_id(thread::id _id)
 {
 	id = _id;
 }
 
-int		Buchlo::get_id()
+long		Buchlo::get_id()
 {
-	return (id);
+    return (static_cast<long>(hash<thread::id>{}(id)));
 }
 
 ostream&	operator<<(ostream& os, const Buchlo& obj)
 {
-	os << "BUCHLO ID:\t" << obj.id << endl;
+	os << "BUCHLO ID:\t" << hex << this_thread::get_id() << endl;
 	return (os);
 }
