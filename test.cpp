@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/26 14:48:49 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/04/29 15:28:48 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ int		main(void)
 	Alkash	sobut;
 	Buchlo	buchlo;
 	mutex	mt1;
-	mutex	mt2;
+	Timer	time;
+
+	time.start();
 	thread	th1([&](){ alkash.getBuchlo(buchlo, mt1); });
 	thread	th2([&](){ sobut.getBuchlo(buchlo, mt1); });
 
 	th1.join();
 	th2.join();
+	time.stop();
+	cout << time << endl;
 	// alkash.getBuchlo(buchlo, mt1);
 	// sobut.getBuchlo(buchlo, mt1);
 	// mutex	mt1;

@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   philo.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:09 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/26 14:44:33 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/04/29 15:28:48 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+Timer::Timer(bool t)
+{
+    if (t)
+        timer_start = chrono::high_resolution_clock::now();
+}
+
+Timer::~Timer()
+{
+    // timer_stop = chrono::high_resolution_clock::now();
+    // dur = timer_stop - timer_start;
+    // cout << "DURATION:\t" << dur.count() << "\tSECONDS" << endl;
+}
+
+void    Timer::start()
+{
+    timer_start = chrono::high_resolution_clock::now();
+}
+
+void	Timer::stop()
+{
+	timer_stop = chrono::high_resolution_clock::now();
+    dur = timer_stop - timer_start;
+}
+
+ostream&	operator<<(ostream& os, const Timer& t)
+{
+	os << "DURATION:\t" << t.dur.count() << "\tSECONDS";
+	return (os);
+}
 
 Alkash::Alkash(long _buchat) : buchat(_buchat)
 {
@@ -37,15 +67,15 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 
 void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 {
-    this_thread::sleep_for(chrono::milliseconds(7000));
+    this_thread::sleep_for(chrono::milliseconds(3000));
     cout << "ALKASH HAS BEEN STARTED\n";
-	mt.lock();
+	buchlo.lock();
     cout << buchlo;
     cout << "ALKASH ID:\t" << hex << this_thread::get_id() << endl;
     cout << "--------------------\n";
+    this_thread::sleep_for(chrono::milliseconds(1000));
+	buchlo.unlock();
     this_thread::sleep_for(chrono::milliseconds(3000));
-	mt.unlock();
-    this_thread::sleep_for(chrono::milliseconds(100));
     cout << "ALKASH FINISHED\n";
 }
 
@@ -86,4 +116,14 @@ ostream&	operator<<(ostream& os, const Buchlo& obj)
 {
 	os << "BUCHLO ID:\t" << hex << this_thread::get_id() << endl;
 	return (os);
+}
+
+void    Buchlo::lock()
+{
+    mt.lock();
+}
+
+void	Buchlo::unlock()
+{
+	mt.unlock();
 }
