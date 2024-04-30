@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/04/30 10:49:06 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/04/30 12:49:42 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-Alkash::Alkash(long buchat, long find, long sleep) :
+Alkash::Alkash(int id_, long buchat, long find, long sleep) :
+	id(id_),
     buchat_t(buchat),
     find_t(find),
-    sleep_t(sleep)
+    sleep_t(sleep),
+    time_exec(0),
+    metrics(1000)
 {
-
+	timer.start();
 }
 
 Alkash::Alkash(const Alkash& obj)
@@ -42,6 +45,11 @@ Alkash&	Alkash::operator=(const Alkash& obj)
     return (*this);
 }
 
+void	Alkash::setmetrics(long m)
+{
+	metrics = m;
+}
+
 void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 {
     this_thread::sleep_for(chrono::milliseconds(3000));
@@ -58,17 +66,28 @@ void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 
 void    Alkash::buchat(Buchlo& buchlo, long t)
 {
-    int     i;
-
+	if (!t)
+		t = buchat_t;
     buchlo.lock();
-    timer.start();
-    i = 0;
-    while (timer.gettime() < t);
-    // {
-    //     if (!(i % 1000) && i)
-    //         cout << timer << endl;
-    //     ++i;
-    // }
-    // this_thread::sleep_for(chrono::milliseconds(t));
+    time_exec += t;
+	mt.lock();
+    cout << time_exec + timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
+	mt.unlock();
+    this_thread::sleep_for(chrono::milliseconds(t));
     buchlo.unlock();
+	finding();
+}
+
+void	Alkash::finding(long t)
+{
+	mt.lock();
+	this_thread::sleep_for(chrono::milliseconds(1000));
+	// time_exec += t;
+	cout << time_exec + timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
+	mt.unlock();
+}
+
+void	Alkash::sleep(long t)
+{
+	
 }

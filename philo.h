@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/30 10:23:32 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/04/30 12:41:11 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,23 @@ public:
 
 class	Alkash : public thread
 {
+	int				id;
+	float			time_exec;
 	long			sleep_t;
 	long			find_t;
 	long			buchat_t;
+	long			metrics;
+	mutex			mt;
 public:
 	Timer<float>	timer;
-	Alkash(long buchat = 0, long find = 0, long sleep = 0);
+	Alkash(int id = 0, long buchat = 0, long find = 0, long sleep = 0);
 	Alkash(const Alkash& obj);
 	~Alkash();
 	Alkash&			operator=(const Alkash& obj);
+	void			setmetrics(long metrics);
 	void			getBuchlo(Buchlo& buchlo, mutex& mt);
-	void			buchat(Buchlo& buchlo, long t);
-	// void			sleep(long t);
-	// void			finding(long t);
+	void			buchat(Buchlo& buchlo, long t = 0);
+	void			sleep(long t = 0);
+	void			finding(long t = 0);
 };
 
