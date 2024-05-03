@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 13:20:39 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:45:02 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 namespace alkashi_sim
 {
-    Buchlo::Buchlo(int id_) : id(id_)
+    Buchlo::Buchlo(int id_) :
+        id(id_),
+        status(true)
     {
 
     }
@@ -22,6 +24,7 @@ namespace alkashi_sim
     Buchlo::Buchlo(const Buchlo& obj)
     {
         id = obj.id;
+        status = obj.status;
     }
 
     Buchlo::~Buchlo()
@@ -34,6 +37,7 @@ namespace alkashi_sim
         if (this == &obj)
             return (*this);
         id = obj.id;
+        status = obj.status;
         return (*this);
     }
 
@@ -56,10 +60,17 @@ namespace alkashi_sim
     void    Buchlo::lock()
     {
         mt.lock();
+        status = false;
     }
 
     void	Buchlo::unlock()
     {
         mt.unlock();
+        status = true;
+    }
+    
+    bool    Buchlo::state()
+    {
+        return (status);
     }
 }

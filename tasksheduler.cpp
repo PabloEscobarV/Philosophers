@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 13:31:56 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:48:59 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,13 @@ void	TaskSheduler::set_ents(int tmp)
 	eating_tms = tmp;
 }
 
-void	TaskSheduler::planing()
+void	TaskSheduler::planing(int num)
 {
 	out_mt.lock();
-	cout << "Thread ID: " << hex << this_thread::get_id() << endl; 
+	cout << "Thread ID[" << num << "]: " << hex << this_thread::get_id() << endl; 
+	cout << "Alkash ID: " << alkasi[num].get_id() << endl;
 	out_mt.unlock();
+
 }
 
 void	TaskSheduler::startsimulation()
@@ -128,7 +130,7 @@ void	TaskSheduler::startsimulation()
 		return ;
 	}
 	for (int i = 0; i < count; ++i)
-		threads[i] = thread(&TaskSheduler::planing, this);
+		threads[i] = thread(&TaskSheduler::planing, this, i);
 	for (int i = 0; i < count; ++i)
 	{
 		if (threads[i].joinable())

@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 13:26:51 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:46:27 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ namespace	alkashi_sim
 
 class	Buchlo
 {
+	bool		status;
 	int			id;
 	mutex		mt;
 public:
@@ -34,6 +35,7 @@ public:
 	int		get_id();
 	void	lock();
 	void	unlock();
+	bool	state();
 	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
 };
 
@@ -71,7 +73,7 @@ class	TaskSheduler
 	thread	*threads;
 	mutex	out_mt;
 	void	clear_mem();
-	void	planing();
+	void	planing(int num);
 public:
 	TaskSheduler(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskSheduler(const TaskSheduler& obj);
