@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tasksheduler.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 10:52:15 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 12:51:43 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@ using namespace	alkashi_sim;
 TaskSheduler::TaskSheduler(int cnt, long slp_tm, long eat_tm, long die_tm) :
     count(cnt)
 {
+	if (count < 1)
+	{
+		count = 0;
+		alkasi = nullptr;
+		buchlo = nullptr;
+		threads = nullptr;
+		return ;
+	}
     alkasi = new Alkash[cnt];
     buchlo = new Buchlo[cnt];
-
-    if (!alkasi || !buchlo)
+	threads = new thread[cnt];
+    if (!alkasi || !buchlo || !threads)
     {
-        delete[] alkasi;
-        delete[] buchlo;
-        alkasi = nullptr;
-        buchlo = nullptr;
+		clear_mem();
         throw runtime_error("Memmory allocation error");
     }
     while (--cnt >= 0)
@@ -42,9 +47,12 @@ TaskSheduler::TaskSheduler(const TaskSheduler& obj)
     {
 		alkasi = nullptr;
 		buchlo = nullptr;
+		threads = nullptr;
+		return ;
 	}
     alkasi = new Alkash[obj.count];
     buchlo = new Buchlo[obj.count];
+	threads = new thread[obj.count];
     if (!alkasi || !buchlo)
     {
 		clear_mem();
@@ -91,11 +99,23 @@ void	TaskSheduler::clear_mem()
 {
 	delete[] alkasi;
 	delete[] buchlo;
+	delete[] threads;
 	alkasi = nullptr;
 	buchlo = nullptr;
+	threads = nullptr;
 }
 
 void	TaskSheduler::set_ents(int tmp)
 {
 	eating_tms = tmp;
+}
+
+void	TaskSheduler::startsimulation()
+{
+	if (count < 1)
+	{
+		cout << "Bad parameters!!!!\n";
+		return ;
+	}
+
 }

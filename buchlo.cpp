@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   buchlo.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 10:14:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 12:18:42 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+using namespace alkashi_sim;
 
 Buchlo::Buchlo(int id_) : id(id_)
 {

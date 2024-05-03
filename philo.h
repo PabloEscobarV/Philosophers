@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 10:52:26 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 12:54:16 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,16 @@ class	TaskSheduler
 	int		eating_tms;
 	Alkash	*alkasi;
 	Buchlo	*buchlo;
+	thread	*threads;
 	void	clear_mem();
+	void	planing();
 public:
-	TaskSheduler(int count = 0, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
+	TaskSheduler(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskSheduler(const TaskSheduler& obj);
 	~TaskSheduler();
 	TaskSheduler&	operator=(const TaskSheduler& obj);
 	void			set_ents(int eating_tms = 0);
-	void			startsimulatiomn();
+	void			startsimulation();
 };
-
 
 }

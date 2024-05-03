@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 10:28:35 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 12:45:15 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+using namespace alkashi_sim;
 
 Alkash::Alkash(int id_, long buchat, long sleep, long die) :
 	id(id_),
@@ -28,6 +30,9 @@ Alkash::Alkash(const Alkash& obj)
 	buchat_t = obj.buchat_t;
     sleep_t = obj.sleep_t;
     die_t = obj.die_t;
+    metrics = obj.metrics;
+    id = obj.id;
+    time_exec = obj.time_exec;
 }
 
 Alkash::~Alkash()
@@ -42,6 +47,9 @@ Alkash&	Alkash::operator=(const Alkash& obj)
     buchat_t = obj.buchat_t;
     sleep_t = obj.sleep_t;
     die_t = obj.die_t;
+    metrics = obj.metrics;
+    id = obj.id;
+    time_exec = obj.time_exec;
     return (*this);
 }
 
@@ -66,7 +74,7 @@ void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
 
 void    Alkash::buchat(Buchlo& buchlo, mutex& mt, long t)
 {
-    if (!t)
+	if (!t)
         t = buchat_t;
     buchlo.lock();
     cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
@@ -101,9 +109,9 @@ long    Alkash::gebuchat()
     return (buchat_t);
 }
 
-long    Alkash::getdie()
+long    Alkash::getsleep()
 {
-    return (die_t);
+    return (sleep_t);
 }
 
 int     Alkash::get_id()
