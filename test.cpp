@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/04/30 12:49:32 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/02 14:25:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,47 +31,27 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
-	Alkash	alkash;
+	Alkash	alkash{1};
+	Alkash	sobut{2};
+	Buchlo	buchlo;
+	mutex	mt1;
 
-	alkash.finding(1);
-	alkash.finding(1);
-	
+	thread	th1([&]()
+	{
+		alkash.buchat(buchlo, mt1, 1000);
+		alkash.sleep(mt1, 1000);
+		alkash.finding(mt1);
+	});
+	thread	th2([&]()
+	{
+		sobut.buchat(buchlo, mt1, 1000);
+		sobut.sleep(mt1, 1000);
+		sobut.finding(mt1);
+	});
 
-	// Alkash	alkash;
-	// Alkash	sobut;
-	// Buchlo	buchlo;
-	// mutex	mt1;
-	// // Timer<float>	time;
-
-	// // time.start();
-	// thread	th1([&]()
-	// {
-	// 	alkash.buchat(buchlo, 2);
-	// 	cout << alkash.timer.gettime() << endl;
-	// });
-	// thread	th2([&]()
-	// {
-	// 	alkash.buchat(buchlo, 2);
-	// 	cout << alkash.timer.gettime() << endl;
-	// });
-
-	// th1.join();
-	// th2.join();
-
-	// alkash.buchat(buchlo, 5);
-	// cout << alkash.timer.gettime() << endl;
-	// alkash.buchat(buchlo, 5);
-	// cout << alkash.timer.gettime() << endl;
-
-	// time.stop();
-	// cout << time << endl;
-	// alkash.getBuchlo(buchlo, mt1);
-	// sobut.getBuchlo(buchlo, mt1);
-	// mutex	mt1;
-	// thread	th1(func, ref(mt1));
-	// thread	th2(func, ref(mt1));
-
-	// th1.join();
-	// th2.join();
+	th1.join();
+	th2.join();
+	cout << "The whole time for alkash:\t" << alkash.timer.gettime() << endl;
+	cout << "The whole time for sobut:\t" << sobut.timer.gettime() << endl;
 	return (0);
 }

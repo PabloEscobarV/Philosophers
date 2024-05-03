@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:10:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/04/30 12:36:39 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/02 14:00:25 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,7 @@ void	Timer<T>::stop()
 template<typename T>
 T       Timer<T>::gettime() const
 {
-    chrono::duration<T> tmp;
-
-    tmp = chrono::high_resolution_clock::now() - timer_start;
-    return (tmp.count());
+    return (chrono::duration<T>(chrono::high_resolution_clock::now() - timer_start).count());
 }
 
 template<typename T>

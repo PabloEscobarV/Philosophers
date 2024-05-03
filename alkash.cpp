@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/04/30 12:49:42 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 10:28:35 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-Alkash::Alkash(int id_, long buchat, long find, long sleep) :
+Alkash::Alkash(int id_, long buchat, long sleep, long die) :
 	id(id_),
     buchat_t(buchat),
-    find_t(find),
     sleep_t(sleep),
+    die_t(die),
     time_exec(0),
     metrics(1000)
 {
@@ -26,8 +26,8 @@ Alkash::Alkash(int id_, long buchat, long find, long sleep) :
 Alkash::Alkash(const Alkash& obj)
 {
 	buchat_t = obj.buchat_t;
-    find_t = obj.find_t;
     sleep_t = obj.sleep_t;
+    die_t = obj.die_t;
 }
 
 Alkash::~Alkash()
@@ -40,8 +40,8 @@ Alkash&	Alkash::operator=(const Alkash& obj)
     if (this == &obj)
         return (*this);
     buchat_t = obj.buchat_t;
-    find_t = obj.find_t;
     sleep_t = obj.sleep_t;
+    die_t = obj.die_t;
     return (*this);
 }
 
@@ -64,30 +64,49 @@ void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
     cout << "ALKASH FINISHED\n";
 }
 
-void    Alkash::buchat(Buchlo& buchlo, long t)
+void    Alkash::buchat(Buchlo& buchlo, mutex& mt, long t)
 {
-	if (!t)
-		t = buchat_t;
+    if (!t)
+        t = buchat_t;
     buchlo.lock();
-    time_exec += t;
-	mt.lock();
-    cout << time_exec + timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
-	mt.unlock();
+    cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
     this_thread::sleep_for(chrono::milliseconds(t));
     buchlo.unlock();
-	finding();
 }
 
-void	Alkash::finding(long t)
+void	Alkash::finding(mutex& mt)
 {
 	mt.lock();
-	this_thread::sleep_for(chrono::milliseconds(1000));
-	// time_exec += t;
-	cout << time_exec + timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
+	cout << timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
 	mt.unlock();
 }
 
-void	Alkash::sleep(long t)
+void	Alkash::sleep(mutex& mt, long t)
 {
-	
+    if (!t)
+        t = sleep_t;
+	mt.lock();
+	cout << timer.gettime() << "[ms]:\t" << id << "\tis sleepnig" << endl;
+	mt.unlock();
+    this_thread::sleep_for(chrono::milliseconds(t));
+}
+
+long    Alkash::getdie()
+{
+    return (die_t);
+}
+
+long    Alkash::gebuchat()
+{
+    return (buchat_t);
+}
+
+long    Alkash::getdie()
+{
+    return (die_t);
+}
+
+int     Alkash::get_id()
+{
+    return (id);
 }

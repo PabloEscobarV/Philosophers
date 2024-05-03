@@ -6,13 +6,13 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/04/29 15:31:02 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 10:14:51 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-Buchlo::Buchlo() : id(this_thread::get_id())
+Buchlo::Buchlo(int id_) : id(id_)
 {
 
 }
@@ -35,14 +35,14 @@ Buchlo&	Buchlo::operator=(const Buchlo& obj)
     return (*this);
 }
 
-void	Buchlo::set_id(thread::id _id)
+void	Buchlo::set_id(int _id)
 {
 	id = _id;
 }
 
-long		Buchlo::get_id()
+int		Buchlo::get_id()
 {
-    return (static_cast<long>(hash<thread::id>{}(id)));
+    return (id);
 }
 
 ostream&	operator<<(ostream& os, const Buchlo& obj)
