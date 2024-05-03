@@ -10,6 +10,7 @@
                 "${file}",
                 "alkash.cpp",
                 "buchlo.cpp",
+                "tasksheduler.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

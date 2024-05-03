@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/02 14:25:26 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 13:09:19 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "philo.h"
 
 using namespace std;
+using namespace alkashi_sim;
 
 void	func(mutex &mt1)
 {
@@ -31,27 +32,30 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
-	Alkash	alkash{1};
-	Alkash	sobut{2};
-	Buchlo	buchlo;
-	mutex	mt1;
+	TaskSheduler	planer(10, 10, 10, 10);
 
-	thread	th1([&]()
-	{
-		alkash.buchat(buchlo, mt1, 1000);
-		alkash.sleep(mt1, 1000);
-		alkash.finding(mt1);
-	});
-	thread	th2([&]()
-	{
-		sobut.buchat(buchlo, mt1, 1000);
-		sobut.sleep(mt1, 1000);
-		sobut.finding(mt1);
-	});
+	planer.startsimulation();
+	// Alkash	alkash{1};
+	// Alkash	sobut{2};
+	// Buchlo	buchlo;
+	// mutex	mt1;
 
-	th1.join();
-	th2.join();
-	cout << "The whole time for alkash:\t" << alkash.timer.gettime() << endl;
-	cout << "The whole time for sobut:\t" << sobut.timer.gettime() << endl;
+	// thread	th1([&]()
+	// {
+	// 	alkash.buchat(buchlo, mt1, 1000);
+	// 	alkash.sleep(mt1, 1000);
+	// 	alkash.finding(mt1);
+	// });
+	// thread	th2([&]()
+	// {
+	// 	sobut.buchat(buchlo, mt1, 1000);
+	// 	sobut.sleep(mt1, 1000);
+	// 	sobut.finding(mt1);
+	// });
+
+	// th1.join();
+	// th2.join();
+	// cout << "The whole time for alkash:\t" << alkash.timer.gettime() << endl;
+	// cout << "The whole time for sobut:\t" << sobut.timer.gettime() << endl;
 	return (0);
 }

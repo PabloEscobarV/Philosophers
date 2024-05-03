@@ -6,10 +6,11 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 12:54:16 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:26:51 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #include "timer.h"
 #include <thread>
 #include <mutex>
@@ -68,6 +69,7 @@ class	TaskSheduler
 	Alkash	*alkasi;
 	Buchlo	*buchlo;
 	thread	*threads;
+	mutex	out_mt;
 	void	clear_mem();
 	void	planing();
 public:
