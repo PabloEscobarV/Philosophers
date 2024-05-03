@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 10:40:50 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 10:52:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <iostream>
 
 using namespace std;
+
+namespace	alkashi_sim
+{
 
 class	Buchlo
 {
@@ -71,4 +74,8 @@ public:
 	~TaskSheduler();
 	TaskSheduler&	operator=(const TaskSheduler& obj);
 	void			set_ents(int eating_tms = 0);
+	void			startsimulatiomn();
 };
+
+
+}

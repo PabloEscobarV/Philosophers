@@ -6,11 +6,13 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 10:41:21 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/03 10:52:15 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+using namespace	alkashi_sim;
 
 TaskSheduler::TaskSheduler(int cnt, long slp_tm, long eat_tm, long die_tm) :
     count(cnt)
