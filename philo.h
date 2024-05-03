@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:54:13 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 13:46:27 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:02:04 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ public:
 
 class	Alkash
 {
+	bool			buchat_permit;
 	int				id;
 	float			time_exec;
 	long			sleep_t;
 	long			buchat_t;
 	long			die_t;
 	long			metrics;
+	Buchlo*			buchlo;
+	Buchlo*			zapyvon;
 public:
 	Timer<float>	timer;
 	Alkash(int id = 0, long buchat = 0, long sleep = 0, long die = 0);
@@ -54,8 +57,8 @@ public:
 	~Alkash();
 	Alkash&			operator=(const Alkash& obj);
 	void			setmetrics(long metrics);
-	void			getBuchlo(Buchlo& buchlo, mutex& mt);
-	void			buchat(Buchlo& buchlo, mutex& mt, long t = 0);
+	void			getBuchlo(Buchlo& buchlo, Buchlo& zapyvon);
+	void			buchat(mutex& mt, long t = 0);
 	void			sleep(mutex& mt, long t = 0);
 	void			finding(mutex& mt);
 	long			gebuchat();
@@ -72,8 +75,11 @@ class	TaskSheduler
 	Buchlo	*buchlo;
 	thread	*threads;
 	mutex	out_mt;
+	mutex	planer_mt;
+	int		correcti(int num);
 	void	clear_mem();
 	void	planing(int num);
+	int		checkbuchlo(int num);
 public:
 	TaskSheduler(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskSheduler(const TaskSheduler& obj);

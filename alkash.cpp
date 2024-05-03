@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 13:21:05 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:02:59 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ namespace alkashi_sim
 		sleep_t(sleep),
 		die_t(die),
 		time_exec(0),
-		metrics(1000)
+		metrics(1000),
+		buchat_permit(false)
 	{
 		timer.start();
 	}
@@ -58,28 +59,26 @@ namespace alkashi_sim
 		metrics = m;
 	}
 
-	void	Alkash::getBuchlo(Buchlo& buchlo, mutex& mt)
+	void	Alkash::getBuchlo(Buchlo& buchlo, Buchlo& zapyvon)
 	{
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ALKASH HAS BEEN STARTED\n";
 		buchlo.lock();
-		cout << buchlo;
-		cout << "ALKASH ID:\t" << hex << this_thread::get_id() << endl;
-		cout << "--------------------\n";
-		this_thread::sleep_for(chrono::milliseconds(1000));
-		buchlo.unlock();
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ALKASH FINISHED\n";
+		zapyvon.lock();
+		this->buchlo = &buchlo;
+		this->zapyvon = &zapyvon;
+		buchat_permit = true;
 	}
 
-	void    Alkash::buchat(Buchlo& buchlo, mutex& mt, long t)
+	void    Alkash::buchat(mutex& mt, long t)
 	{
+		if (!buchat_permit)
+			return ;
 		if (!t)
 			t = buchat_t;
-		buchlo.lock();
 		cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
 		this_thread::sleep_for(chrono::milliseconds(t));
-		buchlo.unlock();
+		buchlo->unlock();
+		zapyvon->unlock();
+		buchat_permit = false;
 	}
 
 	void	Alkash::finding(mutex& mt)

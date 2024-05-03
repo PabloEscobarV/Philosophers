@@ -5,6 +5,7 @@
         "iostream": "cpp",
         "chrono": "cpp",
         "new": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "ratio": "cpp"
     }
 }

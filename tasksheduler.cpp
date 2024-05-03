@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tasksheduler.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 13:48:59 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:03:21 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,31 @@ void	TaskSheduler::set_ents(int tmp)
 	eating_tms = tmp;
 }
 
+inline int	TaskSheduler::correcti(int num)
+{
+	if (num > count - 2)
+		return (0);
+	return (num + 1);
+}
+
+inline int	TaskSheduler::checkbuchlo(int num)
+{
+	if (buchlo[num].state() && buchlo[correcti(num)].state())
+		return (1);
+	return (0);
+}
+
 void	TaskSheduler::planing(int num)
 {
 	out_mt.lock();
 	cout << "Thread ID[" << num << "]: " << hex << this_thread::get_id() << endl; 
 	cout << "Alkash ID: " << alkasi[num].get_id() << endl;
 	out_mt.unlock();
-
+	planer_mt.lock();
+	if (checkbuchlo(num))
+		alkasi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
+	planer_mt.unlock();
+	alkasi[num].buchat(out_mt);
 }
 
 void	TaskSheduler::startsimulation()
