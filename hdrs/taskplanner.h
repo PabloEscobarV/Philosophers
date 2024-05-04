@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 15:48:06 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 21:14:04 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class	TaskPlanner
 	void			clear_mem();
 	void			planing(int num);
 	int				checkbuchlo(int num);
-	bool			checkalkashi();
+	bool			checkalkashi(const int& num);
 public:
 	TaskPlanner(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskPlanner(const TaskPlanner& obj);

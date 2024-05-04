@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 14:25:47 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 22:02:41 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ namespace alkashi_sim
 		mt.unlock();
 		bechavior_st = IS_BUCHING;
 		this_thread::sleep_for(chrono::milliseconds(t));
-		last_btm = timer.gettime();
+		last_btm = timer.gettime_ms();
 		buchlo->unlock();
 		zapyvon->unlock();
 		buchat_permit = false;
@@ -139,7 +139,7 @@ namespace alkashi_sim
 
 	bool	Alkash::state()
 	{
-		if ((timer.gettime() - last_btm) > die_mtm)
+		if ((timer.gettime_ms() - last_btm) > die_tm)
 			return (DIE_STATE);
 		return (ALIVE_STATE);
 	}

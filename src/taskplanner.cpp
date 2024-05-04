@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 15:49:18 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 22:06:06 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace	alkashi_sim
 TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	count(cnt),
 	lastcheck(0),
-	minchecktime(100)
+	minchecktime(5000)
 {
 	timer.start();
 	if (count < 1)
@@ -133,25 +133,42 @@ inline int	TaskPlanner::checkbuchlo(int num)
 	return (0);
 }
 
-bool	TaskPlanner::checkalkashi()
+bool	TaskPlanner::checkalkashi(const int& num)
 {
-	if (1000.0 * (timer.gettime() - lastcheck) < minchecktime)
+	// // float	tmp;
+
+	// // tmp = ;
+	// if (((alkashi[num].timer.gettime_ms()) % 1000.0) % minchecktime)
+	// 	return (ALIVE_STATE);
+	// for (int i = 0; i < count; ++i)
+	// 	if (alkashi[i].state() == DIE_STATE)
+	// 		return (DIE_STATE);
+	// out_mt.lock();
+	// cout << "------------------CHECK TIME-----------------" <<  endl;
+	// out_mt.unlock();
+	// return (ALIVE_STATE);
+	if (long(1000 * (timer.gettime() - lastcheck)) < minchecktime)
 		return (ALIVE_STATE);
 	lastcheck_mt.lock();
+	if (long(1000 * (timer.gettime() - lastcheck)) < minchecktime)
+	{
+		lastcheck_mt.unlock();
+		return (ALIVE_STATE);
+	}
 	lastcheck = timer.gettime();
 	lastcheck_mt.unlock();
+	out_mt.lock();
+	cout << "----------------CHECK TIME---------------" << endl;
+	out_mt.unlock();
 	for (int i = 0; i < count; ++i)
 		if (alkashi[i].state() == DIE_STATE)
-			return (DIE_STATE);
-	out_mt.lock();
-	cout << "----------------CHECK TIME---------------------------\n";
-	out_mt.unlock();	
+			return (DIE_STATE);	
 	return (ALIVE_STATE);
 }
 
 void	TaskPlanner::planing(int num)
 {
-	while (checkalkashi())
+	while (checkalkashi(num))
 	{
 		// out_mt.lock();
 		// cout << "Thread ID[" << num << "]: " << hex << this_thread::get_id() << endl; 
