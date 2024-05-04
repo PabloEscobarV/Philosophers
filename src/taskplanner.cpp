@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:31:05 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 14:35:03 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	if (count < 1)
 	{
 		count = 0;
-		alkasi = nullptr;
+		alkashi = nullptr;
 		buchlo = nullptr;
 		threads = nullptr;
 		return ;
 	}
-	alkasi = new Alkash[cnt];
+	alkashi = new Alkash[cnt];
 	buchlo = new Buchlo[cnt];
 	threads = new thread[cnt];
-	if (!alkasi || !buchlo || !threads)
+	if (!alkashi || !buchlo || !threads)
 	{
 		clear_mem();
 		throw runtime_error("Memmory allocation error");
 	}
 	while (--cnt >= 0)
 	{
-		alkasi[cnt] = Alkash(cnt, eat_tm, slp_tm, die_tm);
+		alkashi[cnt] = Alkash(cnt, eat_tm, slp_tm, die_tm);
 		buchlo[cnt] = Buchlo(cnt);
 	}
 }
@@ -46,23 +46,23 @@ TaskPlanner::TaskPlanner(const TaskPlanner& obj)
 	count = obj.count;
 	if (!count)
 	{
-		alkasi = nullptr;
+		alkashi = nullptr;
 		buchlo = nullptr;
 		threads = nullptr;
 		return ;
 	}
-	alkasi = new Alkash[obj.count];
+	alkashi = new Alkash[obj.count];
 	buchlo = new Buchlo[obj.count];
 	threads = new thread[obj.count];
-	if (!alkasi || !buchlo || !threads)
+	if (!alkashi || !buchlo || !threads)
 	{
 		clear_mem();
 		throw runtime_error("Memmory allocation error");
 	}
 	for (int cnt = 0; cnt < count; ++cnt)
 	{
-		alkasi[cnt] = Alkash(obj.alkasi[cnt].get_id(), obj.alkasi[cnt].gebuchat(),
-			obj.alkasi[cnt].getsleep(), obj.alkasi[cnt].getdie());
+		alkashi[cnt] = Alkash(obj.alkashi[cnt].get_id(), obj.alkashi[cnt].gebuchat(),
+			obj.alkashi[cnt].getsleep(), obj.alkashi[cnt].getdie());
 		buchlo[cnt] = Buchlo(cnt);
 	}
 }
@@ -75,18 +75,18 @@ TaskPlanner&   TaskPlanner::operator=(const TaskPlanner& obj)
 	count = obj.count;
 	if (!count)
 		return (*this);
-	alkasi = new Alkash[obj.count];
+	alkashi = new Alkash[obj.count];
 	buchlo = new Buchlo[obj.count];
 	threads = new thread[obj.count];
-	if (!alkasi || !buchlo)
+	if (!alkashi || !buchlo)
 	{
 		clear_mem();
 		throw runtime_error("Memmory allocation error");
 	}
 	for (int cnt = 0; cnt < count; ++cnt)
 	{
-		alkasi[cnt] = Alkash(obj.alkasi[cnt].get_id(), obj.alkasi[cnt].gebuchat(),
-			obj.alkasi[cnt].getsleep(), obj.alkasi[cnt].getdie());
+		alkashi[cnt] = Alkash(obj.alkashi[cnt].get_id(), obj.alkashi[cnt].gebuchat(),
+			obj.alkashi[cnt].getsleep(), obj.alkashi[cnt].getdie());
 		buchlo[cnt] = Buchlo(cnt);
 	}
 	return (*this);
@@ -99,10 +99,10 @@ TaskPlanner::~TaskPlanner()
 
 void	TaskPlanner::clear_mem()
 {
-	delete[] alkasi;
+	delete[] alkashi;
 	delete[] buchlo;
 	delete[] threads;
-	alkasi = nullptr;
+	alkashi = nullptr;
 	buchlo = nullptr;
 	threads = nullptr;
 }
@@ -126,22 +126,31 @@ inline int	TaskPlanner::checkbuchlo(int num)
 	return (0);
 }
 
+bool	TaskPlanner::checkalkashi()
+{
+	for (int i = 0; i < count; ++i)
+		if (alkashi[i].state() == DIE_STATE)
+			return (DIE_STATE);
+	return (ALIVE_STATE);
+}
+
 void	TaskPlanner::planing(int num)
 {
-	// while ()
-	// {
+	while (checkalkashi())
+	{
 		// out_mt.lock();
 		// cout << "Thread ID[" << num << "]: " << hex << this_thread::get_id() << endl; 
-		// cout << "Alkash ID: " << alkasi[num].get_id() << endl;
+		// cout << "Alkash ID: " << alkashi[num].get_id() << endl;
 		// out_mt.unlock();
 		planer_mt.lock();
 		if (checkbuchlo(num))
-			alkasi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
+			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
 		planer_mt.unlock();
-		if (alkasi[num].buchat(out_mt))
-			alkasi[num].sleep(out_mt);
-		alkasi[num].finding(out_mt);
-	// }
+		if (alkashi[num].buchat(out_mt))
+			alkashi[num].sleep(out_mt);
+		alkashi[num].finding(out_mt);
+	}
+	// exit(0);
 }
 
 void	TaskPlanner::startsimulation()

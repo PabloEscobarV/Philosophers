@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:21:03 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 14:25:47 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,30 @@ namespace alkashi_sim
 {
 	Alkash::Alkash(int id_, long buchat, long sleep, long die) :
 		id(id_),
-		buchat_t(buchat),
-		sleep_t(sleep),
-		die_t(die),
+		buchat_tm(buchat),
+		sleep_tm(sleep),
+		die_tm(die),
 		time_exec(0),
 		metrics(1000),
+		last_btm(0),
+		bechavior_st(UNDETREMINATE),
 		buchat_permit(false)
 	{
 		timer.start();
+		die_mtm = (float)die_tm / metrics;
 	}
 
 	Alkash::Alkash(const Alkash& obj)
 	{
-		buchat_t = obj.buchat_t;
-		sleep_t = obj.sleep_t;
-		die_t = obj.die_t;
+		buchat_tm = obj.buchat_tm;
+		sleep_tm = obj.sleep_tm;
+		die_tm = obj.die_tm;
 		metrics = obj.metrics;
 		id = obj.id;
 		time_exec = obj.time_exec;
+		last_btm = obj.last_btm;
+		bechavior_st = obj.bechavior_st;
+		die_mtm = obj.die_mtm;
 	}
 
 	Alkash::~Alkash()
@@ -45,18 +51,22 @@ namespace alkashi_sim
 	{
 		if (this == &obj)
 			return (*this);
-		buchat_t = obj.buchat_t;
-		sleep_t = obj.sleep_t;
-		die_t = obj.die_t;
+		buchat_tm = obj.buchat_tm;
+		sleep_tm = obj.sleep_tm;
+		die_tm = obj.die_tm;
 		metrics = obj.metrics;
 		id = obj.id;
 		time_exec = obj.time_exec;
+		last_btm = obj.last_btm;
+		bechavior_st = obj.bechavior_st;
+		die_mtm = obj.die_mtm;
 		return (*this);
 	}
 
 	void	Alkash::setmetrics(long m)
 	{
 		metrics = m;
+		die_mtm = (float)die_tm / metrics;
 	}
 
 	void	Alkash::getBuchlo(Buchlo& buchlo, Buchlo& zapyvon)
@@ -73,9 +83,13 @@ namespace alkashi_sim
 		if (!buchat_permit)
 			return (false);
 		if (!t)
-			t = buchat_t;
+			t = buchat_tm;
+		mt.lock();
 		cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
+		mt.unlock();
+		bechavior_st = IS_BUCHING;
 		this_thread::sleep_for(chrono::milliseconds(t));
+		last_btm = timer.gettime();
 		buchlo->unlock();
 		zapyvon->unlock();
 		buchat_permit = false;
@@ -84,38 +98,49 @@ namespace alkashi_sim
 
 	void	Alkash::finding(mutex& mt)
 	{
+		if (bechavior_st == IS_FINDING)
+			return ;
 		mt.lock();
 		cout << timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
 		mt.unlock();
+		bechavior_st = IS_FINDING;
 	}
 
 	void	Alkash::sleep(mutex& mt, long t)
 	{
 		if (!t)
-			t = sleep_t;
+			t = sleep_tm;
 		mt.lock();
 		cout << timer.gettime() << "[ms]:\t" << id << "\tis sleepnig" << endl;
 		mt.unlock();
+		bechavior_st = IS_SLEEPING;
 		this_thread::sleep_for(chrono::milliseconds(t));
 	}
 
 	long    Alkash::getdie()
 	{
-		return (die_t);
+		return (die_tm);
 	}
 
 	long    Alkash::gebuchat()
 	{
-		return (buchat_t);
+		return (buchat_tm);
 	}
 
 	long    Alkash::getsleep()
 	{
-		return (sleep_t);
+		return (sleep_tm);
 	}
 
 	int     Alkash::get_id()
 	{
 		return (id);
+	}
+
+	bool	Alkash::state()
+	{
+		if ((timer.gettime() - last_btm) > die_mtm)
+			return (DIE_STATE);
+		return (ALIVE_STATE);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:17:15 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:28:52 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 14:25:06 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,32 @@
 
 namespace	alkashi_sim
 {
+	#define DIE_STATE	false
+	#define	ALIVE_STATE	true
+
+	enum
+	{
+		IS_BUCHING,
+		IS_SLEEPING,
+		IS_FINDING,
+		UNDETREMINATE
+	};
+
+	using t_uchar = unsigned char;
 	using namespace std;
 	
 	class	Alkash
 {
+	bool			die_status;
 	bool			buchat_permit;
+	t_uchar			bechavior_st;
 	int				id;
 	float			time_exec;
-	long			sleep_t;
-	long			buchat_t;
-	long			die_t;
+	float			last_btm;
+	long			sleep_tm;
+	long			buchat_tm;
+	long			die_tm;
+	float			die_mtm;
 	long			metrics;
 	Buchlo*			buchlo;
 	Buchlo*			zapyvon;
@@ -44,5 +60,6 @@ public:
 	long			getsleep();
 	long			getdie();
 	int				get_id();
+	bool			state();
 };
 }

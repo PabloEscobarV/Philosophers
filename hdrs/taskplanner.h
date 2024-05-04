@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:24:41 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 13:58:12 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class	TaskPlanner
 {
 	int		count;
 	int		eating_tms;
-	Alkash	*alkasi;
+	Alkash	*alkashi;
 	Buchlo	*buchlo;
 	thread	*threads;
 	mutex	out_mt;
@@ -32,6 +32,7 @@ class	TaskPlanner
 	void	clear_mem();
 	void	planing(int num);
 	int		checkbuchlo(int num);
+	bool	checkalkashi();
 public:
 	TaskPlanner(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskPlanner(const TaskPlanner& obj);
