@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/04 14:36:38 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 15:49:20 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
-	TaskPlanner	planer(10, 20, 10, 50);
+	TaskPlanner	planer(10, 100, 200, 500);
 
 	planer.startsimulation();
 	// Alkash	alkash{1};

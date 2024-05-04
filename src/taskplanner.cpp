@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 14:35:03 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 15:49:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ namespace	alkashi_sim
 {
 
 TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
-	count(cnt)
+	count(cnt),
+	lastcheck(0),
+	minchecktime(100)
 {
+	timer.start();
 	if (count < 1)
 	{
 		count = 0;
@@ -44,6 +47,8 @@ TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 TaskPlanner::TaskPlanner(const TaskPlanner& obj)
 {
 	count = obj.count;
+	lastcheck = obj.lastcheck;
+	minchecktime = obj.minchecktime;
 	if (!count)
 	{
 		alkashi = nullptr;
@@ -72,7 +77,9 @@ TaskPlanner&   TaskPlanner::operator=(const TaskPlanner& obj)
 	if (this == &obj)
 		return (*this);
 	clear_mem();
+	lastcheck = obj.lastcheck;
 	count = obj.count;
+	minchecktime = obj.minchecktime;
 	if (!count)
 		return (*this);
 	alkashi = new Alkash[obj.count];
@@ -128,9 +135,17 @@ inline int	TaskPlanner::checkbuchlo(int num)
 
 bool	TaskPlanner::checkalkashi()
 {
+	if (1000.0 * (timer.gettime() - lastcheck) < minchecktime)
+		return (ALIVE_STATE);
+	lastcheck_mt.lock();
+	lastcheck = timer.gettime();
+	lastcheck_mt.unlock();
 	for (int i = 0; i < count; ++i)
 		if (alkashi[i].state() == DIE_STATE)
 			return (DIE_STATE);
+	out_mt.lock();
+	cout << "----------------CHECK TIME---------------------------\n";
+	out_mt.unlock();	
 	return (ALIVE_STATE);
 }
 
