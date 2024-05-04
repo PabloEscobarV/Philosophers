@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   buchlo.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 13:45:02 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/04 13:21:22 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../hdrs/buchlo.h"
 
 namespace alkashi_sim
 {

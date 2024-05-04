@@ -6,11 +6,11 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/03 15:02:59 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 13:21:03 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../hdrs/alkash.h"
 
 namespace alkashi_sim
 {
@@ -68,10 +68,10 @@ namespace alkashi_sim
 		buchat_permit = true;
 	}
 
-	void    Alkash::buchat(mutex& mt, long t)
+	bool    Alkash::buchat(mutex& mt, long t)
 	{
 		if (!buchat_permit)
-			return ;
+			return (false);
 		if (!t)
 			t = buchat_t;
 		cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
@@ -79,6 +79,7 @@ namespace alkashi_sim
 		buchlo->unlock();
 		zapyvon->unlock();
 		buchat_permit = false;
+		return (true);
 	}
 
 	void	Alkash::finding(mutex& mt)

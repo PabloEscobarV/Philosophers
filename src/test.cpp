@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/03 13:09:19 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/04 13:26:48 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <thread>
 #include <mutex>
 #include <iostream>
-#include "philo.h"
+#include "../hdrs/philo.h"
 
 using namespace std;
 using namespace alkashi_sim;
@@ -32,7 +32,7 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
-	TaskSheduler	planer(10, 10, 10, 10);
+	TaskPlanner	planer(10, 10, 10, 10);
 
 	planer.startsimulation();
 	// Alkash	alkash{1};
