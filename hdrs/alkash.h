@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:17:15 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 14:25:06 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 22:46:46 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ public:
 	long			getdie();
 	int				get_id();
 	bool			state();
+	void			die_msg(mutex& mt, const char *msg);
 };
 }

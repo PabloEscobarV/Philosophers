@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 21:14:04 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 22:39:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ namespace	alkashi_sim
 
 class	TaskPlanner
 {
+	t_uchar			die_status;
 	long			minchecktime;
 	int				count;
 	int				eating_tms;

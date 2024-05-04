@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 22:06:06 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/04 22:56:58 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ namespace	alkashi_sim
 TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	count(cnt),
 	lastcheck(0),
-	minchecktime(5000)
+	die_status(ALIVE_STATE),
+	minchecktime(500)
 {
 	timer.start();
 	if (count < 1)
@@ -49,6 +50,7 @@ TaskPlanner::TaskPlanner(const TaskPlanner& obj)
 	count = obj.count;
 	lastcheck = obj.lastcheck;
 	minchecktime = obj.minchecktime;
+	die_status = obj.die_status;
 	if (!count)
 	{
 		alkashi = nullptr;
@@ -80,6 +82,7 @@ TaskPlanner&   TaskPlanner::operator=(const TaskPlanner& obj)
 	lastcheck = obj.lastcheck;
 	count = obj.count;
 	minchecktime = obj.minchecktime;
+	die_status = obj.die_status;
 	if (!count)
 		return (*this);
 	alkashi = new Alkash[obj.count];
@@ -135,18 +138,8 @@ inline int	TaskPlanner::checkbuchlo(int num)
 
 bool	TaskPlanner::checkalkashi(const int& num)
 {
-	// // float	tmp;
-
-	// // tmp = ;
-	// if (((alkashi[num].timer.gettime_ms()) % 1000.0) % minchecktime)
-	// 	return (ALIVE_STATE);
-	// for (int i = 0; i < count; ++i)
-	// 	if (alkashi[i].state() == DIE_STATE)
-	// 		return (DIE_STATE);
-	// out_mt.lock();
-	// cout << "------------------CHECK TIME-----------------" <<  endl;
-	// out_mt.unlock();
-	// return (ALIVE_STATE);
+	if (die_status == DIE_STATE)
+		return (DIE_STATE);
 	if (long(1000 * (timer.gettime() - lastcheck)) < minchecktime)
 		return (ALIVE_STATE);
 	lastcheck_mt.lock();
@@ -160,9 +153,15 @@ bool	TaskPlanner::checkalkashi(const int& num)
 	out_mt.lock();
 	cout << "----------------CHECK TIME---------------" << endl;
 	out_mt.unlock();
+	if (alkashi[num].timer.gettime() > 600)
+		return (DIE_STATE);
 	for (int i = 0; i < count; ++i)
 		if (alkashi[i].state() == DIE_STATE)
+		{
+			die_status = DIE_STATE;
+			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
 			return (DIE_STATE);	
+		}
 	return (ALIVE_STATE);
 }
 
