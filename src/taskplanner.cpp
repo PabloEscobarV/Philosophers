@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 22:56:58 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/06 21:38:59 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	count(cnt),
 	lastcheck(0),
 	die_status(ALIVE_STATE),
-	minchecktime(500)
+	minchecktime(500),
+	insp_frequency(1000)
 {
 	timer.start();
 	if (count < 1)
@@ -51,6 +52,7 @@ TaskPlanner::TaskPlanner(const TaskPlanner& obj)
 	lastcheck = obj.lastcheck;
 	minchecktime = obj.minchecktime;
 	die_status = obj.die_status;
+	insp_frequency = obj.insp_frequency;
 	if (!count)
 	{
 		alkashi = nullptr;
@@ -83,6 +85,7 @@ TaskPlanner&   TaskPlanner::operator=(const TaskPlanner& obj)
 	count = obj.count;
 	minchecktime = obj.minchecktime;
 	die_status = obj.die_status;
+	insp_frequency = obj.insp_frequency;
 	if (!count)
 		return (*this);
 	alkashi = new Alkash[obj.count];
@@ -136,14 +139,37 @@ inline int	TaskPlanner::checkbuchlo(int num)
 	return (0);
 }
 
+void	TaskPlanner::checkalkashi()
+{
+	while (die_status != DIE_STATE)
+	{
+		this_thread::sleep_for(chrono::milliseconds(insp_frequency));
+		out_mt.lock();
+		cout << "----------------CHECK TIME---------------" << endl;
+		out_mt.unlock();
+		for (int i = 0; i < count; ++i)
+			if (alkashi[i].state() == DIE_STATE)
+			{
+				die_status = DIE_STATE;
+				alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
+				return ;	
+			}
+		if (timer.gettime() > 30.0)
+		{
+			die_status = DIE_STATE;
+			return ;
+		}
+	}
+}
+
 bool	TaskPlanner::checkalkashi(const int& num)
 {
 	if (die_status == DIE_STATE)
 		return (DIE_STATE);
-	if (long(1000 * (timer.gettime() - lastcheck)) < minchecktime)
+	if (long(1000 * (timer.gettime() - lastcheck)) < insp_frequency)
 		return (ALIVE_STATE);
 	lastcheck_mt.lock();
-	if (long(1000 * (timer.gettime() - lastcheck)) < minchecktime)
+	if (long(1000 * (timer.gettime() - lastcheck)) < insp_frequency)
 	{
 		lastcheck_mt.unlock();
 		return (ALIVE_STATE);
@@ -153,8 +179,6 @@ bool	TaskPlanner::checkalkashi(const int& num)
 	out_mt.lock();
 	cout << "----------------CHECK TIME---------------" << endl;
 	out_mt.unlock();
-	if (alkashi[num].timer.gettime() > 600)
-		return (DIE_STATE);
 	for (int i = 0; i < count; ++i)
 		if (alkashi[i].state() == DIE_STATE)
 		{
@@ -162,6 +186,11 @@ bool	TaskPlanner::checkalkashi(const int& num)
 			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
 			return (DIE_STATE);	
 		}
+	if (timer.gettime() > 30.0)
+	{
+		die_status = DIE_STATE;
+		return (DIE_STATE);
+	}
 	return (ALIVE_STATE);
 }
 
@@ -169,10 +198,6 @@ void	TaskPlanner::planing(int num)
 {
 	while (checkalkashi(num))
 	{
-		// out_mt.lock();
-		// cout << "Thread ID[" << num << "]: " << hex << this_thread::get_id() << endl; 
-		// cout << "Alkash ID: " << alkashi[num].get_id() << endl;
-		// out_mt.unlock();
 		planer_mt.lock();
 		if (checkbuchlo(num))
 			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
@@ -181,7 +206,20 @@ void	TaskPlanner::planing(int num)
 			alkashi[num].sleep(out_mt);
 		alkashi[num].finding(out_mt);
 	}
-	// exit(0);
+}
+
+void	TaskPlanner::zapoj(int num)
+{
+	while (die_status != DIE_STATE)
+	{
+		planer_mt.lock();
+		if (checkbuchlo(num))
+			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
+		planer_mt.unlock();
+		if (alkashi[num].buchat(out_mt))
+			alkashi[num].sleep(out_mt);
+		alkashi[num].finding(out_mt);
+	}
 }
 
 void	TaskPlanner::startsimulation()
@@ -194,6 +232,25 @@ void	TaskPlanner::startsimulation()
 	}
 	for (int i = 0; i < count; ++i)
 		threads[i] = thread(&TaskPlanner::planing, this, i);
+	for (int i = 0; i < count; ++i)
+	{
+		if (threads[i].joinable())
+			threads[i].join();
+	}
+	cout << "Simulation has finished\n";
+}
+
+void	TaskPlanner::startsimplanner()
+{
+	cout << "Simulation has started\n";
+	if (count < 1)
+	{
+		cout << "Bad parameters!!!!\n";
+		return ;
+	}
+	for (int i = 0; i < count; ++i)
+		threads[i] = thread(&TaskPlanner::zapoj, this, i);
+	checkalkashi();
 	for (int i = 0; i < count; ++i)
 	{
 		if (threads[i].joinable())

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/04 22:56:58 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/06 21:46:21 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
-	TaskPlanner	planer(10, 10, 20, 45);
+	Timer<float>	timer;
+	timer.start();
+	TaskPlanner	planer(100, 10, 20, 4250);
 
 	planer.startsimulation();
+	// planer.startsimplanner();
+	cout << "EXECUTION TIME: " << timer.gettime() << endl;
 	// Alkash	alkash{1};
 	// Alkash	sobut{2};
 	// Buchlo	buchlo;

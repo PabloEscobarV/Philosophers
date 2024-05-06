@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 22:39:30 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/06 20:08:54 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,31 @@ class	TaskPlanner
 	long			minchecktime;
 	int				count;
 	int				eating_tms;
+	int				insp_frequency;
 	float			lastcheck;
-	Timer<float>	timer;
 	Alkash			*alkashi;
 	Buchlo			*buchlo;
 	thread			*threads;
+	thread			planer;
 	mutex			out_mt;
 	mutex			planer_mt;
 	mutex			lastcheck_mt;
 	int				correcti(int num);
 	void			clear_mem();
 	void			planing(int num);
+	void			zapoj(int num);
 	int				checkbuchlo(int num);
 	bool			checkalkashi(const int& num);
+	void			checkalkashi();
 public:
+	Timer<float>	timer;
 	TaskPlanner(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);
 	TaskPlanner(const TaskPlanner& obj);
 	~TaskPlanner();
 	TaskPlanner&	operator=(const TaskPlanner& obj);
 	void			set_ents(int eating_tms = 0);
 	void			startsimulation();
+	void			startsimplanner();
 };
 
 }
