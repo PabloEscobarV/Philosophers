@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/06 21:38:59 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/07 15:41:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ namespace	alkashi_sim
 TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	count(cnt),
 	lastcheck(0),
-	die_status(ALIVE_STATE),
+	status(0),
 	minchecktime(500),
 	insp_frequency(1000)
 {
 	timer.start();
+	setbit(status, LIFE_STATE);
 	if (count < 1)
 	{
 		count = 0;
@@ -51,7 +52,7 @@ TaskPlanner::TaskPlanner(const TaskPlanner& obj)
 	count = obj.count;
 	lastcheck = obj.lastcheck;
 	minchecktime = obj.minchecktime;
-	die_status = obj.die_status;
+	status = obj.status;
 	insp_frequency = obj.insp_frequency;
 	if (!count)
 	{
@@ -84,7 +85,7 @@ TaskPlanner&   TaskPlanner::operator=(const TaskPlanner& obj)
 	lastcheck = obj.lastcheck;
 	count = obj.count;
 	minchecktime = obj.minchecktime;
-	die_status = obj.die_status;
+	status = obj.status;
 	insp_frequency = obj.insp_frequency;
 	if (!count)
 		return (*this);
@@ -141,22 +142,22 @@ inline int	TaskPlanner::checkbuchlo(int num)
 
 void	TaskPlanner::checkalkashi()
 {
-	while (die_status != DIE_STATE)
+	while (getbit(status, LIFE_STATE) != DIE_STATE)
 	{
 		this_thread::sleep_for(chrono::milliseconds(insp_frequency));
 		out_mt.lock();
 		cout << "----------------CHECK TIME---------------" << endl;
 		out_mt.unlock();
 		for (int i = 0; i < count; ++i)
-			if (alkashi[i].state() == DIE_STATE)
+			if (getbit((alkashi[i].state()), LIFE_STATE) == DIE_STATE)
 			{
-				die_status = DIE_STATE;
+				setbit(status, LIFE_STATE, DIE_STATE);
 				alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
 				return ;	
 			}
-		if (timer.gettime() > 30.0)
+		if (timer.gettime() > 10.0)
 		{
-			die_status = DIE_STATE;
+			setbit(status, LIFE_STATE, DIE_STATE);
 			return ;
 		}
 	}
@@ -164,7 +165,7 @@ void	TaskPlanner::checkalkashi()
 
 bool	TaskPlanner::checkalkashi(const int& num)
 {
-	if (die_status == DIE_STATE)
+	if (getbit(status, LIFE_STATE) == DIE_STATE)
 		return (DIE_STATE);
 	if (long(1000 * (timer.gettime() - lastcheck)) < insp_frequency)
 		return (ALIVE_STATE);
@@ -180,15 +181,15 @@ bool	TaskPlanner::checkalkashi(const int& num)
 	cout << "----------------CHECK TIME---------------" << endl;
 	out_mt.unlock();
 	for (int i = 0; i < count; ++i)
-		if (alkashi[i].state() == DIE_STATE)
+		if (getbit((alkashi[i].state()), LIFE_STATE) == DIE_STATE)
 		{
-			die_status = DIE_STATE;
+			setbit(status, LIFE_STATE, DIE_STATE);
 			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
-			return (DIE_STATE);	
+			// return (DIE_STATE);	
 		}
-	if (timer.gettime() > 30.0)
+	if (timer.gettime() > 10.0 || getbit(status, LIFE_STATE) == DIE_STATE)
 	{
-		die_status = DIE_STATE;
+		setbit(status, LIFE_STATE, DIE_STATE);
 		return (DIE_STATE);
 	}
 	return (ALIVE_STATE);
@@ -210,7 +211,7 @@ void	TaskPlanner::planing(int num)
 
 void	TaskPlanner::zapoj(int num)
 {
-	while (die_status != DIE_STATE)
+	while (getbit(status, LIFE_STATE) != DIE_STATE)
 	{
 		planer_mt.lock();
 		if (checkbuchlo(num))

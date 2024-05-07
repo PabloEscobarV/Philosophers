@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 22:50:43 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/07 15:39:39 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ Alkash::Alkash(int id_, long buchat, long sleep, long die) :
 	time_exec(0),
 	metrics(1000),
 	last_btm(0),
-	bechavior_st(UNDETREMINATE),
-	buchat_permit(false),
-	die_status(ALIVE_STATE)
+	status(0)
 {
+	setbit(status, LIFE_STATE);
 	timer.start();
 	die_mtm = (float)die_tm / metrics;
 }
@@ -39,9 +38,8 @@ Alkash::Alkash(const Alkash& obj)
 	id = obj.id;
 	time_exec = obj.time_exec;
 	last_btm = obj.last_btm;
-	bechavior_st = obj.bechavior_st;
+	status = obj.status;
 	die_mtm = obj.die_mtm;
-	die_status = obj.die_status;
 }
 
 Alkash::~Alkash()
@@ -60,9 +58,8 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 	id = obj.id;
 	time_exec = obj.time_exec;
 	last_btm = obj.last_btm;
-	bechavior_st = obj.bechavior_st;
+	status = obj.status;
 	die_mtm = obj.die_mtm;
-	die_status = obj.die_status;
 	return (*this);
 }
 
@@ -78,54 +75,57 @@ void	Alkash::getBuchlo(Buchlo& buchlo, Buchlo& zapyvon)
 	zapyvon.lock();
 	this->buchlo = &buchlo;
 	this->zapyvon = &zapyvon;
-	buchat_permit = true;
+	// buchat_permit = true;
+	setbit(status, IS_LOCKED);
+	
 }
 
 bool    Alkash::buchat(mutex& mt, long t)
 {
-	if (!buchat_permit)
+	if (!getbit(status, IS_LOCKED) || !getbit(status, LIFE_STATE))
 		return (false);
-	if (die_status == DIE_STATE)
-		return (false);
-	if ((timer.gettime_ms() - last_btm) > die_tm)
+	if ((long)(timer.gettime_ms() - last_btm) > die_tm)
 	{
-		die_status = DIE_STATE;
+		setbit(status, LIFE_STATE, DIE_STATE);
 		die_msg(mt, "----------ALKASH is DEAD!!!----------");
 		return (false);
 	}
+	setbit(status, IS_FINDING, false);
+	setbit(status, IS_BUCHING);
 	if (!t)
 		t = buchat_tm;
 	mt.lock();
 	cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
 	mt.unlock();
-	bechavior_st = IS_BUCHING;
 	this_thread::sleep_for(chrono::milliseconds(t));
 	last_btm = timer.gettime_ms();
 	buchlo->unlock();
 	zapyvon->unlock();
-	buchat_permit = false;
+	setbit(status, IS_LOCKED, false);
 	return (true);
-}
-
-void	Alkash::finding(mutex& mt)
-{
-	if (bechavior_st == IS_FINDING)
-		return ;
-	mt.lock();
-	cout << timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
-	mt.unlock();
-	bechavior_st = IS_FINDING;
 }
 
 void	Alkash::sleep(mutex& mt, long t)
 {
 	if (!t)
 		t = sleep_tm;
+	setbit(status, IS_BUCHING, false);
+	setbit(status, IS_SLEEPING);
 	mt.lock();
 	cout << timer.gettime() << "[ms]:\t" << id << "\tis sleepnig" << endl;
 	mt.unlock();
-	bechavior_st = IS_SLEEPING;
 	this_thread::sleep_for(chrono::milliseconds(t));
+}
+
+void	Alkash::finding(mutex& mt)
+{
+	if (getbit(status, IS_FINDING))
+		return ;
+	setbit(status, IS_SLEEPING, false);
+	setbit(status, IS_FINDING);
+	mt.lock();
+	cout << timer.gettime() << "[ms]:\t" << id << "\tis finding buchlo" << endl;
+	mt.unlock();
 }
 
 long    Alkash::getdie()
@@ -148,13 +148,13 @@ int     Alkash::get_id()
 	return (id);
 }
 
-bool	Alkash::state()
+t_uchar	Alkash::state()
 {
-	if (die_status == DIE_STATE)
-		return (DIE_STATE);
-	if ((timer.gettime_ms() - last_btm) > die_tm)
-		return (DIE_STATE);
-	return (ALIVE_STATE);
+	if (!getbit(status, LIFE_STATE))
+		return (status);
+	if (!getbit(status, IS_BUCHING) && (timer.gettime_ms() - last_btm) > die_tm)
+		setbit(status, LIFE_STATE, DIE_STATE);
+	return (status);
 }
 
 void	Alkash::die_msg(mutex& mt, const char* msg)
@@ -162,6 +162,25 @@ void	Alkash::die_msg(mutex& mt, const char* msg)
 	mt.lock();
 	cout << "ID[" << id << "]: " << msg << endl;
 	mt.unlock();
+}
+
+void	setbit(t_uchar& data, t_uchar bit, t_uchar val)
+{
+	if (bit > 7 || bit < 0)
+		bit = 0;
+	if (val > 1)
+		val = 1;
+	if (val)
+		data |= (val << bit);
+	else
+		data &= ~(1 << bit);
+}
+
+t_uchar	getbit(t_uchar data, t_uchar bit)
+{
+	if (bit > 7 || bit < 0)
+		return (0);
+	return (data & (1 << bit));
 }
 
 }

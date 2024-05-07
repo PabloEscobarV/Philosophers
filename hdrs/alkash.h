@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:17:15 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 22:46:46 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/07 15:25:24 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@
 
 namespace	alkashi_sim
 {
-	#define DIE_STATE	false
-	#define	ALIVE_STATE	true
+	#define DIE_STATE		0
+	#define	ALIVE_STATE		1
+	#define BUCHAT_PERM		1
+	#define	UCHAR_MASK		255
 
 	enum
 	{
+		LIFE_STATE,
+		PERMITION_BUCHAT,
+		IS_LOCKED,
 		IS_BUCHING,
 		IS_SLEEPING,
-		IS_FINDING,
-		UNDETREMINATE
+		IS_FINDING
 	};
 
 	using t_uchar = unsigned char;
@@ -32,9 +36,7 @@ namespace	alkashi_sim
 	
 	class	Alkash
 {
-	bool			die_status;
-	bool			buchat_permit;
-	t_uchar			bechavior_st;
+	t_uchar			status;
 	int				id;
 	float			time_exec;
 	float			last_btm;
@@ -60,7 +62,9 @@ public:
 	long			getsleep();
 	long			getdie();
 	int				get_id();
-	bool			state();
+	t_uchar			state();
 	void			die_msg(mutex& mt, const char *msg);
 };
+	void			setbit(t_uchar& data, t_uchar bit = 0, t_uchar val = 1);
+	t_uchar			getbit(t_uchar data, t_uchar bit = 0);
 }

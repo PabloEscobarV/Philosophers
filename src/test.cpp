@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/06 21:46:21 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/07 15:38:21 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,17 @@ void	func(mutex &mt1)
 
 int		main(void)
 {
+	// t_uchar	mask = 8;
+	// t_uchar	bit = 7;
+	// t_uchar	val = 1;
+
+	// mask |= val << bit;
+	// // mask <<= bit;
+	// for (int i = 0; i < 8; ++i)
+	// 	cout << "BIT[" << i << "]: " << (mask & (val << i)) << endl;
 	Timer<float>	timer;
 	timer.start();
-	TaskPlanner	planer(100, 10, 20, 4250);
+	TaskPlanner	planer(10, 10, 20, 21);
 
 	planer.startsimulation();
 	// planer.startsimplanner();
