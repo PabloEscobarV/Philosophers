@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/07 15:39:39 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 14:38:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ Alkash::Alkash(int id_, long buchat, long sleep, long die) :
 	last_btm(0),
 	status(0)
 {
-	setbit(status, LIFE_STATE);
+	if (die == 0)
+		return ;
 	timer.start();
+	setbit(status, LIFE_STATE);
+	if (!(id % 2))
+		setbit(status, PERMITION_BUCHAT);
 	die_mtm = (float)die_tm / metrics;
 }
 
@@ -40,6 +44,7 @@ Alkash::Alkash(const Alkash& obj)
 	last_btm = obj.last_btm;
 	status = obj.status;
 	die_mtm = obj.die_mtm;
+	timer.start();
 }
 
 Alkash::~Alkash()
@@ -60,6 +65,7 @@ Alkash&	Alkash::operator=(const Alkash& obj)
 	last_btm = obj.last_btm;
 	status = obj.status;
 	die_mtm = obj.die_mtm;
+	timer.start();
 	return (*this);
 }
 
@@ -150,11 +156,21 @@ int     Alkash::get_id()
 
 t_uchar	Alkash::state()
 {
-	if (!getbit(status, LIFE_STATE))
-		return (status);
 	if (!getbit(status, IS_BUCHING) && (timer.gettime_ms() - last_btm) > die_tm)
 		setbit(status, LIFE_STATE, DIE_STATE);
 	return (status);
+}
+
+bool	Alkash::lifestatus()
+{
+	if (!getbit(status, LIFE_STATE))
+		return (DIE_STATE);
+	if (!getbit(status, IS_BUCHING) && (timer.gettime_ms() - last_btm) > die_tm)
+	{
+		setbit(status, LIFE_STATE, DIE_STATE);
+		return (DIE_STATE);
+	}
+	return (ALIVE_STATE);
 }
 
 void	Alkash::die_msg(mutex& mt, const char* msg)
@@ -181,6 +197,16 @@ t_uchar	getbit(t_uchar data, t_uchar bit)
 	if (bit > 7 || bit < 0)
 		return (0);
 	return (data & (1 << bit));
+}
+
+void	Alkash::setpermition(t_uchar perm)
+{
+	if (perm)
+	{
+		setbit(status, PERMITION_BUCHAT);
+		return ;
+	}
+	setbit(status, PERMITION_BUCHAT, false);
 }
 
 }

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:17:15 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/07 15:25:24 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 13:59:51 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ public:
 	long			getsleep();
 	long			getdie();
 	int				get_id();
+	bool			lifestatus();
 	t_uchar			state();
 	void			die_msg(mutex& mt, const char *msg);
+	void			setpermition(t_uchar perm = 1);
 };
 	void			setbit(t_uchar& data, t_uchar bit = 0, t_uchar val = 1);
 	t_uchar			getbit(t_uchar data, t_uchar bit = 0);
