@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 15:30:35 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 17:02:23 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,13 +139,6 @@ inline int	TaskPlanner::correcti(int num)
 
 t_uchar	TaskPlanner::checkbuchlo(int num)
 {
-	// unique_lock	lock(planer_mt);
-	// cv.wait(lock, [&]
-	// {
-	// 	if (getbit(alkashi[num].state(), PERMITION_BUCHAT))
-	// 		return (true);
-	// 	return (false);
-	// });
 	if (!getbit(alkashi[num].state(), PERMITION_BUCHAT))
 		return (0);
 	if (buchlo[num].state() && buchlo[correcti(num)].state())
@@ -159,13 +152,20 @@ t_uchar	TaskPlanner::checkpermition(int num)
 
 	cv.wait(lock, [&]
 	{
+		if (!alkashi[num].lifestatus())
+			return (true);
 		if (getbit(alkashi[num].state(), PERMITION_BUCHAT))
 			return (true);
 		return (false);
 	});
+	return (true);
+}
+
+t_uchar	TaskPlanner::checkabpility(int num)
+{
 	if (buchlo[num].state() && buchlo[correcti(num)].state())
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
 void	TaskPlanner::checkalkashi()
@@ -213,6 +213,7 @@ bool	TaskPlanner::checkalkashi(const int& num)
 		{
 			setbit(status, LIFE_STATE, DIE_STATE);
 			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
+			cv.notify_all();
 			// return (DIE_STATE);	
 		}
 	if (timer.gettime() > 10.0 || getbit(status, LIFE_STATE) == DIE_STATE)
@@ -267,8 +268,9 @@ void	TaskPlanner::planner(int num)
 {
 	while (checkalkashi(num))
 	{
+		checkpermition(num);
 		planer_mt.lock();
-		if (checkbuchlo(num))
+		if (checkabpility(num))
 			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
 		planer_mt.unlock();
 		if (alkashi[num].buchat(out_mt))
@@ -276,8 +278,8 @@ void	TaskPlanner::planner(int num)
 			planer_mt.lock();
 			alkashi[num].setpermition(false);
 			alkashi[correcti(num)].setpermition();
-			planer_mt.unlock();
 			cv.notify_all();
+			planer_mt.unlock();
 			alkashi[num].sleep(out_mt);
 			alkashi[num].finding(out_mt);
 		}
@@ -313,6 +315,24 @@ void	TaskPlanner::startsimplanner()
 	for (int i = 0; i < count; ++i)
 		threads[i] = thread(&TaskPlanner::zapoj, this, i);
 	checkalkashi();
+	for (int i = 0; i < count; ++i)
+	{
+		if (threads[i].joinable())
+			threads[i].join();
+	}
+	cout << "Simulation has finished\n";
+}
+
+void	TaskPlanner::startplanner()
+{
+	cout << "Simulation has started\n";
+	if (count < 1)
+	{
+		cout << "Bad parameters!!!!\n";
+		return ;
+	}
+	for (int i = 0; i < count; ++i)
+		threads[i] = thread(&TaskPlanner::planner, this, i);
 	for (int i = 0; i < count; ++i)
 	{
 		if (threads[i].joinable())

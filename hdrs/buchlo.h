@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:14:29 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:29:27 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 17:07:36 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ class	Buchlo
 {
 	bool		status;
 	int			id;
-	mutex		mt;
 public:
 	Buchlo(int id = 0);
 	Buchlo(const Buchlo& obj);

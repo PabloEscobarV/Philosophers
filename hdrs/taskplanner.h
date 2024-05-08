@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 15:13:21 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 16:41:22 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ class	TaskPlanner
 	void				planner(int num);
 	t_uchar				checkbuchlo(int num);
 	t_uchar				checkpermition(int num);
+	t_uchar				checkabpility(int num);
 	bool				checkalkashi(const int& num);
 	void				checkalkashi();
 public:
@@ -56,6 +57,7 @@ public:
 	void			set_ents(int eating_tms = 0);
 	void			startsimulation();
 	void			startsimplanner();
+	void			startplanner();
 };
 
 }

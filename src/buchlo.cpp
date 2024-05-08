@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/04 13:21:22 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 17:07:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ namespace alkashi_sim
 
     void    Buchlo::lock()
     {
-        mt.lock();
         status = false;
     }
 
     void	Buchlo::unlock()
     {
-        mt.unlock();
         status = true;
     }
     

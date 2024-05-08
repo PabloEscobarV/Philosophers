@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/08 15:15:41 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 17:08:15 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int		main(void)
 	// 	cout << "BIT[" << i << "]: " << (mask & (val << i)) << endl;
 	Timer<float>	timer;
 	timer.start();
-	TaskPlanner	planer(5, 100, 200, 410);
+	TaskPlanner	planer(7, 100, 200, 401);
 
+	// planer.startplanner();
 	planer.startsimulation();
 	// planer.startsimplanner();
 	cout << "EXECUTION TIME: " << timer.gettime() << endl;
@@ -71,4 +72,3 @@ int		main(void)
 	// cout << "The whole time for sobut:\t" << sobut.timer.gettime() << endl;
 	return (0);
 }
-g
