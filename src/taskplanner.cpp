@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 14:24:03 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 15:30:35 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,21 @@ t_uchar	TaskPlanner::checkbuchlo(int num)
 	return (0);
 }
 
+t_uchar	TaskPlanner::checkpermition(int num)
+{
+	unique_lock	lock(planer_mt);
+
+	cv.wait(lock, [&]
+	{
+		if (getbit(alkashi[num].state(), PERMITION_BUCHAT))
+			return (true);
+		return (false);
+	});
+	if (buchlo[num].state() && buchlo[correcti(num)].state())
+		return (1);
+	return (0);
+}
+
 void	TaskPlanner::checkalkashi()
 {
 	while (getbit(status, LIFE_STATE) != DIE_STATE)
@@ -242,6 +257,27 @@ void	TaskPlanner::zapoj(int num)
 			alkashi[num].setpermition(false);
 			alkashi[correcti(num)].setpermition();
 			planer_mt.unlock();
+			alkashi[num].sleep(out_mt);
+			alkashi[num].finding(out_mt);
+		}
+	}
+}
+
+void	TaskPlanner::planner(int num)
+{
+	while (checkalkashi(num))
+	{
+		planer_mt.lock();
+		if (checkbuchlo(num))
+			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
+		planer_mt.unlock();
+		if (alkashi[num].buchat(out_mt))
+		{
+			planer_mt.lock();
+			alkashi[num].setpermition(false);
+			alkashi[correcti(num)].setpermition();
+			planer_mt.unlock();
+			cv.notify_all();
 			alkashi[num].sleep(out_mt);
 			alkashi[num].finding(out_mt);
 		}

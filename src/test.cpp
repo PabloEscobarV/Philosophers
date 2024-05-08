@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/08 14:39:57 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 15:15:41 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,4 @@ int		main(void)
 	// cout << "The whole time for sobut:\t" << sobut.timer.gettime() << endl;
 	return (0);
 }
+g

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 14:13:19 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/08 15:13:21 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ class	TaskPlanner
 	void				clear_mem();
 	void				planing(int num);
 	void				zapoj(int num);
+	void				planner(int num);
 	t_uchar				checkbuchlo(int num);
+	t_uchar				checkpermition(int num);
 	bool				checkalkashi(const int& num);
 	void				checkalkashi();
 public:
