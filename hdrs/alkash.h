@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:17:15 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 13:59:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/09 14:51:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ public:
 	Alkash&			operator=(const Alkash& obj);
 	void			setmetrics(long metrics);
 	void			getBuchlo(Buchlo& buchlo, Buchlo& zapyvon);
+	bool			buchat(mutex& mt, t_cv& cv, long t = 0);
 	bool			buchat(mutex& mt, long t = 0);
 	void			sleep(mutex& mt, long t = 0);
 	void			finding(mutex& mt);

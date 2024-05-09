@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/09 13:49:25 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:07:03 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		main(void)
 	// 	cout << "BIT[" << i << "]: " << (mask & (val << i)) << endl;
 	Timer<float>	timer;
 	timer.start();
-	TaskPlanner	planer(11, 100, 200, 405);
+	TaskPlanner	planer(111, 100, 200, 441);
 
 	planer.startplanner();
 	// planer.startsimulation();

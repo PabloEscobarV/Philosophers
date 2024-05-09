@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 12:31:05 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/09 14:51:39 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,31 @@ void	Alkash::getBuchlo(Buchlo& buchlo, Buchlo& zapyvon)
 	// buchat_permit = true;
 	setbit(status, IS_LOCKED);
 	
+}
+
+bool    Alkash::buchat(mutex& mt, t_cv& cv, long t)
+{
+	if (!getbit(status, IS_LOCKED) || !getbit(status, LIFE_STATE))
+		return (false);
+	if ((long)(timer.gettime_ms() - last_btm) > die_tm)
+	{
+		setbit(status, LIFE_STATE, DIE_STATE);
+		die_msg(mt, "----------ALKASH is DEAD!!!----------");
+		return (false);
+	}
+	setbit(status, IS_FINDING, false);
+	setbit(status, IS_BUCHING);
+	if (!t)
+		t = buchat_tm;
+	mt.lock();
+	cout << timer.gettime() << "[ms]:\t" << id << "\thas taken a fork\n";
+	mt.unlock();
+	this_thread::sleep_for(chrono::milliseconds(t));
+	last_btm = timer.gettime_ms();
+	buchlo->unlock(cv);
+	zapyvon->unlock(cv);
+	setbit(status, IS_LOCKED, false);
+	return (true);
 }
 
 bool    Alkash::buchat(mutex& mt, long t)

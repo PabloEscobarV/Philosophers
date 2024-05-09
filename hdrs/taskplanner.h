@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 16:41:22 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/09 14:48:02 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ using namespace std;
 
 namespace	alkashi_sim
 {
-
-using t_cv = condition_variable;
 
 class	TaskPlanner
 {
@@ -38,6 +36,7 @@ class	TaskPlanner
 	mutex				planer_mt;
 	mutex				lastcheck_mt;
 	t_cv				cv;
+	t_cv				cv_buhclo;
 	int					correcti(int num);
 	void				clear_mem();
 	void				planing(int num);
@@ -48,6 +47,7 @@ class	TaskPlanner
 	t_uchar				checkabpility(int num);
 	bool				checkalkashi(const int& num);
 	void				checkalkashi();
+	bool				checkalkash_lf(const int& num);
 public:
 	Timer<float>	timer;
 	TaskPlanner(int count = 1, long sleep_tm = 0, long eat_tm = 0, long die_tm = 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 13:52:45 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:06:37 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,14 @@ t_uchar	TaskPlanner::checkpermition(int num)
 	{
 		if (getbit(alkashi[num].state(), PERMITION_BUCHAT)
 			|| getbit(status, LIFE_STATE) == DIE_STATE)
-			// if (buchlo[num].state() && buchlo[correcti(num)].state())
 				return (true);
+		return (false);
+	});
+	cv_buhclo.wait(lock, [&]
+	{
+		if ((buchlo[num].state() && buchlo[correcti(num)].state())
+			|| getbit(status, LIFE_STATE) == DIE_STATE)
+			return (true);
 		return (false);
 	});
 	return (true);
@@ -192,6 +198,38 @@ void	TaskPlanner::checkalkashi()
 }
 
 bool	TaskPlanner::checkalkashi(const int& num)
+{
+	if (getbit(status, LIFE_STATE) == DIE_STATE)
+		return (DIE_STATE);
+	if (long(1000 * (timer.gettime() - lastcheck)) < insp_frequency)
+		return (ALIVE_STATE);
+	lastcheck_mt.lock();
+	if (long(1000 * (timer.gettime() - lastcheck)) < insp_frequency)
+	{
+		lastcheck_mt.unlock();
+		return (ALIVE_STATE);
+	}
+	lastcheck = timer.gettime();
+	lastcheck_mt.unlock();
+	out_mt.lock();
+	cout << "----------------CHECK TIME---------------" << endl;
+	out_mt.unlock();
+	for (int i = 0; i < count; ++i)
+		if (alkashi[i].lifestatus() == DIE_STATE)
+		{
+			setbit(status, LIFE_STATE, DIE_STATE);
+			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
+			// return (DIE_STATE);	
+		}
+	if (timer.gettime() > 10.0 || getbit(status, LIFE_STATE) == DIE_STATE)
+	{
+		setbit(status, LIFE_STATE, DIE_STATE);
+		return (DIE_STATE);
+	}
+	return (ALIVE_STATE);
+}
+
+bool	TaskPlanner::checkalkash_lf(const int& num)
 {
 	if (getbit(status, LIFE_STATE) == DIE_STATE)
 		return (DIE_STATE);
@@ -268,7 +306,7 @@ void	TaskPlanner::zapoj(int num)
 
 void	TaskPlanner::planner(int num)
 {
-	while (checkalkashi(num))
+	while (checkalkash_lf(num))
 	{
 		checkpermition(num);
 		planer_mt.lock();
@@ -279,7 +317,7 @@ void	TaskPlanner::planner(int num)
 		}
 		alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
 		planer_mt.unlock();
-		if (alkashi[num].buchat(out_mt))
+		if (alkashi[num].buchat(out_mt, cv_buhclo))
 		{
 			planer_mt.lock();
 			alkashi[num].setpermition(false);
