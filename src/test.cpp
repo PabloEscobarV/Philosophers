@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/09 12:53:34 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/09 13:49:25 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		main(void)
 	// 	cout << "BIT[" << i << "]: " << (mask & (val << i)) << endl;
 	Timer<float>	timer;
 	timer.start();
-	TaskPlanner	planer(7, 100, 200, 200);
+	TaskPlanner	planer(11, 100, 200, 405);
 
 	planer.startplanner();
 	// planer.startsimulation();

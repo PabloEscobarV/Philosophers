@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 12:54:44 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/09 13:52:45 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,10 @@ t_uchar	TaskPlanner::checkpermition(int num)
 
 	cv.wait(lock, [&]
 	{
-		if (getbit(alkashi[num].state(), PERMITION_BUCHAT) ||
-			getbit(status, LIFE_STATE) == DIE_STATE)
-			return (true);
+		if (getbit(alkashi[num].state(), PERMITION_BUCHAT)
+			|| getbit(status, LIFE_STATE) == DIE_STATE)
+			// if (buchlo[num].state() && buchlo[correcti(num)].state())
+				return (true);
 		return (false);
 	});
 	return (true);
@@ -271,8 +272,12 @@ void	TaskPlanner::planner(int num)
 	{
 		checkpermition(num);
 		planer_mt.lock();
-		if (checkabpility(num))
-			alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
+		if (!buchlo[num].state() && buchlo[correcti(num)].state())
+		{
+			planer_mt.unlock();
+			continue ;
+		}
+		alkashi[num].getBuchlo(buchlo[num], buchlo[correcti(num)]);
 		planer_mt.unlock();
 		if (alkashi[num].buchat(out_mt))
 		{
