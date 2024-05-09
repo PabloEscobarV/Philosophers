@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alkash.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 14:38:26 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/09 12:31:05 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,13 +164,13 @@ t_uchar	Alkash::state()
 bool	Alkash::lifestatus()
 {
 	if (!getbit(status, LIFE_STATE))
-		return (DIE_STATE);
+		return (false);
 	if (!getbit(status, IS_BUCHING) && (timer.gettime_ms() - last_btm) > die_tm)
 	{
 		setbit(status, LIFE_STATE, DIE_STATE);
-		return (DIE_STATE);
+		return (false);
 	}
-	return (ALIVE_STATE);
+	return (true);
 }
 
 void	Alkash::die_msg(mutex& mt, const char* msg)

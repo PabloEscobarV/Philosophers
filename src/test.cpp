@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:40:41 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/08 17:08:15 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/09 12:53:34 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int		main(void)
 	// 	cout << "BIT[" << i << "]: " << (mask & (val << i)) << endl;
 	Timer<float>	timer;
 	timer.start();
-	TaskPlanner	planer(7, 100, 200, 401);
+	TaskPlanner	planer(7, 100, 200, 200);
 
-	// planer.startplanner();
-	planer.startsimulation();
+	planer.startplanner();
+	// planer.startsimulation();
 	// planer.startsimplanner();
 	cout << "EXECUTION TIME: " << timer.gettime() << endl;
 	// Alkash	alkash{1};

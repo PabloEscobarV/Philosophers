@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/08 17:02:23 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/09 12:54:44 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,13 +148,12 @@ t_uchar	TaskPlanner::checkbuchlo(int num)
 
 t_uchar	TaskPlanner::checkpermition(int num)
 {
-	unique_lock	lock(planer_mt);
+	unique_lock<mutex>	lock(planer_mt);
 
 	cv.wait(lock, [&]
 	{
-		if (!alkashi[num].lifestatus())
-			return (true);
-		if (getbit(alkashi[num].state(), PERMITION_BUCHAT))
+		if (getbit(alkashi[num].state(), PERMITION_BUCHAT) ||
+			getbit(status, LIFE_STATE) == DIE_STATE)
 			return (true);
 		return (false);
 	});
@@ -213,7 +212,9 @@ bool	TaskPlanner::checkalkashi(const int& num)
 		{
 			setbit(status, LIFE_STATE, DIE_STATE);
 			alkashi[i].die_msg(out_mt, "ALKASH is DEAD!!!");
+			planer_mt.lock();
 			cv.notify_all();
+			planer_mt.unlock();
 			// return (DIE_STATE);	
 		}
 	if (timer.gettime() > 10.0 || getbit(status, LIFE_STATE) == DIE_STATE)
