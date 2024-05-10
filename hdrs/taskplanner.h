@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 14:48:02 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/10 17:28:01 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "alkash.h"
 #include <thread>
 #include <condition_variable>
+#include <atomic>
 
 using namespace std;
 
@@ -37,6 +38,8 @@ class	TaskPlanner
 	mutex				lastcheck_mt;
 	t_cv				cv;
 	t_cv				cv_buhclo;
+	atomic_flag			atm_permition;
+	atomic_flag			atm_buchlo;
 	int					correcti(int num);
 	void				clear_mem();
 	void				planing(int num);

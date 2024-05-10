@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:14:29 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 14:50:50 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/10 17:30:02 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <thread>
 #include <iostream>
 #include <condition_variable>
+#include <atomic>
 
 namespace	alkashi_sim
 {
@@ -33,8 +34,9 @@ public:
 	void	set_id(int _id);
 	int		get_id();
 	void	lock();
-	void	unlock(t_cv& cv);
 	void	unlock();
+	void	unlock(t_cv& cv);
+	void	unlock(atomic_flag& atm_permition);
 	bool	state();
 	friend ostream&	operator<<(ostream& os, const Buchlo& obj);
 };
