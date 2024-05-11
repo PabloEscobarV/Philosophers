@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:21:46 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/10 17:28:01 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/11 15:00:11 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <thread>
 #include <condition_variable>
 #include <atomic>
+#include <deque>
 
 using namespace std;
 

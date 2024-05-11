@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:53:53 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/09 15:06:37 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/11 15:00:13 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ TaskPlanner::TaskPlanner(int cnt, long slp_tm, long eat_tm, long die_tm) :
 	lastcheck(0),
 	status(0),
 	minchecktime(500),
-	insp_frequency(1000)
+	insp_frequency(1000),
 {
 	timer.start();
 	setbit(status, LIFE_STATE);
