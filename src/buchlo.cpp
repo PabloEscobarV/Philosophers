@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:30:51 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/10 17:39:24 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/11 14:44:09 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ namespace alkashi_sim
 
     void	Buchlo::unlock(atomic_flag& atm_permition)
     {
-        atm_permition.notify_all();
+        // atm_permition.notify_all();
     }
     
     bool    Buchlo::state()
