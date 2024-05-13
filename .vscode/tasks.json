@@ -8,9 +8,10 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "alkash.cpp",
-                "buchlo.cpp",
-                "taskplanner.cpp",
+                "bitoperations.c",
+                // "alkash.cpp",
+                // "buchlo.cpp",
+                // "taskplanner.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
