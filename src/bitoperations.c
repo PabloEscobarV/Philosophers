@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bitoperations.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:35:55 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/13 11:49:43 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/13 11:13:43 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_uchar	setbit(t_uchar *data, t_uchar bit)
 {
 	t_uchar	tmp;
 
-	if (bit > BIT_MAX || bit > 0)
+	if (bit > BIT_MAX || bit < 0)
 		return (MAXBITNUMBER);
 	tmp = 1;
 	*data |= tmp << bit;
@@ -27,18 +27,18 @@ t_uchar	resetbit(t_uchar *data, t_uchar bit)
 {
 	t_uchar	tmp;
 
-	if (bit > BIT_MAX || bit > 0)
+	if (bit > BIT_MAX || bit < 0)
 		return (MAXBITNUMBER);
 	tmp = 1;
 	*data &= ~(tmp << bit);
-	return (data);
+	return (*data);
 }
 
 t_uchar	getbit(t_uchar *data, t_uchar bit)
 {
 	t_uchar	tmp;
 
-	if (bit > BIT_MAX || bit > 0)
+	if (bit > BIT_MAX || bit < 0)
 		return (MAXBITNUMBER);
 	tmp = 1;
 	return (*data & (tmp << bit));

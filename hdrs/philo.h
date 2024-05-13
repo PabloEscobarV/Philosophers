@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/13 11:50:32 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/13 11:12:15 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ enum
 	IS_BUCHING,
 	IS_SLEPING,
 	IS_FIDING,
-}
+};
 
-typedef struct	s_alkashi
+typedef struct	s_alkash
 {
 	t_uchar		status;
-}				t_alkashi;
+}				t_alkash;
 
 typedef struct	s_polyna
 {
