@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/13 11:12:15 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:18:16 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef unsigned char	t_uchar;
 
 enum
 {
+	ERROR,
 	PERMITION,
 	IS_LOCKED,
 	IS_BUCHING,
