@@ -6,19 +6,22 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 13:23:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 14:12:28 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdlib.h>
+#include <pthread.h>
 
-void		*freepolyana(t_polyna *polyana)
+void		*freepolyana(t_polyana *polyana)
 {
 	if (!polyana)
 		return (NULL);
 	free(polyana->alkashi);
 	free(polyana->buchlo);
+	free(polyana->threads);
+	free(polyana->times);
 	free(polyana);
 	polyana = NULL;
 	return (NULL);
@@ -36,21 +39,39 @@ t_alkash	*crtalkash()
 	return (alkash);
 }
 
-t_polyna	*crtpolyana(int count, long buchat_tm, long sleep_tm, long die_tm)
+t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme)
 {
-	t_polyna	*polyana;
+	t_times	*times;
 
+	if (buchat_tm < 0 || sleep_tm < 0 || die_tm < 0)
+		return (NULL);
+	times = malloc(sizeof(t_times));
+	if (!times)
+		return (NULL);
+	times->buchat_tm = buchat_tm;
+	times->sleep_tm = sleep_tm;
+	times->die_tm = die_tm;
+	times->nofepme = nofepme;
+	return (times);
+}
+
+t_polyana	*crtpolyana(int count, t_times *times)
+{
+	t_polyana	*polyana;
+
+	if (count < 1 || !times)
+		return (NULL);
 	polyana = malloc(sizeof(polyana));
 	if (!polyana)
 		return (NULL);
-	polyana->alkashi = malloc((count) * sizeof(t_alkash));
-	polyana->buchlo = malloc((count) * sizeof(t_uchar));
-	if (!polyana->alkashi || !polyana->buchlo)
+	polyana->alkashi = malloc(count * sizeof(t_alkash));
+	polyana->buchlo = malloc(count * sizeof(t_uchar));
+	polyana->threads = malloc(count * sizeof(pthread_t));
+	if (!polyana->alkashi || !polyana->buchlo || polyana->threads)
 		return (freepolyana(polyana));
 	polyana->count = count;
-	polyana->buchat_tm = buchat_tm;
-	polyana->sleep_tm = sleep_tm;
-	polyana->die_tm = die_tm;
+	polyana->times = times;
+	polyana->status = 0;
 	while (count)
 	{
 		polyana->alkashi[--count].status = 0;
