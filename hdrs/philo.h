@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 19:18:15 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 22:02:23 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ typedef struct	s_alkash
 
 typedef struct	s_polyna
 {
+	t_uchar			status;
 	int				count;
 	pthread_mutex_t	*mutexes;
+	pthread_t		*threads;
 	t_times			*times;
 	t_uchar			*buchlo;
 	t_alkash		**alkashi;

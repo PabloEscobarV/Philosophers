@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 19:36:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 22:01:25 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 
 void	print_polyana(t_polyana *polyana)
 {
-	printf("count: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d\n",
-		polyana->count, polyana->times->buchat_tm, polyana->times->sleep_tm,
-		polyana->times->die_tm, polyana->times->nofepme);
 	for (int i = 0; i < polyana->count; ++i)
-		printf("ID: %d\n", polyana->alkashi[i]->id);
+	{
+		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d\n",
+			polyana->alkashi[i]->id, polyana->alkashi[i]->count,
+			polyana->alkashi[i]->times->buchat_tm, polyana->alkashi[i]->times->sleep_tm,
+			polyana->alkashi[i]->times->die_tm, polyana->alkashi[i]->times->nofepme);
+	}
 }
 
 int	main()
@@ -38,6 +40,7 @@ int	main()
 	times = crttimes(10, 10, 11, -1);
 	polyana = crtpolyana(count, times);
 	print_polyana(polyana);
+	freepolyana(polyana);
 	return (0);
 }
 

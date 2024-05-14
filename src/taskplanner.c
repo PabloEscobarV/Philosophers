@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 18:13:04 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 22:12:04 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_uchar	checkalkashi(t_polyana *polyana, int num)
 
 void    *planner(void *data)
 {
- 	t_polyana	*polyana;
+ 	t_alkash	*alkash;
 
-	polyana = (t_polyana *)data;
-	if (polyana->status)
+	alkash = (t_alkash *)data;
+	if (alkash->status)
 		return (NULL);
 	while ()
 	{
