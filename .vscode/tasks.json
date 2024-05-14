@@ -9,6 +9,7 @@
                 "-g",
                 "${file}",
                 "bitoperations.c",
+                "crtpolyana.c",
                 // "alkash.cpp",
                 // "buchlo.cpp",
                 // "taskplanner.cpp",

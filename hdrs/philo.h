@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 14:51:38 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 19:18:15 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,26 @@ typedef unsigned char	t_uchar;
 
 enum
 {
-	ERROR,
-	MEMMORY_ERROR,
+	LIFE_STATUS,
 	PERMITION,
 	IS_LOCKED,
 	IS_BUCHING,
 	IS_SLEPING,
 	IS_FIDING,
-	PTHREADCRT_ERROR,
-	PTHREADJOIN_ERROR
+	ERROR,
+};
+
+enum
+{
+	ERROR_THCRT,
+	ERROR_THJOIN,
+};
+
+enum
+{
+	OUT_MT,
+	PLANNER_MT,
+	MUTEX_COUNT
 };
 
 typedef struct timeval t_timer;
@@ -42,24 +53,30 @@ typedef struct s_times
 
 typedef struct	s_alkash
 {
-	t_timer		timer;
-	t_uchar		status;
+	int				id;
+	int				count;
+	t_uchar			status;
+	t_timer			timer;
+	t_uchar			*buchlo;
+	pthread_mutex_t	*mutexes;
+	t_times			*times;
+	struct s_alkash	**alkashi;
 }				t_alkash;
 
 typedef struct	s_polyna
 {
-	int			count;
-	int			status;
-	t_times		*times;
-	t_uchar		*buchlo;
-	t_alkash	*alkashi;
-	pthread_t	*threads;
-}				t_polyana;
+	int				count;
+	pthread_mutex_t	*mutexes;
+	t_times			*times;
+	t_uchar			*buchlo;
+	t_alkash		**alkashi;
+}					t_polyana;
 
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
 t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme);
+t_alkash	*crtalkash(int id, t_polyana *polyana);
 ///////////////////////////////BIT OPERATIONS/////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);

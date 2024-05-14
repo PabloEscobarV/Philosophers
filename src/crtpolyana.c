@@ -6,13 +6,14 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 14:12:28 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/14 19:36:01 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdio.h>
 
 void		*freepolyana(t_polyana *polyana)
 {
@@ -20,23 +21,11 @@ void		*freepolyana(t_polyana *polyana)
 		return (NULL);
 	free(polyana->alkashi);
 	free(polyana->buchlo);
-	free(polyana->threads);
 	free(polyana->times);
+	free(polyana->mutexes);
 	free(polyana);
 	polyana = NULL;
 	return (NULL);
-}
-
-t_alkash	*crtalkash()
-{
-	t_alkash	*alkash;
-
-	alkash = malloc(sizeof(t_alkash));
-	if (!alkash)
-		return (NULL);
-	alkash->status = 0;
-	gettimeofday(&alkash->timer, NULL);
-	return (alkash);
 }
 
 t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme)
@@ -45,7 +34,7 @@ t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme)
 
 	if (buchat_tm < 0 || sleep_tm < 0 || die_tm < 0)
 		return (NULL);
-	times = malloc(sizeof(t_times));
+	times = (t_times *)malloc(sizeof(t_times));
 	if (!times)
 		return (NULL);
 	times->buchat_tm = buchat_tm;
@@ -55,27 +44,48 @@ t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme)
 	return (times);
 }
 
+t_alkash	*crtalkash(int id, t_polyana *polyana)
+{
+	t_alkash	*alkash;
+
+	alkash = (t_alkash *)malloc(sizeof(t_alkash));
+	if (!alkash)
+		return (NULL);
+	alkash->status = 0;
+	alkash->id = id;
+	setbit(&alkash->status, LIFE_STATUS);
+	if (!(id % 2))
+		setbit(&alkash->status, PERMITION);
+	alkash->count = polyana->count;
+	alkash->buchlo = polyana->buchlo;
+	alkash->mutexes = polyana->mutexes;
+	alkash->times = polyana->times;
+	alkash->alkashi = polyana->alkashi;
+	gettimeofday(&alkash->timer, NULL);
+	return (alkash);
+}
+
 t_polyana	*crtpolyana(int count, t_times *times)
 {
 	t_polyana	*polyana;
 
 	if (count < 1 || !times)
 		return (NULL);
-	polyana = malloc(sizeof(polyana));
+	polyana = (t_polyana *)malloc(sizeof(t_polyana));
 	if (!polyana)
 		return (NULL);
-	polyana->alkashi = malloc(count * sizeof(t_alkash));
-	polyana->buchlo = malloc(count * sizeof(t_uchar));
-	polyana->threads = malloc(count * sizeof(pthread_t));
-	if (!polyana->alkashi || !polyana->buchlo || polyana->threads)
-		return (freepolyana(polyana));
+	polyana->alkashi = (t_alkash **)malloc(count * sizeof(t_alkash **));
+	polyana->buchlo = (t_uchar *)malloc(count * sizeof(t_uchar));
+	polyana->mutexes = (pthread_mutex_t *)malloc(MUTEX_COUNT * sizeof(pthread_mutex_t));
+	if (!polyana->alkashi || !polyana->buchlo || !polyana->mutexes)
+		return ((t_polyana *)freepolyana(polyana));
 	polyana->count = count;
 	polyana->times = times;
-	polyana->status = 0;
 	while (count)
 	{
-		polyana->alkashi[--count].status = 0;
-		gettimeofday(&polyana->alkashi[count].timer, NULL);
+		polyana->alkashi[count] = crtalkash(--count, polyana);
+		if (!polyana->alkashi[count])
+			return ((t_polyana *)freepolyana(polyana));
 		polyana->buchlo[count] = 0;
 	}
 	return (polyana);
