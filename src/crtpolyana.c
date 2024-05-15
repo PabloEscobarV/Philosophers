@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 11:04:07 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 13:21:02 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	setbit(&alkash->status, LIFE_STATUS);
 	if (!(id % 2))
 		setbit(&alkash->status, PERMITION);
+	alkash->lastcheck = &polyana->lastcheck;
+	alkash->g_status = &polyana->status;
 	alkash->count = polyana->count;
 	alkash->buchlo = polyana->buchlo;
 	alkash->mutexes = polyana->mutexes;
@@ -97,6 +99,7 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	polyana->status = 0;
 	polyana->count = count;
 	polyana->times = times;
+	polyana->lastcheck = 0;
 	while (count)
 	{
 		polyana->alkashi[count] = crtalkash(--count, polyana);
@@ -106,5 +109,8 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	}
 	if (polyana->count % 2 && polyana->count > 1)
 		resetbit(&polyana->alkashi[polyana->count - 1]->status, PERMITION);
+	count = MUTEX_COUNT;
+	while (count)
+		pthread_mutex_init(&polyana->mutexes[--count], NULL);
 	return (polyana);
 }

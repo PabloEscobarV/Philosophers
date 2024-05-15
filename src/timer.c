@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:25:39 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 11:36:06 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 12:08:59 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,9 @@ long	tm_sec(t_alkash *alkash)
 
 float	tm_sec_f(t_alkash *alkash)
 {
-	return (tm_usec(alkash) / 1000000.0F);
+	t_timer	endtime;
+
+	gettimeofday(&endtime, NULL);
+	return (endtime.tv_sec - alkash->timer.tv_sec +
+		(endtime.tv_usec - alkash->timer.tv_usec) / 1000000.0F);
 }

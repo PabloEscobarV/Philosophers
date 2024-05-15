@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 11:34:33 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 12:11:38 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ void	print_polyana(t_polyana *polyana)
 			polyana->alkashi[i]->times->die_tm, polyana->alkashi[i]->times->nofepme,
 			polyana->alkashi[i]->status);
 	}
-	// usleep(1000512);
-	printf("TIME: %f\n", tm_sec_f(polyana->alkashi[0]));
+	sleep(2);
+	printf("TIME[precise sec]: %f\n", tm_sec_f(polyana->alkashi[0]));
+	printf("TIME[sec]: %li\n", tm_sec(polyana->alkashi[0]));
+	printf("TIME[msec]: %li\n", tm_msec(polyana->alkashi[0]));
+	printf("TIME[usec]: %li\n", tm_usec(polyana->alkashi[0]));
 }
 
 int	main()
