@@ -6,12 +6,14 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 22:01:25 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 11:34:33 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
+#include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 // int	getbit(int *data, int bit)
 // {
@@ -24,21 +26,30 @@ void	print_polyana(t_polyana *polyana)
 {
 	for (int i = 0; i < polyana->count; ++i)
 	{
-		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d\n",
+		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d;\tSTATUS: %d\n",
 			polyana->alkashi[i]->id, polyana->alkashi[i]->count,
 			polyana->alkashi[i]->times->buchat_tm, polyana->alkashi[i]->times->sleep_tm,
-			polyana->alkashi[i]->times->die_tm, polyana->alkashi[i]->times->nofepme);
+			polyana->alkashi[i]->times->die_tm, polyana->alkashi[i]->times->nofepme,
+			polyana->alkashi[i]->status);
 	}
+	// usleep(1000512);
+	printf("TIME: %f\n", tm_sec_f(polyana->alkashi[0]));
 }
 
 int	main()
 {
-	int			count = 10;
+	int			count = 999;
 	t_polyana	*polyana;
 	t_times		*times;
 
 	times = crttimes(10, 10, 11, -1);
 	polyana = crtpolyana(count, times);
+	if (!polyana)
+	{
+		printf("ERROR!!!\n");
+		free(times);
+		return (-1);
+	}
 	print_polyana(polyana);
 	freepolyana(polyana);
 	return (0);

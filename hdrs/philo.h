@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 22:02:23 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 11:33:06 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,8 @@ t_alkash	*crtalkash(int id, t_polyana *polyana);
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar *data, t_uchar bit);
+///////////////////////////////TIMER/////////////////////////////
+long		tm_usec(t_alkash *alkash);
+long		tm_msec(t_alkash *alkash);
+long		tm_sec(t_alkash *alkash);
+float		tm_sec_f(t_alkash *alkash);

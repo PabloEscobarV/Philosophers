@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 22:12:04 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 11:25:56 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,18 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-t_uchar	checkalkashi(t_polyana *polyana, int num)
+t_uchar	checkalkashi(t_alkash *alkash)
 {
-	if (getbit(polyana->alkashi))
+	int	i;
+
+	i = 0;
+	
+	while (i < alkash->count)
+	{
+		if (!getbit(&alkash->alkashi[i]->status, LIFE_STATUS))
+			return (0);
+		++i;
+	}
 }
 
 void    *planner(void *data)

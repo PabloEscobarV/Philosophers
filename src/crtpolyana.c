@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/14 22:02:46 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/15 11:04:07 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,13 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	return (alkash);
 }
 
-t_polyana	*crtpolyana(int count, t_times *times)
+t_polyana	*mallocpolyana(int count)
 {
 	t_polyana	*polyana;
-
-	if (count < 1 || !times)
-		return (NULL);
+	
 	polyana = malloc(sizeof(t_polyana));
 	if (!polyana)
 		return (NULL);
-	polyana->status = 0;
 	polyana->alkashi = malloc(count * sizeof(t_alkash **));
 	polyana->buchlo = malloc(count * sizeof(t_uchar));
 	polyana->mutexes = malloc(MUTEX_COUNT * sizeof(pthread_mutex_t));
@@ -85,6 +82,19 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	if (!polyana->alkashi || !polyana->buchlo || !polyana->mutexes
 		|| !polyana->threads)
 		return (freepolyana(polyana));
+	return (polyana);
+}
+
+t_polyana	*crtpolyana(int count, t_times *times)
+{
+	t_polyana	*polyana;
+
+	if (count < 1 || !times)
+		return (NULL);
+	polyana = mallocpolyana(count);
+	if (!polyana)
+		return (NULL);
+	polyana->status = 0;
 	polyana->count = count;
 	polyana->times = times;
 	while (count)
@@ -94,5 +104,7 @@ t_polyana	*crtpolyana(int count, t_times *times)
 			return (freepolyana(polyana));
 		polyana->buchlo[count] = 0;
 	}
+	if (polyana->count % 2 && polyana->count > 1)
+		resetbit(&polyana->alkashi[polyana->count - 1]->status, PERMITION);
 	return (polyana);
 }
