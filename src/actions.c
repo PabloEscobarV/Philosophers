@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/15 14:09:35 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 14:56:01 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	finding(t_alkash *alkash)
     pthread_mutex_unlock(&alkash->mutexes[OUT_MT]);
 }
 
+t_uchar	getbuchlo(t_alkash *alkash)
+{
+	pthread_mutex_lock(&alkash->mutexes[OUT_MT]);
+	if ()
+	pthread_mutex_unlock(&alkash->mutexes[OUT_MT]);
+}
+
 t_uchar	buchat(t_alkash *alkash)
 {
 	t_timer	cur_tm;
@@ -41,4 +48,10 @@ t_uchar	buchat(t_alkash *alkash)
 		resetbit(&alkash->status, LIFE_STATUS);
 		return (0);
 	}
+	alkash->buchal_tm = cur_tm;
+	pthread_mutex_lock(&alkash->mutexes[OUT_MT]);
+	printf("ALKASH[%d] id BUCHAJE\n", alkash->id);
+	pthread_mutex_ulock(&alkash->mutexes[OUT_MT]);
+	usleep(alkash->times->buchat_tm);
+	return (1);
 }
