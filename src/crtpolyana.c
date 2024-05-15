@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 13:21:02 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:58:27 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash->times = polyana->times;
 	alkash->alkashi = polyana->alkashi;
 	gettimeofday(&alkash->timer, NULL);
+	alkash->buchal_tm = alkash->timer;
 	return (alkash);
 }
 

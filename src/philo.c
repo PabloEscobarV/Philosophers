@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 12:11:38 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 14:03:27 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void	print_polyana(t_polyana *polyana)
 			polyana->alkashi[i]->status);
 	}
 	sleep(2);
-	printf("TIME[precise sec]: %f\n", tm_sec_f(polyana->alkashi[0]));
-	printf("TIME[sec]: %li\n", tm_sec(polyana->alkashi[0]));
-	printf("TIME[msec]: %li\n", tm_msec(polyana->alkashi[0]));
-	printf("TIME[usec]: %li\n", tm_usec(polyana->alkashi[0]));
+	printf("TIME[precise sec]: %f\n", tm_sec_f(&polyana->alkashi[0]->timer));
+	printf("TIME[sec]: %li\n", tm_sec(&polyana->alkashi[0]->timer));
+	printf("TIME[msec]: %li\n", tm_msec(&polyana->alkashi[0]->timer));
+	printf("TIME[usec]: %li\n", tm_usec(&polyana->alkashi[0]->timer));
 }
 
 int	main()
 {
-	int			count = 999;
+	int			count = 9;
 	t_polyana	*polyana;
 	t_times		*times;
 

@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 13:17:45 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 14:06:50 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ typedef struct s_times
 
 typedef struct	s_alkash
 {
+	t_uchar			status;
 	int				id;
 	int				count;
-	t_uchar			status;
+	t_timer			buchal_tm;
 	t_timer			timer;
 	t_uchar			*g_status;
 	long			*lastcheck;
@@ -90,7 +91,7 @@ t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar data, t_uchar bit);
 ///////////////////////////////TIMER/////////////////////////////
-long		tm_usec(t_alkash *alkash);
-long		tm_msec(t_alkash *alkash);
-long		tm_sec(t_alkash *alkash);
-float		tm_sec_f(t_alkash *alkash);
+long		tm_usec(const t_timer *timer);
+long		tm_msec(const t_timer *timer);
+long		tm_sec(const t_timer *timer);
+float		tm_sec_f(const t_timer *timer);
