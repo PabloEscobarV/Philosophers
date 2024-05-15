@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 14:06:50 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:11:27 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ enum
 {
 	OUT_MT,
 	CHECK_MT,
+	GET_MT,
 	PLANNER_MT,
 	MUTEX_COUNT
 };
 
 typedef struct timeval t_timer;
+typedef struct	s_polyna t_polyana;
 
 typedef struct s_times
 {
@@ -58,18 +60,12 @@ typedef struct	s_alkash
 {
 	t_uchar			status;
 	int				id;
-	int				count;
 	t_timer			buchal_tm;
 	t_timer			timer;
-	t_uchar			*g_status;
-	long			*lastcheck;
-	t_uchar			*buchlo;
-	pthread_mutex_t	*mutexes;
-	t_times			*times;
-	struct s_alkash	**alkashi;
+	t_polyana		*polyana;
 }				t_alkash;
 
-typedef struct	s_polyna
+struct	s_polyna
 {
 	t_uchar			status;
 	int				count;
@@ -79,7 +75,7 @@ typedef struct	s_polyna
 	t_times			*times;
 	t_uchar			*buchlo;
 	t_alkash		**alkashi;
-}					t_polyana;
+};
 
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
@@ -95,3 +91,9 @@ long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
 long		tm_sec(const t_timer *timer);
 float		tm_sec_f(const t_timer *timer);
+///////////////////////////////ACTIONS/////////////////////////////
+void		finding(t_alkash *alkash);
+void		a_sleep(t_alkash *alkash);
+t_uchar		getbuchlo(t_alkash *alkash);
+void		putbuchlo(t_alkash *alkash);
+t_uchar		buchat(t_alkash *alkash);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 14:03:27 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 15:52:05 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ void	print_polyana(t_polyana *polyana)
 	for (int i = 0; i < polyana->count; ++i)
 	{
 		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d;\tSTATUS: %d\n",
-			polyana->alkashi[i]->id, polyana->alkashi[i]->count,
-			polyana->alkashi[i]->times->buchat_tm, polyana->alkashi[i]->times->sleep_tm,
-			polyana->alkashi[i]->times->die_tm, polyana->alkashi[i]->times->nofepme,
-			polyana->alkashi[i]->status);
+			polyana->alkashi[i]->id, polyana->count, polyana->times->buchat_tm,
+			polyana->times->sleep_tm, polyana->times->die_tm,
+			polyana->times->nofepme, polyana->alkashi[i]->status);
 	}
 	sleep(2);
 	printf("TIME[precise sec]: %f\n", tm_sec_f(&polyana->alkashi[0]->timer));

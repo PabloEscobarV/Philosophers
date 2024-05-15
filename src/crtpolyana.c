@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 14:55:13 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/15 15:50:39 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,10 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 		return (NULL);
 	alkash->status = 0;
 	alkash->id = id;
+	alkash->polyana = polyana;
 	setbit(&alkash->status, LIFE_STATUS);
 	if (!(id % 2))
 		setbit(&alkash->status, PERMITION);
-	alkash->lastcheck = &polyana->lastcheck;
-	alkash->g_status = &polyana->status;
-	alkash->count = polyana->count;
-	alkash->buchlo = polyana->buchlo;
-	alkash->mutexes = polyana->mutexes;
-	alkash->times = polyana->times;
-	alkash->alkashi = polyana->alkashi;
 	gettimeofday(&alkash->timer, NULL);
 	alkash->buchal_tm = alkash->timer;
 	return (alkash);
