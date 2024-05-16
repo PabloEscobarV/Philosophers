@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 16:51:55 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 19:11:41 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	print_polyana(t_polyana *polyana)
 
 int	main()
 {
-	int			count = 4;
+	int			count = 33;
 	t_polyana	*polyana;
 	t_times		*times;
 
-	times = crttimes(40, 40, 80, -1);
+	times = crttimes(40, 40, 111, -1);
 	// polyana = crtpolyana(count, times);
 	// if (!polyana)
 	// {

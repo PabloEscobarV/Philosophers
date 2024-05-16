@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 16:39:52 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 19:10:09 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,7 @@ void	printstatus(t_alkash *alkash)
 	if (getbit(alkash->status, LIFE_STATUS))
 		printf("ALKASH[%d] is ALIVE\n", alkash->id);
 	else
-		printf("ALKASH[%d] is DEAD!!!\n", alkash->id);
-	// printf("STATUS for ALKASH[%d]: %d\t", alkash->id);
-	// while (i)
-	// {
-	// 	if (getbit(alkash->status, --i))
-	// 		printf("%c1", space);
-	// 	else
-	// 		printf("%c0", space);
-	// 	space = ' ';
-	// }
+		printf("ALKASH[%d] is DEAD!!! in TIME: %f\n", alkash->id, alkash->tm_dead);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
 }
 
@@ -47,9 +38,7 @@ t_uchar	check_dead(t_alkash *alkash)
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm &&
 		!getbit(alkash->status, IS_BUCHING))
 	{
-		pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
 		resetbit(&alkash->status, LIFE_STATUS);
-		pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
 		return (1);
 	}
 	return (0);
@@ -59,29 +48,28 @@ t_uchar	checkalkashi(t_alkash *alkash)
 {
 	int	i;
 
+	if (tm_sec(&alkash->timer) > EXECTIME)
+		setdead(alkash);
 	if (tm_msec(&alkash->timer) - alkash->polyana->lastcheck < CHECKTIME)
 		return (1);
 	pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
 	if (tm_msec(&alkash->timer) - alkash->polyana->lastcheck < CHECKTIME)
+	{
+		pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
 		return (1);
+	}
 	alkash->polyana->lastcheck = tm_msec(&alkash->timer);
-	pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
 	// pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
-	// printf("-----------------CHECK[%d]: %f--------------------\n", alkash->id,
-	// 	tm_sec_f(&alkash->timer));
+	// printf("--------------CHECK ID[%d] IN TIME: %d--------------\n",
+	// 	alkash->id, alkash->polyana->lastcheck);
 	// pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
 	i = alkash->polyana->count;;
 	while (i)
 	{
 		if (check_dead(alkash->polyana->alkashi[--i]))
-		{
-			pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
-			resetbit(&alkash->status, LIFE_STATUS);
-			if (!getbit(alkash->polyana->status, IS_DEAD))
-				setbit(&alkash->polyana->status, IS_DEAD);
-			pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
-		}
+			setdead(alkash->polyana->alkashi[i]);
 	}
+	pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
 	return (1);
 }
 
@@ -104,8 +92,6 @@ void    *planner(void *data)
 		finding(alkash);
 		checkalkashi(alkash);
 	}
-	usleep(1000);
-	printstatus(alkash);
 }
 
 t_uchar	taskplanner(int count, t_times *times)
@@ -137,6 +123,8 @@ t_uchar	taskplanner(int count, t_times *times)
 			pthread_mutex_unlock(&polyana->mutexes[PLANNER_MT]);
 			break ;
 		}
+	for (int i = 0; i < polyana->count; ++i)
+		printstatus(polyana->alkashi[i]);
 	status = polyana->status;
 	freepolyana(polyana);
 	return (status);

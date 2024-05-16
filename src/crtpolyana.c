@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 15:19:34 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 18:27:58 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	if (!alkash)
 		return (NULL);
 	alkash->status = 0;
+	alkash->tm_dead = 0;
 	alkash->id = id;
 	alkash->polyana = polyana;
 	setbit(&alkash->status, LIFE_STATUS);

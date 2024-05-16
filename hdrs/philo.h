@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 16:31:08 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 19:11:41 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 #include <sys/time.h>
 #define BIT_MAX			8
 #define	MAXBITNUMBER	255
-#define CHECKTIME		2
+#define CHECKTIME		5
+#define BUCHLO_LOCK		1
+#define METRICS			1000L
+#define EXECTIME		120
 
 typedef unsigned char	t_uchar;
 
@@ -61,6 +64,7 @@ typedef struct	s_alkash
 {
 	t_uchar			status;
 	int				id;
+	float			tm_dead;
 	t_timer			buchal_tm;
 	t_timer			timer;
 	t_polyana		*polyana;
@@ -101,3 +105,6 @@ void		putbuchlo(t_alkash *alkash);
 t_uchar		buchat(t_alkash *alkash);
 ///////////////////////////////TOOLS/////////////////////////////
 int			correcti(t_alkash *alkash);
+void		setdead(t_alkash *alkash);
+
+void	print(t_alkash *alkash);

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/16 16:55:22 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 18:32:42 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print(t_alkash *alkash)
 	int		j;
 
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
+	printf("ALKASH[%d]:\n", alkash->id);
 	for (int i = 0; i < alkash->polyana->count; ++i)
 	{
 		printf("STATUS for ALKASH[%d]:\t", i);
@@ -46,8 +47,8 @@ void	a_sleep(t_alkash *alkash)
     printf("TIME: %f\tALKASH[%d] is sleepling\n", tm_sec_f(&alkash->timer),
 		alkash->id);
     pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
-	print(alkash);
-    usleep(alkash->polyana->times->sleep_tm * 1000L);
+	// print(alkash);
+    usleep(alkash->polyana->times->sleep_tm * METRICS);
 }
 
 void	finding(t_alkash *alkash)
@@ -60,6 +61,7 @@ void	finding(t_alkash *alkash)
     printf("TIME: %f\tALKASH[%d] is finding\n", tm_sec_f(&alkash->timer),
 		alkash->id);
     pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
+	// print(alkash);
 }
 
 t_uchar	getbuchlo(t_alkash *alkash)
@@ -75,8 +77,8 @@ t_uchar	getbuchlo(t_alkash *alkash)
 		pthread_mutex_unlock(&alkash->polyana->mutexes[GETBUCHLO_MT]);
 		return (0);
 	}
-	alkash->polyana->buchlo[alkash->id] = IS_LOCKED;
-	alkash->polyana->buchlo[i] = IS_LOCKED;
+	alkash->polyana->buchlo[alkash->id] = BUCHLO_LOCK;
+	alkash->polyana->buchlo[i] = BUCHLO_LOCK;
 	setbit(&alkash->status, IS_LOCKED);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[GETBUCHLO_MT]);
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
@@ -88,13 +90,15 @@ t_uchar	getbuchlo(t_alkash *alkash)
 
 t_uchar	buchat(t_alkash *alkash)
 {
-    if (!getbit(alkash->status, IS_LOCKED))
+    if (!getbit(alkash->status, IS_LOCKED) ||
+		!getbit(alkash->status, LIFE_STATUS))
         return (0);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm)
 	{
-		pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
-		resetbit(&alkash->status, LIFE_STATUS);
-		pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
+		pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
+		setdead(alkash);
+		printf("ALKASH[%d] is DEAD!!!\n", alkash->id);
+		pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
 		return (0);
 	}
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
@@ -103,7 +107,7 @@ t_uchar	buchat(t_alkash *alkash)
 	printf("TIME: %f\tALKASH[%d] is BUCHAJE\n", tm_sec_f(&alkash->timer),
 		alkash->id);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
-	usleep(alkash->polyana->times->buchat_tm * 1000L);
+	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	gettimeofday(&alkash->buchal_tm, NULL);
 	return (1);
 }
