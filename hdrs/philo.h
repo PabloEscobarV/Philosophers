@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/15 16:11:27 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/16 16:31:08 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ enum
 	PERMITION,
 	IS_LOCKED,
 	IS_BUCHING,
-	IS_SLEPING,
+	IS_SLEEPING,
 	IS_FIDING,
 	ERROR
 };
@@ -40,7 +40,8 @@ enum
 {
 	OUT_MT,
 	CHECK_MT,
-	GET_MT,
+	GETBUCHLO_MT,
+	PUTBUCHLO_MT,
 	PLANNER_MT,
 	MUTEX_COUNT
 };
@@ -77,6 +78,7 @@ struct	s_polyna
 	t_alkash		**alkashi;
 };
 
+t_uchar		taskplanner(int count, t_times *times);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
@@ -97,3 +99,5 @@ void		a_sleep(t_alkash *alkash);
 t_uchar		getbuchlo(t_alkash *alkash);
 void		putbuchlo(t_alkash *alkash);
 t_uchar		buchat(t_alkash *alkash);
+///////////////////////////////TOOLS/////////////////////////////
+int			correcti(t_alkash *alkash);
