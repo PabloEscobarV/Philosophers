@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:54:14 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:22:16 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main()
 	t_timer		timer;
 
 	gettimeofday(&timer, NULL);
-	times = crttimes(50, 50, 120, 50);
+	times = crttimes(50, 50, 12000, -100);
 	taskplanner(count, times);
 	printf("EXECUTION TIME:\t%f\n", tm_sec_f(&timer));
 	return (0);

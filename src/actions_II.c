@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_II.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:09:07 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:00:21 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:15:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,16 @@ void	setdeadlk(t_alkash *alkash)
 	if (!getbit(&alkash->polyana->status, IS_DEAD))
 		setbit(&alkash->polyana->status, IS_DEAD);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[DEAD_MT]);
+}
+
+void	increascounter(t_alkash *alkash)
+{
+	if (alkash->polyana->times->nofepme < 0)
+	{
+		++alkash->numbuch;
+		return ;
+	}
+	pthread_mutex_lock(&alkash->polyana->mutexes[COUNTER_MT]);
+	++alkash->numbuch;
+	pthread_mutex_unlock(&alkash->polyana->mutexes[COUNTER_MT]);
 }

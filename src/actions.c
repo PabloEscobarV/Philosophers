@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 13:32:14 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:15:54 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_uchar	buchat(t_alkash *alkash)
 	setbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]);
 	resetbit(&alkash->status, IS_FIDING);
 	printmsg(alkash, "is BUCHAJE");
-	++alkash->numbuch;
+	increascounter(alkash);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	gettimeofday(&alkash->buchal_tm, NULL);
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 13:53:44 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:17:38 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ void	checkdata(t_polyana *polyana)
 			setdeadlk(polyana->alkashi[i]);
 			continue ;
 		}
-		if (polyana->times->nofepme > 0 &&
-			polyana->alkashi[i]->numbuch < polyana->times->nofepme)
-			allbuchal = 0;
+		if (polyana->times->nofepme > 0)
+		{
+			pthread_mutex_lock(&polyana->mutexes[COUNTER_MT]);
+			if (polyana->alkashi[i]->numbuch < polyana->times->nofepme)
+				allbuchal = 0;
+			pthread_mutex_unlock(&polyana->mutexes[COUNTER_MT]);
+		}
 	}
 	if (allbuchal && polyana->times->nofepme > 0)
 		setbitlock(&polyana->status, IS_DEAD, &polyana->mutexes[DEAD_MT]);
