@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 12:00:31 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:02:04 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	a_sleep(t_alkash *alkash)
 
 void	finding(t_alkash *alkash)
 {
-	if (getbit(alkash->status, IS_FIDING))
+	if (getbit(&alkash->status, IS_FIDING))
 		return ;
 	resetbit(&alkash->status, IS_SLEEPING);
 	setbit(&alkash->status, IS_FIDING);
@@ -54,7 +54,7 @@ t_uchar	getbuchlo(t_alkash *alkash)
 
 t_uchar	buchat(t_alkash *alkash)
 {
-    if (!getbit(alkash->status, IS_LOCKED) || !getbitlock(alkash->cmnstate,
+    if (!getbit(&alkash->status, IS_LOCKED) || !getbitlock(&alkash->cmnstate,
 		LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
         return (0);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm)

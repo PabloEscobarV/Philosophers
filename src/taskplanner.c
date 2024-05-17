@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 12:17:23 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:08:49 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 t_uchar	check_dead(t_alkash *alkash)
 {
-	if (!getbitlock(alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
+	if (!getbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
 		return (1);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm &&
-		!getbitlock(alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]))
+		!getbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]))
 	{
 		resetbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]);
 		return (1);
@@ -34,9 +34,7 @@ t_uchar	checkalkashi(t_alkash *alkash)
 	int	i;
 
 	if (tm_sec(&alkash->timer) > EXECTIME)
-		setdead(alkash);
-	if (tm_msec(&alkash->timer) - alkash->polyana->lastcheck < CHECKTIME)
-		return (1);
+		setdeadlk(alkash);
 	pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
 	if (tm_msec(&alkash->timer) - alkash->polyana->lastcheck < CHECKTIME)
 	{
@@ -59,11 +57,11 @@ void    *planner(void *data)
  	t_alkash	*alkash;
 
 	alkash = (t_alkash *)data;
-	// if (getbitlock(alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
-	// 	return (NULL);
-	while (!getbitlock(alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
+	if (getbitlock(&alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
+		return (NULL);
+	while (!getbitlock(&alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
 	{
-		if (getbitlock(alkash->cmnstate, PERMITION, &alkash->polyana->mutexes[STTS_MT]))
+		if (getbitlock(&alkash->cmnstate, PERMITION, &alkash->polyana->mutexes[STTS_MT]))
 			getbuchlo(alkash);
 		if (buchat(alkash))
 		{

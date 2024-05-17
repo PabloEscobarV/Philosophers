@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 11:52:44 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:13:45 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define CHECKTIME		5
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
-#define EXECTIME		20
+#define EXECTIME		60
 
 typedef unsigned char	t_uchar;
 
@@ -97,10 +97,10 @@ t_alkash	*crtalkash(int id, t_polyana *polyana);
 ///////////////////////////////BIT OPERATIONS/////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
-t_uchar		getbit(t_uchar data, t_uchar bit);
-t_uchar		setbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
-t_uchar		resetbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
-t_uchar		getbitlock(t_uchar data, t_uchar bit, pthread_mutex_t *mutex);
+t_uchar		getbit(t_uchar *data, t_uchar bit);
+void		setbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
+void		resetbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
+t_uchar		getbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
 ///////////////////////////////TIMER/////////////////////////////
 long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
