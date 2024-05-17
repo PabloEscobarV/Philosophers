@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 09:06:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 10:10:44 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 t_uchar	check_dead(t_alkash *alkash)
 {
-	if (!getbit(alkash->status, LIFE_STATUS))
+	if (!getbit(alkash->cmnstate, LIFE_STATUS))
 		return (1);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm &&
 		!getbit(alkash->status, IS_BUCHING))
 	{
-		resetbit(&alkash->status, LIFE_STATUS);
+		resetbit(&alkash->cmnstate, LIFE_STATUS);
 		return (1);
 	}
 	return (0);
@@ -65,7 +65,7 @@ void    *planner(void *data)
 		return (NULL);
 	while (!getbit(alkash->polyana->status, IS_DEAD))
 	{
-		if (getbit(alkash->status, PERMITION))
+		if (getbit(alkash->cmnstate, PERMITION))
 			getbuchlo(alkash);
 		if (buchat(alkash))
 		{

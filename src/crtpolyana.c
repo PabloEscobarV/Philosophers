@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 09:35:27 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 10:05:25 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash->tm_dead = 0;
 	alkash->id = id;
 	alkash->polyana = polyana;
-	setbit(&alkash->status, LIFE_STATUS);
+	setbit(&alkash->cmnstate, LIFE_STATUS);
 	if (!(id % 2))
-		setbit(&alkash->status, PERMITION);
+		setbit(&alkash->cmnstate, PERMITION);
 	gettimeofday(&alkash->timer, NULL);
 	alkash->buchal_tm = alkash->timer;
 	return (alkash);
@@ -105,11 +105,11 @@ t_polyana	*crtpolyana(int count, t_times *times)
 		polyana->buchlo[count] = 0;
 	}
 	if (polyana->count % 2 && polyana->count > 1)
-		resetbit(&polyana->alkashi[polyana->count - 1]->status, PERMITION);
+		resetbit(&polyana->alkashi[polyana->count - 1]->cmnstate, PERMITION);
 	count = MUTEX_COUNT;
 	while (count)
 		pthread_mutex_init(&polyana->mutexes[--count], NULL);
 	for (int i = 0; i < polyana->count; ++i)
-		printf("CHECK POINT CRT: STATUS %d\n", polyana->alkashi[i]->status);
+		printf("CHECK POINT CRT: STATUS %d\n", polyana->alkashi[i]->cmnstate);
 	return (polyana);
 }

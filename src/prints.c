@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 09:29:03 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 10:24:29 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	printstatus(t_alkash *alkash)
 	i = BIT_MAX;
 	space = '\0';
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
-	if (getbit(alkash->status, LIFE_STATUS))
+	if (getbit(alkash->cmnstate, LIFE_STATUS))
 		printf("ALKASH[%d] is ALIVE\n", alkash->id);
 	else
 		printf("ALKASH[%d] is DEAD!!! in TIME: %f\n", alkash->id, alkash->tm_dead);
