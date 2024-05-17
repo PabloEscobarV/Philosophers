@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 19:11:41 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 09:27:54 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define CHECKTIME		5
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
-#define EXECTIME		120
+#define EXECTIME		20
 
 typedef unsigned char	t_uchar;
 
@@ -43,6 +43,7 @@ enum
 {
 	OUT_MT,
 	CHECK_MT,
+	SETST_MT,
 	GETBUCHLO_MT,
 	PUTBUCHLO_MT,
 	PLANNER_MT,
@@ -83,6 +84,10 @@ struct	s_polyna
 };
 
 t_uchar		taskplanner(int count, t_times *times);
+///////////////////////////////PRINT/////////////////////////////
+void		printmsg(t_alkash *alkash, const char *msg);
+void		printstatus(t_alkash *alkash);
+void		print(t_alkash *alkash);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
@@ -92,6 +97,8 @@ t_alkash	*crtalkash(int id, t_polyana *polyana);
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar data, t_uchar bit);
+t_uchar		setbitlock(t_alkash *alkash, t_uchar bit);
+t_uchar		resetbitlock(t_alkash *alkash, t_uchar bit);
 ///////////////////////////////TIMER/////////////////////////////
 long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
@@ -107,4 +114,3 @@ t_uchar		buchat(t_alkash *alkash);
 int			correcti(t_alkash *alkash);
 void		setdead(t_alkash *alkash);
 
-void	print(t_alkash *alkash);

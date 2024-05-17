@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:09:07 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 19:10:44 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 09:31:43 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	putbuchlo(t_alkash *alkash)
 	int	i;
 
 	i = correcti(alkash);
-	pthread_mutex_lock(&alkash->polyana->mutexes[PUTBUCHLO_MT]);
 	alkash->polyana->buchlo[alkash->id] = 0;
 	alkash->polyana->buchlo[i] = 0;
+	pthread_mutex_lock(&alkash->polyana->mutexes[SETST_MT]);
 	resetbit(&alkash->status, PERMITION);
 	resetbit(&alkash->status, IS_LOCKED);
 	setbit(&alkash->polyana->alkashi[i]->status, PERMITION);
-	pthread_mutex_unlock(&alkash->polyana->mutexes[PUTBUCHLO_MT]);
+	pthread_mutex_unlock(&alkash->polyana->mutexes[SETST_MT]);
 }
 
 void	setdead(t_alkash *alkash)
