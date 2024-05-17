@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:05:26 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:54:14 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	print_polyana(t_polyana *polyana)
 
 int	main()
 {
-	int			count = 33;
+	int			count = 11;
 	t_polyana	*polyana;
 	t_times		*times;
 	t_timer		timer;
 
 	gettimeofday(&timer, NULL);
-	times = crttimes(40, 40, 100000, -1);
+	times = crttimes(50, 50, 120, 50);
 	taskplanner(count, times);
 	printf("EXECUTION TIME:\t%f\n", tm_sec_f(&timer));
 	return (0);

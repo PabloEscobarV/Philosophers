@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:13:45 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:40:07 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define CHECKTIME		5
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
-#define EXECTIME		60
+#define EXECTIME		20
 
 typedef unsigned char	t_uchar;
 
@@ -66,6 +66,7 @@ typedef struct	s_alkash
 	t_uchar			cmnstate;
 	t_uchar			status;
 	int				id;
+	int				numbuch;
 	float			tm_dead;
 	t_timer			buchal_tm;
 	t_timer			timer;
@@ -85,6 +86,8 @@ struct	s_polyna
 };
 
 t_uchar		taskplanner(int count, t_times *times);
+///////////////////////////////CHECK`S/////////////////////////////
+t_uchar		checkalkashi(t_alkash *alkash);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printstatus(t_alkash *alkash);

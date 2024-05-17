@@ -16,6 +16,7 @@
                 "taskplanner.c",
                 "prints.c",
                 "bitlockoper.c",
+                "checks.c",
                 // "alkash.cpp",
                 // "buchlo.cpp",
                 // "taskplanner.cpp",

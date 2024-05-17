@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:02:27 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:34:42 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ void	printstatus(t_alkash *alkash)
 	space = '\0';
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
 	if (getbit(&alkash->cmnstate, LIFE_STATUS))
-		printf("ALKASH[%d] is ALIVE\n", alkash->id);
+		printf("ALKASH[%d] is ALIVE\tNumber of BUCHAL times: %d\n",
+			alkash->id, alkash->numbuch);
 	else
-		printf("ALKASH[%d] is DEAD!!! in TIME: %f\n", alkash->id, alkash->tm_dead);
+		printf("ALKASH[%d] is DEAD!!! in TIME: %f\tNumber of BUCHAL times: %d\n",
+			alkash->id, alkash->tm_dead, alkash->numbuch);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
 }
 

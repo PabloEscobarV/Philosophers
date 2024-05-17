@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 10:05:25 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:31:03 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash = malloc(sizeof(t_alkash));
 	if (!alkash)
 		return (NULL);
+	alkash->numbuch = 0;
 	alkash->cmnstate = 0;
 	alkash->status = 0;
 	alkash->tm_dead = 0;

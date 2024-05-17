@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:08:49 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 13:39:15 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,6 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include <unistd.h>
-
-t_uchar	check_dead(t_alkash *alkash)
-{
-	if (!getbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
-		return (1);
-	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm &&
-		!getbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]))
-	{
-		resetbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]);
-		return (1);
-	}
-	return (0);
-}
-
-t_uchar	checkalkashi(t_alkash *alkash)
-{
-	int	i;
-
-	if (tm_sec(&alkash->timer) > EXECTIME)
-		setdeadlk(alkash);
-	pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);
-	if (tm_msec(&alkash->timer) - alkash->polyana->lastcheck < CHECKTIME)
-	{
-		pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
-		return (1);
-	}
-	alkash->polyana->lastcheck = tm_msec(&alkash->timer);
-	pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
-	i = alkash->polyana->count;
-	while (i)
-	{
-		if (check_dead(alkash->polyana->alkashi[--i]))
-			setdeadlk(alkash->polyana->alkashi[i]);
-	}
-	return (1);
-}
 
 void    *planner(void *data)
 {
