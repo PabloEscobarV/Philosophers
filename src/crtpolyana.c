@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/16 18:27:58 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 09:35:27 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash = malloc(sizeof(t_alkash));
 	if (!alkash)
 		return (NULL);
+	alkash->cmnstate = 0;
 	alkash->status = 0;
 	alkash->tm_dead = 0;
 	alkash->id = id;

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 09:27:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 09:35:07 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_times
 
 typedef struct	s_alkash
 {
+	t_uchar			cmnstate;
 	t_uchar			status;
 	int				id;
 	float			tm_dead;
