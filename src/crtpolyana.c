@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:31:03 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:36:51 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		*freepolyana(t_polyana *polyana)
 	return (NULL);
 }
 
-t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme)
+t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 {
 	t_times	*times;
 

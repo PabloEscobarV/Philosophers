@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 14:19:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 14:37:14 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		print(t_alkash *alkash);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
-t_times		*crttimes(long buchat_tm, long sleep_tm, long die_tm, int nofepme);
+t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
 t_alkash	*crtalkash(int id, t_polyana *polyana);
 ///////////////////////////////BIT OPERATIONS/////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
@@ -121,4 +121,5 @@ int			correcti(t_alkash *alkash);
 void		setdead(t_alkash *alkash);
 void		setdeadlk(t_alkash *alkash);
 void		increascounter(t_alkash *alkash);
+long		ft_atoi(const char *nptr);
 

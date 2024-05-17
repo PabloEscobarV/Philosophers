@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 14:22:16 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/17 15:01:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,51 @@
 #include <stdio.h>
 #include <unistd.h>
 
-// int	getbit(int *data, int bit)
-// {
-// 	if (bit > BIT_MAX || bit < 0)
-// 		return (setbit(data, ERROR));
-// 	return (*data & ((int)1 << bit));
-// }
-
-void	print_polyana(t_polyana *polyana)
+int	main(int argc, char **argv)
 {
-	for (int i = 0; i < polyana->count; ++i)
-	{
-		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d;\tSTATUS: %d\n",
-			polyana->alkashi[i]->id, polyana->count, polyana->times->buchat_tm,
-			polyana->times->sleep_tm, polyana->times->die_tm,
-			polyana->times->nofepme, polyana->alkashi[i]->status);
-	}
-	sleep(2);
-	printf("TIME[precise sec]: %f\n", tm_sec_f(&polyana->alkashi[0]->timer));
-	printf("TIME[sec]: %li\n", tm_sec(&polyana->alkashi[0]->timer));
-	printf("TIME[msec]: %li\n", tm_msec(&polyana->alkashi[0]->timer));
-	printf("TIME[usec]: %li\n", tm_usec(&polyana->alkashi[0]->timer));
-}
+	t_timer	timer;
+	t_times	*times;
 
-int	main()
-{
-	int			count = 11;
-	t_polyana	*polyana;
-	t_times		*times;
-	t_timer		timer;
-
+	if (argc < 5 || argc > 6)
+		return (-1);
 	gettimeofday(&timer, NULL);
-	times = crttimes(50, 50, 12000, -100);
-	taskplanner(count, times);
+	times = crttimes(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), -1);
+	if (argv[5])
+		times->nofepme = ft_atoi(argv[5]);
+	taskplanner(ft_atoi(argv[1]), times);
 	printf("EXECUTION TIME:\t%f\n", tm_sec_f(&timer));
 	return (0);
 }
+
+// void	print_polyana(t_polyana *polyana)
+// {
+// 	for (int i = 0; i < polyana->count; ++i)
+// 	{
+// 		printf("ID: %d;\tcount: %d;\tbuchat: %li;\tsleep: %li;\tdie: %li;\tnofepme: %d;\tSTATUS: %d\n",
+// 			polyana->alkashi[i]->id, polyana->count, polyana->times->buchat_tm,
+// 			polyana->times->sleep_tm, polyana->times->die_tm,
+// 			polyana->times->nofepme, polyana->alkashi[i]->status);
+// 	}
+// 	sleep(2);
+// 	printf("TIME[precise sec]: %f\n", tm_sec_f(&polyana->alkashi[0]->timer));
+// 	printf("TIME[sec]: %li\n", tm_sec(&polyana->alkashi[0]->timer));
+// 	printf("TIME[msec]: %li\n", tm_msec(&polyana->alkashi[0]->timer));
+// 	printf("TIME[usec]: %li\n", tm_usec(&polyana->alkashi[0]->timer));
+// }
+
+// int	main()
+// {
+// 	int			count = 11;
+// 	t_polyana	*polyana;
+// 	t_times		*times;
+// 	t_timer		timer;
+
+// 	gettimeofday(&timer, NULL);
+// 	times = crttimes(150, 50, 50, 50);
+// 	taskplanner(count, times);
+// 	printf("EXECUTION TIME:\t%f\n", tm_sec_f(&timer));
+// 	return (0);
+// }
 
 
 // int		main()

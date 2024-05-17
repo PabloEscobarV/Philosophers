@@ -39,7 +39,7 @@ include_directories(${HEADER_DIRS})
 #     ${SOURCE_DIR}/test.cpp
 # )
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
-    ${SOURCE_DIR}/*.cpp)
+    ${SOURCE_DIR}/*.c)
 
 # Create executable from source files
 add_executable(${NAME} ${SOURCES})
