@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 10:10:44 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 12:17:23 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 t_uchar	check_dead(t_alkash *alkash)
 {
-	if (!getbit(alkash->cmnstate, LIFE_STATUS))
+	if (!getbitlock(alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
 		return (1);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm &&
-		!getbit(alkash->status, IS_BUCHING))
+		!getbitlock(alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]))
 	{
-		resetbit(&alkash->cmnstate, LIFE_STATUS);
+		resetbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]);
 		return (1);
 	}
 	return (0);
@@ -46,13 +46,11 @@ t_uchar	checkalkashi(t_alkash *alkash)
 	alkash->polyana->lastcheck = tm_msec(&alkash->timer);
 	pthread_mutex_unlock(&alkash->polyana->mutexes[CHECK_MT]);
 	i = alkash->polyana->count;
-	pthread_mutex_lock(&alkash->polyana->mutexes[SETST_MT]);
 	while (i)
 	{
 		if (check_dead(alkash->polyana->alkashi[--i]))
-			setdead(alkash->polyana->alkashi[i]);
+			setdeadlk(alkash->polyana->alkashi[i]);
 	}
-	pthread_mutex_unlock(&alkash->polyana->mutexes[SETST_MT]);
 	return (1);
 }
 
@@ -61,11 +59,11 @@ void    *planner(void *data)
  	t_alkash	*alkash;
 
 	alkash = (t_alkash *)data;
-	if (getbit(alkash->polyana->status, IS_DEAD))
-		return (NULL);
-	while (!getbit(alkash->polyana->status, IS_DEAD))
+	// if (getbitlock(alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
+	// 	return (NULL);
+	while (!getbitlock(alkash->polyana->status, IS_DEAD, &alkash->polyana->mutexes[DEAD_MT]))
 	{
-		if (getbit(alkash->cmnstate, PERMITION))
+		if (getbitlock(alkash->cmnstate, PERMITION, &alkash->polyana->mutexes[STTS_MT]))
 			getbuchlo(alkash);
 		if (buchat(alkash))
 		{
@@ -86,9 +84,7 @@ void	settreads(t_polyana *polyana)
 	{
         if (pthread_create(&polyana->threads[i], NULL, planner, polyana->alkashi[i]))
 		{
-			pthread_mutex_lock(&polyana->mutexes[PLANNER_MT]);
-			setbit(&polyana->status, IS_DEAD);
-			pthread_mutex_unlock(&polyana->mutexes[PLANNER_MT]);
+			setbitlock(&polyana->status, IS_DEAD, &polyana->mutexes[DEAD_MT]);
 			break ;
 		}
 		++i;
@@ -96,9 +92,7 @@ void	settreads(t_polyana *polyana)
 	while (i)
 		if (pthread_join(polyana->threads[--i], NULL))
 		{
-			pthread_mutex_lock(&polyana->mutexes[PLANNER_MT]);
-			setbit(&polyana->status, IS_DEAD);
-			pthread_mutex_unlock(&polyana->mutexes[PLANNER_MT]);
+			setbitlock(&polyana->status, IS_DEAD, &polyana->mutexes[DEAD_MT]);
 			break ;
 		}
 }

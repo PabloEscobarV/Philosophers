@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:09:07 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 10:10:09 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 11:58:59 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,20 @@ int		correcti(t_alkash *alkash)
 	return (i);
 }
 
-void	putbuchlo(t_alkash *alkash)
-{
-	int	i;
-
-	i = correcti(alkash);
-	alkash->polyana->buchlo[alkash->id] = 0;
-	alkash->polyana->buchlo[i] = 0;
-	pthread_mutex_lock(&alkash->polyana->mutexes[SETST_MT]);
-	resetbit(&alkash->cmnstate, PERMITION);
-	resetbit(&alkash->status, IS_LOCKED);
-	setbit(&alkash->polyana->alkashi[i]->cmnstate, PERMITION);
-	pthread_mutex_unlock(&alkash->polyana->mutexes[SETST_MT]);
-}
-
 void	setdead(t_alkash *alkash)
 {
 	resetbit(&alkash->cmnstate, LIFE_STATUS);
 	alkash->tm_dead = tm_sec_f(&alkash->timer);
 	if (!getbit(alkash->polyana->status, IS_DEAD))
 		setbit(&alkash->polyana->status, IS_DEAD);
+}
+
+void	setdeadlk(t_alkash *alkash)
+{
+	resetbitlock(&alkash->cmnstate, LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]);
+	alkash->tm_dead = tm_sec_f(&alkash->timer);
+	pthread_mutex_lock(&alkash->polyana->mutexes[DEAD_MT]);
+	if (!getbit(alkash->polyana->status, IS_DEAD))
+		setbit(&alkash->polyana->status, IS_DEAD);
+	pthread_mutex_unlock(&alkash->polyana->mutexes[DEAD_MT]);
 }

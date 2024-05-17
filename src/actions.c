@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 10:09:39 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 12:00:31 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	a_sleep(t_alkash *alkash)
 {
-	resetbit(&alkash->status, IS_BUCHING);
+	resetbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]);
 	setbit(&alkash->status, IS_SLEEPING);
 	printmsg(alkash, "is sleepling");
     usleep(alkash->polyana->times->sleep_tm * METRICS);
@@ -54,21 +54,33 @@ t_uchar	getbuchlo(t_alkash *alkash)
 
 t_uchar	buchat(t_alkash *alkash)
 {
-    if (!getbit(alkash->status, IS_LOCKED) ||
-		!getbit(alkash->cmnstate, LIFE_STATUS))
+    if (!getbit(alkash->status, IS_LOCKED) || !getbitlock(alkash->cmnstate,
+		LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
         return (0);
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm)
 	{
-		pthread_mutex_lock(&alkash->polyana->mutexes[SETST_MT]);
-		setdead(alkash);
-		pthread_mutex_unlock(&alkash->polyana->mutexes[SETST_MT]);
+		setdeadlk(alkash);
 		printmsg(alkash, "is DEAD!!!");
 		return (0);
 	}
-	setbit(&alkash->status, IS_BUCHING);
+	setbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mutexes[STTS_MT]);
 	resetbit(&alkash->status, IS_FIDING);
 	printmsg(alkash, "is BUCHAJE");
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	gettimeofday(&alkash->buchal_tm, NULL);
 	return (1);
+}
+
+void	putbuchlo(t_alkash *alkash)
+{
+	int	i;
+
+	i = correcti(alkash);
+	alkash->polyana->buchlo[alkash->id] = 0;
+	alkash->polyana->buchlo[i] = 0;
+	resetbit(&alkash->status, IS_LOCKED);
+	pthread_mutex_lock(&alkash->polyana->mutexes[STTS_MT]);
+	resetbit(&alkash->cmnstate, PERMITION);
+	setbit(&alkash->polyana->alkashi[i]->cmnstate, PERMITION);
+	pthread_mutex_unlock(&alkash->polyana->mutexes[STTS_MT]);
 }

@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 11:06:32 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 11:52:44 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ enum
 {
 	OUT_MT,
 	CHECK_MT,
-	SETST_MT,
-	SETLIFE_MT,
-	SETDEAD_MT,
+	STS_MT,
+	STTS_MT,
+	DEAD_MT,
 	GETBUCHLO_MT,
-	PUTBUCHLO_MT,
-	PLANNER_MT,
 	MUTEX_COUNT
 };
 
@@ -117,4 +115,5 @@ t_uchar		buchat(t_alkash *alkash);
 ///////////////////////////////TOOLS/////////////////////////////
 int			correcti(t_alkash *alkash);
 void		setdead(t_alkash *alkash);
+void		setdeadlk(t_alkash *alkash);
 
