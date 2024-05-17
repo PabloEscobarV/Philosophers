@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 10:03:43 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/17 11:06:32 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ enum
 	OUT_MT,
 	CHECK_MT,
 	SETST_MT,
+	SETLIFE_MT,
+	SETDEAD_MT,
 	GETBUCHLO_MT,
 	PUTBUCHLO_MT,
 	PLANNER_MT,
@@ -98,8 +100,9 @@ t_alkash	*crtalkash(int id, t_polyana *polyana);
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar data, t_uchar bit);
-t_uchar		setbitlock(t_alkash *alkash, t_uchar bit);
-t_uchar		resetbitlock(t_alkash *alkash, t_uchar bit);
+t_uchar		setbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
+t_uchar		resetbitlock(t_uchar *data, t_uchar bit, pthread_mutex_t *mutex);
+t_uchar		getbitlock(t_uchar data, t_uchar bit, pthread_mutex_t *mutex);
 ///////////////////////////////TIMER/////////////////////////////
 long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
