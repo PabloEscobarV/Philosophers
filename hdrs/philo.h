@@ -6,14 +6,15 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 15:54:08 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 17:39:16 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #include <pthread.h>
 #include <sys/time.h>
 #define BIT_MAX			8
-#define	MAXBITNUMBER	255
+#define MAXBITNUMBER	255
 #define CHECKTIME		5
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
@@ -51,8 +52,8 @@ enum
 	MUTEX_COUNT
 };
 
-typedef struct timeval t_timer;
-typedef struct	s_polyna t_polyana;
+typedef struct timeval	t_timer;
+typedef struct s_polyna	t_polyana;
 
 typedef struct s_times
 {
@@ -62,7 +63,7 @@ typedef struct s_times
 	long		sleep_tm;
 }				t_times;
 
-typedef struct	s_alkash
+typedef struct s_alkash
 {
 	t_uchar			cmnstate;
 	t_uchar			status;
@@ -79,7 +80,7 @@ struct	s_polyna
 	t_uchar			status;
 	int				count;
 	long			lastcheck;
-	pthread_mutex_t	*mutexes;
+	pthread_mutex_t	*mts;
 	pthread_t		*threads;
 	t_times			*times;
 	t_uchar			*buchlo;
@@ -91,7 +92,7 @@ t_uchar		taskplanner(int count, t_times *times);
 t_uchar		checkalkashi(t_alkash *alkash);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
-void		printstatus(t_alkash *alkash);
+void		printstatus(t_polyana *polyana);
 void		printbits(t_alkash *alkash);
 void		printdead(t_alkash *alkash);
 void		printdeadlk(t_alkash *alkash);
@@ -124,4 +125,3 @@ void		setdead(t_alkash *alkash);
 void		setdeadlk(t_alkash *alkash);
 void		increascounter(t_alkash *alkash);
 long		ft_atoi(const char *nptr);
-

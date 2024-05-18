@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 16:47:17 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 17:35:00 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void		*freepolyana(t_polyana *polyana)
+void	*freepolyana(t_polyana *polyana)
 {
 	if (!polyana)
 		return (NULL);
@@ -24,14 +24,14 @@ void		*freepolyana(t_polyana *polyana)
 	free(polyana->alkashi);
 	free(polyana->buchlo);
 	free(polyana->times);
-	free(polyana->mutexes);
+	free(polyana->mts);
 	free(polyana->threads);
 	free(polyana);
 	polyana = NULL;
 	return (NULL);
 }
 
-t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
+t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 {
 	t_times	*times;
 
@@ -71,15 +71,15 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 t_polyana	*mallocpolyana(int count)
 {
 	t_polyana	*polyana;
-	
+
 	polyana = malloc(sizeof(t_polyana));
 	if (!polyana)
 		return (NULL);
 	polyana->alkashi = malloc(count * sizeof(t_alkash **));
 	polyana->buchlo = malloc(count * sizeof(t_uchar));
-	polyana->mutexes = malloc(MUTEX_COUNT * sizeof(pthread_mutex_t));
+	polyana->mts = malloc(MUTEX_COUNT * sizeof(pthread_mutex_t));
 	polyana->threads = malloc(count * sizeof(pthread_t));
-	if (!polyana->alkashi || !polyana->buchlo || !polyana->mutexes
+	if (!polyana->alkashi || !polyana->buchlo || !polyana->mts
 		|| !polyana->threads)
 		return (freepolyana(polyana));
 	return (polyana);
@@ -110,6 +110,6 @@ t_polyana	*crtpolyana(int count, t_times *times)
 		resetbit(&polyana->alkashi[polyana->count - 1]->cmnstate, PERMITION);
 	count = MUTEX_COUNT;
 	while (count)
-		pthread_mutex_init(&polyana->mutexes[--count], NULL);
+		pthread_mutex_init(&polyana->mts[--count], NULL);
 	return (polyana);
 }
