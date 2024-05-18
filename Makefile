@@ -6,7 +6,7 @@
 #    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 16:35:38 by blackrider        #+#    #+#              #
-#    Updated: 2024/05/18 16:49:21 by blackrider       ###   ########.fr        #
+#    Updated: 2024/05/18 16:59:43 by blackrider       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I$(HDRDIR)
+CFLAGS = -Wall -Wextra -Werror -I$(HDRDIR) -lpthread
+FSANITFLAG = -fsanitize=thread
 
 .PHONY: all re clean fclean bonus
 
