@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 14:36:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 15:59:02 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,5 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	count = MUTEX_COUNT;
 	while (count)
 		pthread_mutex_init(&polyana->mutexes[--count], NULL);
-	for (int i = 0; i < polyana->count; ++i)
-		printf("CHECK POINT CRT: STATUS %d\n", polyana->alkashi[i]->cmnstate);
 	return (polyana);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:39:15 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/18 15:59:56 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ t_uchar	taskplanner(int count, t_times *times)
 	if (!polyana)
 		return (ERROR);
 	settreads(polyana);
-	for (int i = 0; i < polyana->count; ++i)
-		printstatus(polyana->alkashi[i]);
+	while (polyana->count)
+		printstatus(polyana->alkashi[--polyana->count]);
 	status = polyana->status;
 	freepolyana(polyana);
 	return (status);

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 14:37:14 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 15:54:08 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ t_uchar		checkalkashi(t_alkash *alkash);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printstatus(t_alkash *alkash);
-void		print(t_alkash *alkash);
+void		printbits(t_alkash *alkash);
+void		printdead(t_alkash *alkash);
+void		printdeadlk(t_alkash *alkash);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);

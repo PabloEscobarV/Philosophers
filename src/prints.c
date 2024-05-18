@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/17 13:34:42 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/18 15:57:13 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ void	printmsg(t_alkash *alkash, const char *msg)
 
 void	printstatus(t_alkash *alkash)
 {
-	char	space;
-	int		i;
-
-	i = BIT_MAX;
-	space = '\0';
 	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
 	if (getbit(&alkash->cmnstate, LIFE_STATUS))
 		printf("ALKASH[%d] is ALIVE\tNumber of BUCHAL times: %d\n",
@@ -37,7 +32,25 @@ void	printstatus(t_alkash *alkash)
 	pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
 }
 
-void	print(t_alkash *alkash)
+void	printdead(t_alkash *alkash)
+{
+	if (getbit(&alkash->cmnstate, LIFE_STATUS))
+		return ;
+	printf("ALKASH[%d] is DEAD!!! in TIME: %f\tNumber of BUCHAL times: %d\n",
+		alkash->id, alkash->tm_dead, alkash->numbuch);
+}
+
+void	printdeadlk(t_alkash *alkash)
+{
+	if (getbit(&alkash->cmnstate, LIFE_STATUS))
+		return ;
+	pthread_mutex_lock(&alkash->polyana->mutexes[OUT_MT]);
+	printf("ALKASH[%d] is DEAD!!! in TIME: %f\tNumber of BUCHAL times: %d\n",
+		alkash->id, alkash->tm_dead, alkash->numbuch);
+	pthread_mutex_unlock(&alkash->polyana->mutexes[OUT_MT]);
+}
+
+void	printbits(t_alkash *alkash)
 {
 	char	space;
 	int		j;
