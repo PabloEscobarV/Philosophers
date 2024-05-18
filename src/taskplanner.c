@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 15:59:56 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 16:49:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void    *planner(void *data)
 		finding(alkash);
 		checkalkashi(alkash);
 	}
+	return (NULL);
 }
 
 void	settreads(t_polyana *polyana)

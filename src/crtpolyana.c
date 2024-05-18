@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 15:59:02 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 16:47:17 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	polyana->lastcheck = 0;
 	while (count)
 	{
-		polyana->alkashi[count] = crtalkash(--count, polyana);
+		--count;
+		polyana->alkashi[count] = crtalkash(count, polyana);
 		if (!polyana->alkashi[count])
 			return (freepolyana(polyana));
 		polyana->buchlo[count] = 0;

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 14:17:38 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 16:46:38 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	checkdata(t_polyana *polyana)
 
 t_uchar	checkalkashi(t_alkash *alkash)
 {
-	int	i;
-
 	if (tm_sec(&alkash->timer) > EXECTIME)
 		setdeadlk(alkash);
 	pthread_mutex_lock(&alkash->polyana->mutexes[CHECK_MT]);

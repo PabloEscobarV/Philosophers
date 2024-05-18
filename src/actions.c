@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/17 14:15:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/18 16:43:02 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ t_uchar	buchat(t_alkash *alkash)
 {
     if (!getbit(&alkash->status, IS_LOCKED) || !getbitlock(&alkash->cmnstate,
 		LIFE_STATUS, &alkash->polyana->mutexes[STTS_MT]))
+	{
         return (0);
+	}
 	if (tm_msec(&alkash->buchal_tm) > alkash->polyana->times->die_tm)
 	{
 		setdeadlk(alkash);
