@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:36:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/19 15:02:04 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	*planner(void *data)
 	if (getbitlock(&alkash->polyana->status, IS_DEAD,
 			&alkash->polyana->mts[DEAD_MT]))
 		return (NULL);
+	if (alkash->polyana->count < 2)
+		setdeadlk(alkash);
 	while (!getbitlock(&alkash->polyana->status, IS_DEAD,
 			&alkash->polyana->mts[DEAD_MT]))
 	{

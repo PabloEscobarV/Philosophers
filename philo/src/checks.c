@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/18 17:22:31 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/19 15:08:59 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	checkdata(t_polyana *polyana)
 			pthread_mutex_unlock(&polyana->mts[COUNTER_MT]);
 		}
 	}
-	if (allbuchal && polyana->times->nofepme > 0)
+	if (allbuchal && polyana->times->nofepme >= 0)
 		setbitlock(&polyana->status, IS_DEAD, &polyana->mts[DEAD_MT]);
 }
 
