@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 16:38:46 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/20 17:45:45 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,15 @@ sem_t	**crtsemaphores(int count, const char **names)
 	sem = malloc(count * sizeof(sem_t *));
 	if (!sem)
 		return (NULL);
+	if (count == 1)
+		sem[count] = sem_open(names[--count], O_CREAT, 0666, 1);
 	while (count)
 	{
-		sem[count] = sem_open(names[--count], O_CREAT, 0666, 1);
+		--count;
+		if (count % 2)
+			sem[count] = sem_open(names[count], O_CREAT, 0666, 1);
+		else
+			sem[count] = sem_open(names[count], O_CREAT, 0666, 0);
 		if (sem[count] == SEM_FAILED)
 			return (freesem(count, names));
 	}

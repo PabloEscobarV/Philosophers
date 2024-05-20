@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 16:52:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/20 18:01:54 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 #include <semaphore.h>
 #include <sys/time.h>
 
-#define BIT_MAX	8
-#define METRICS	1000L
+#define BIT_MAX		8
+#define METRICS		1000L
+#define CHECK_SEM	"CHECKSEM"
+#define OUT_SEM		"OUTSEM"
+#define BUCHLO_SEM	"BUCHLOSEM"
+#define PERM_SEM	"PERMSEM"
 
 typedef unsigned char		t_uchar;
 typedef struct timeval		t_timer;
@@ -47,6 +51,7 @@ typedef struct	s_alkash
 	t_timer		lastbuchtm;
 	t_timer		timer;
 	t_polyana	*polyana;
+	sem_t		*check_sem;
 }				t_alkash;
 
 
@@ -69,11 +74,13 @@ t_alkash	*crtalkash(int id, t_polyana *polyana);
 /////////////////////////////////////ACTIONS/////////////////////////////////////
 void		getbuchlo(t_alkash	*alkash);
 t_uchar		buchat(t_alkash *alkash);
+void		putbuchlo(t_alkash *alkash);
 void		a_sleep(t_alkash *alkash);
 void		finding(t_alkash *alkash);
 /////////////////////////////////////TOOLS/////////////////////////////////////
 char		*ft_strjoinfree(char *s1, char *s2, int pos);
 char		*ft_itoa(int n);
+int			correcti(t_alkash *alkash);
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);

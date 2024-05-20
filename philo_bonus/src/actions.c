@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 16:53:04 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/20 17:47:08 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,25 @@ t_uchar	buchat(t_alkash *alkash)
 	printmsg(alkash, "is BUCHING\n");
 	gettimeofday(&alkash->lastbuchtm, NULL);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
+
 	return (0);
+}
+
+void	putbuchlo(t_alkash *alkash)
+{
+	int	i;
+
+	i = alkash->polyana->count_edev;
+	sem_post(alkash->polyana->permition[correcti(alkash)]);
+	while (i)
+	{
+		if (sem_post(alkash->polyana->buchlo))
+		{
+			printf("BAD SEM_WAIT OPERATION!!!\n");
+			exit(-1);
+		}
+		--i;
+	}
 }
 
 void	a_sleep(t_alkash *alkash)
