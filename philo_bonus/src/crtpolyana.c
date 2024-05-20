@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 14:04:32 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/20 16:38:46 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 
 t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 {
@@ -68,7 +69,22 @@ sem_t	**crtsemaphores(int count, const char **names)
 	return (sem);
 }
 
-t_polyana   *crtpolyana(int count, t_times *times)
+t_alkash	*crtalkash(int id, t_polyana *polyana)
+{
+	t_alkash	*alkash;
+
+	alkash = malloc(sizeof(t_alkash));
+	if (!alkash)
+		return (NULL);
+	alkash->state = 0;
+	setbit(&alkash->state, LIFE_STATUS);
+	alkash->id = id;
+	gettimeofday(&alkash->timer, NULL);
+	alkash->lastbuchtm = alkash->timer;
+	return (alkash);
+}
+
+t_polyana   *crtpolyana(int count, int count_edev, t_times *times)
 {
     t_polyana   *polyana;
     
@@ -76,10 +92,14 @@ t_polyana   *crtpolyana(int count, t_times *times)
 	if (!polyana)
 		return (NULL);
 	polyana->count = count;
+	polyana->count_edev = count_edev;
 	polyana->times = times;
+	polyana->out_sem = sem_open("OUT", O_CREAT, 0666, 1);
+	polyana->buchlo = sem_open("BUCHLO", O_CREAT, 0666, count);
+	if (polyana->out_sem = SEM_FAILED || polyana->buchlo == SEM_FAILED)
+		return (freepolyana(polyana));
 	polyana->buchloname = crtname(count, "BUCHLO.");
 	polyana->permname = crtname(count, "PERMITION.");
-	polyana->buchlo = crtsemaphores(count, (const char **)polyana->buchloname);
 	polyana->permition = crtsemaphores(count, (const char **)polyana->permname);
 	if (!polyana->buchlo || !polyana->permition)
 		return (freepolyana(polyana));
