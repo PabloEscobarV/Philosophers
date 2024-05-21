@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:32:56 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 10:06:40 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 11:12:17 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdio.h>
+#include <semaphore.h>
 
 void	printmsg(t_alkash *alkash, const char *msg)
 {

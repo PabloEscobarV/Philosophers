@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:39:16 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 12:38:04 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/time.h>
 #define BIT_MAX			8
 #define MAXBITNUMBER	255
-#define CHECKTIME		5
+#define CHECKTIME		2
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
 #define EXECTIME		20

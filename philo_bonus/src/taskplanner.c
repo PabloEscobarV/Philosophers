@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 10:39:57 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 12:00:24 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <sys/wait.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <semaphore.h>
 
 t_uchar	checkdeath(t_alkash *alkash)
 {
@@ -48,6 +50,7 @@ void	planner(t_alkash *alkash)
 		printmsg(alkash, "BAD MEMMORY ALLOCATION!!!!\n");
 		exit(-1);
 	}
+	printmsg(alkash, "CHECK");
 	pthread_create(&th_check, NULL, checker, alkash);
 	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sem_state))
 	{
@@ -68,30 +71,36 @@ t_uchar	setforks(t_polyana *polyana)
 	pid_t	id;
 
 	i = 0;
-	while (i < polyana->count)
-	{
-		id = fork();
-		if (id < 0)
-			return (1);
-		if (!id)
-			planner(crtalkash(i, polyana));
-		++i;
-	}
-	while (i)
-	{
-		--i;
-		wait(NULL);
-	}
+	planner(crtalkash(i, polyana));
+	// while (i < polyana->count)
+	// {
+	// 	id = fork();
+	// 	if (id < 0)
+	// 		return (1);
+	// 	if (!id)
+	// 		planner(crtalkash(i, polyana));
+	// 	++i;
+	// }
+	// while (i)
+	// {
+	// 	--i;
+	// 	wait(NULL);
+	// }
 	return (0);
 }
 
 t_uchar taskplanner(int count, t_times *times)
 {
+	int			semval;
     t_polyana	*polyana;
 
 	polyana = crtpolyana(count, 2, times);
 	if (!polyana)
 		return (1);
+	sem_getvalue(polyana->out_sem, &semval);
+	printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
+	sem_wait(polyana->out_sem);
+	sem_post(polyana->out_sem);
 	if (setforks(polyana))
 		return (1);
 	freepolyana(polyana);

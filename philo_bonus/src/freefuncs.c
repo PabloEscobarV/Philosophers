@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   freefuncs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 10:38:00 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 11:59:26 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 void	*freename(char **names)
 {
@@ -47,4 +48,9 @@ void		*freepolyana(t_polyana *polyana)
 	free(polyana);
 	polyana = NULL;
 	return (polyana);
+}
+
+void	cleanup(t_alkash *alkash)
+{
+	
 }
