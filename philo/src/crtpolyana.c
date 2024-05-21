@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:35:00 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 13:50:48 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ t_polyana	*crtpolyana(int count, t_times *times)
 	count = MUTEX_COUNT;
 	while (count)
 		pthread_mutex_init(&polyana->mts[--count], NULL);
+	gettimeofday(&polyana->timer, NULL);
 	return (polyana);
 }

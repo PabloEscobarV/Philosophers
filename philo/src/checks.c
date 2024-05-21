@@ -6,11 +6,12 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/19 15:08:59 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 14:05:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
+#include <unistd.h>
 
 t_uchar	check_dead(t_alkash *alkash)
 {
@@ -65,7 +66,24 @@ t_uchar	checkalkashi(t_alkash *alkash)
 		return (1);
 	}
 	alkash->polyana->lastcheck = tm_msec(&alkash->timer);
+	printmsg(alkash, "------------CHECK----------------");
 	checkdata(alkash->polyana);
 	pthread_mutex_unlock(&alkash->polyana->mts[CHECK_MT]);
 	return (1);
+}
+
+void	*checkpolyana(void *data)
+{
+	t_polyana	*polyana;
+
+	polyana = (t_polyana *)data;
+	while (!getbitlock(&polyana->status, IS_DEAD, &polyana->mts[DEAD_MT]))
+	{
+		usleep(CHECKTIME * METRICS);
+		if (tm_sec(&polyana->timer) > EXECTIME)
+			setdeathlk(polyana);
+		// print_msg(polyana, "------------CHECK----------------");
+		checkdata(polyana);
+	}
+	return (NULL);
 }

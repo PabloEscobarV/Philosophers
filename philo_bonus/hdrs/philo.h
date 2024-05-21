@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 10:39:33 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 13:31:59 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #define BIT_MAX		8
 #define METRICS		1000L
-#define CHECKTIME	2L
+#define CHECKTIME	5L
 #define SEMERROR	0
 #define DEAD		1
 #define CHECK_SEM	"CHECKSEM"

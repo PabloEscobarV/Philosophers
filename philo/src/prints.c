@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:41:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 14:04:08 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	printmsg(t_alkash *alkash, const char *msg)
 	pthread_mutex_lock(&alkash->polyana->mts[OUT_MT]);
 	printf("%f\t[%d]\t%s\n", tm_sec_f(&alkash->timer), alkash->id, msg);
 	pthread_mutex_unlock(&alkash->polyana->mts[OUT_MT]);
+}
+
+void	print_msg(t_polyana *polyana, const char *msg)
+{
+	pthread_mutex_lock(&polyana->mts[OUT_MT]);
+	printf("%f\t%s\n", tm_sec_f(&polyana->timer), msg);
+	pthread_mutex_unlock(&polyana->mts[OUT_MT]);
 }
 
 void	printstatus(t_polyana *polyana)

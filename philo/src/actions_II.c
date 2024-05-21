@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:09:07 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:20:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 13:48:35 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ void	setdeadlk(t_alkash *alkash)
 	if (!getbit(&alkash->polyana->status, IS_DEAD))
 		setbit(&alkash->polyana->status, IS_DEAD);
 	pthread_mutex_unlock(&alkash->polyana->mts[DEAD_MT]);
+}
+
+void	setdeathlk(t_polyana *polyana)
+{
+	pthread_mutex_lock(&polyana->mts[DEAD_MT]);
+	if (!getbit(&polyana->status, IS_DEAD))
+		setbit(&polyana->status, IS_DEAD);
+	pthread_mutex_unlock(&polyana->mts[DEAD_MT]);
 }
 
 void	increascounter(t_alkash *alkash)

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/19 15:02:04 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 13:58:58 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ void	*planner(void *data)
 			a_sleep(alkash);
 		}
 		finding(alkash);
-		checkalkashi(alkash);
+		// checkalkashi(alkash);
 	}
 	return (NULL);
 }
 
 void	settreads(t_polyana *polyana)
 {
-	int	i;
+	int			i;
+	pthread_t	th_check;
 
 	i = 0;
 	while (i < polyana->count)
@@ -58,6 +59,8 @@ void	settreads(t_polyana *polyana)
 		}
 		++i;
 	}
+	pthread_create(&th_check, NULL, checkpolyana, polyana);
+	pthread_join(th_check, NULL);
 	while (i)
 	{
 		if (pthread_join(polyana->threads[--i], NULL))

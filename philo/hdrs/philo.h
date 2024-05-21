@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 12:38:04 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/21 13:58:55 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ struct	s_polyna
 	pthread_mutex_t	*mts;
 	pthread_t		*threads;
 	t_times			*times;
+	t_timer			timer;
 	t_uchar			*buchlo;
 	t_alkash		**alkashi;
 };
@@ -90,12 +91,14 @@ struct	s_polyna
 t_uchar		taskplanner(int count, t_times *times);
 ///////////////////////////////CHECK`S/////////////////////////////
 t_uchar		checkalkashi(t_alkash *alkash);
+void		*checkpolyana(void *polyana);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printstatus(t_polyana *polyana);
 void		printbits(t_alkash *alkash);
 void		printdead(t_alkash *alkash);
 void		printdeadlk(t_alkash *alkash);
+void		print_msg(t_polyana *polyana, const char *msg);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
@@ -123,5 +126,6 @@ t_uchar		buchat(t_alkash *alkash);
 int			correcti(t_alkash *alkash);
 void		setdead(t_alkash *alkash);
 void		setdeadlk(t_alkash *alkash);
+void		setdeathlk(t_polyana *polyana);
 void		increascounter(t_alkash *alkash);
 long		ft_atoi(const char *nptr);
