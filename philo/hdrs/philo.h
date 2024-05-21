@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 13:58:55 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 15:09:01 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ struct	s_polyna
 
 t_uchar		taskplanner(int count, t_times *times);
 ///////////////////////////////CHECK`S/////////////////////////////
-t_uchar		checkalkashi(t_alkash *alkash);
+// t_uchar		checkalkashi(t_alkash *alkash);
+void		checkalkashi(t_polyana *polyana);
 void		*checkpolyana(void *polyana);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
