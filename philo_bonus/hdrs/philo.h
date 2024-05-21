@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 18:01:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 10:39:33 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 
 #define BIT_MAX		8
 #define METRICS		1000L
+#define CHECKTIME	2L
+#define SEMERROR	0
+#define DEAD		1
 #define CHECK_SEM	"CHECKSEM"
 #define OUT_SEM		"OUTSEM"
 #define BUCHLO_SEM	"BUCHLOSEM"
@@ -46,12 +49,13 @@ typedef struct s_times
 
 typedef struct	s_alkash
 {
+	t_uchar		lifestate;
 	t_uchar		state;
 	int			id;
 	t_timer		lastbuchtm;
 	t_timer		timer;
 	t_polyana	*polyana;
-	sem_t		*check_sem;
+	sem_t		*sem_state;
 }				t_alkash;
 
 
@@ -59,7 +63,6 @@ typedef struct s_polyana
 {
 	int		count;
 	int		count_edev;
-	char	**buchloname;
 	char	**permname;
 	t_times	*times;
 	sem_t	*out_sem;
@@ -67,9 +70,10 @@ typedef struct s_polyana
 	sem_t	**permition;
 }			t_polyana;
 
+t_uchar 	taskplanner(int count, t_times *times);
 /////////////////////////////////////CRT POLYANA/////////////////////////////////////
 t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
-t_polyana   *crtpolyana(int count, t_times *times);
+t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times);
 t_alkash	*crtalkash(int id, t_polyana *polyana);
 /////////////////////////////////////ACTIONS/////////////////////////////////////
 void		getbuchlo(t_alkash	*alkash);
@@ -81,6 +85,7 @@ void		finding(t_alkash *alkash);
 char		*ft_strjoinfree(char *s1, char *s2, int pos);
 char		*ft_itoa(int n);
 int			correcti(t_alkash *alkash);
+t_uchar		setdead(t_alkash *alkash);
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);
@@ -96,3 +101,6 @@ void		printmsg(t_alkash *alkash, const char *msg);
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar *data, t_uchar bit);
+t_uchar		setbitlock(t_uchar *data, t_uchar bit, sem_t *sem);
+t_uchar		resetbitlock(t_uchar *data, t_uchar bit, sem_t *sem);
+t_uchar		getbitlock(t_uchar *data, t_uchar bit, sem_t *sem);

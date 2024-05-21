@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 17:47:08 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 10:35:50 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,12 @@ void	getbuchlo(t_alkash	*alkash)
 t_uchar	buchat(t_alkash *alkash)
 {
 	if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
-	{
-		resetbit(&alkash->state, LIFE_STATUS);
-		return (1);
-	}
+		return (setdead(alkash));
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING\n");
 	gettimeofday(&alkash->lastbuchtm, NULL);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
-
 	return (0);
 }
 
@@ -78,7 +74,7 @@ void	a_sleep(t_alkash *alkash)
 
 void	finding(t_alkash *alkash)
 {
-	if (getbit(alkash->state, IS_FIDING))
+	if (getbit(&alkash->state, IS_FIDING))
 		return ;
 	resetbit(&alkash->state, IS_SLEEPING);
 	setbit(&alkash->state, IS_FIDING);

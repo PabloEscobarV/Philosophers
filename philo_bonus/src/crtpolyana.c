@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/20 17:45:45 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/21 10:39:13 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,16 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash = malloc(sizeof(t_alkash));
 	if (!alkash)
 		return (NULL);
+	setbit(&alkash->lifestate, LIFE_STATUS);
 	alkash->state = 0;
-	setbit(&alkash->state, LIFE_STATUS);
 	alkash->id = id;
+	alkash->sem_state = sem_open(CHECK_SEM, O_CREAT, 0666, 1);
 	gettimeofday(&alkash->timer, NULL);
 	alkash->lastbuchtm = alkash->timer;
 	return (alkash);
 }
 
-t_polyana   *crtpolyana(int count, int count_edev, t_times *times)
+t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 {
     t_polyana   *polyana;
     
@@ -98,13 +99,12 @@ t_polyana   *crtpolyana(int count, int count_edev, t_times *times)
 	if (!polyana)
 		return (NULL);
 	polyana->count = count;
-	polyana->count_edev = count_edev;
+	polyana->count_edev = cnt_dev;
 	polyana->times = times;
-	polyana->out_sem = sem_open("OUT", O_CREAT, 0666, 1);
-	polyana->buchlo = sem_open("BUCHLO", O_CREAT, 0666, count);
-	if (polyana->out_sem = SEM_FAILED || polyana->buchlo == SEM_FAILED)
+	polyana->out_sem = sem_open(OUT_SEM, O_CREAT, 0666, 1);
+	polyana->buchlo = sem_open(BUCHLO_SEM, O_CREAT, 0666, count);
+	if (polyana->out_sem == SEM_FAILED || polyana->buchlo == SEM_FAILED)
 		return (freepolyana(polyana));
-	polyana->buchloname = crtname(count, "BUCHLO.");
 	polyana->permname = crtname(count, "PERMITION.");
 	polyana->permition = crtsemaphores(count, (const char **)polyana->permname);
 	if (!polyana->buchlo || !polyana->permition)
