@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/22 20:35:45 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:48:56 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@
 
 typedef unsigned char	t_uchar;
 
-enum COMMON
+enum e_COMMON
 {
 	LIFE_STATUS,
 	PERMITION,
 	OVERNUMBUCHAT,
 };
 
-enum LOCAL
+enum e_LOCAL
 {
 	IS_LOCKED,
 	IS_BUCHING,
@@ -46,14 +46,14 @@ enum LOCAL
 	ERROR
 };
 
-enum POLYANA_STATE
+enum e_POLYANA_STATE
 {
 	IS_DEAD,
 	ERROR_THCRT,
 	ERROR_THJOIN,
 };
 
-enum MUTEXES
+enum e_MUTEXES
 {
 	OUT_MT,
 	CHECK_MT,
@@ -111,7 +111,6 @@ void		printstatus(t_polyana *polyana);
 void		printbits(t_alkash *alkash);
 void		printdead(t_alkash *alkash);
 void		printdeadlk(t_alkash *alkash);
-void		print_msg(t_polyana *polyana, const char *msg);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);

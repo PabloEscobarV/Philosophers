@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/22 20:37:27 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:46:11 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,25 @@ t_uchar	checknumbuchal(t_polyana *polyana)
 
 t_uchar	checkdata(t_polyana *polyana)
 {
-    t_uchar isdead;
+	t_uchar	isdead;
 	int		i;
 
 	i = polyana->count;
-    isdead = 0;
-    pthread_mutex_lock(&polyana->mts[TIME_MT]);
+	isdead = 0;
+	pthread_mutex_lock(&polyana->mts[TIME_MT]);
 	while (i)
 	{
 		if (tm_msec(&polyana->alkashi[--i]->buchal_tm) > polyana->times->die_tm)
 		{
 			resetbitlock(&polyana->alkashi[i]->cmnstate, LIFE_STATUS,
 				&polyana->mts[STTS_MT]);
-			polyana->alkashi[i]->tm_dead = tm_sec_f(&polyana->alkashi[i]->timer);
+			polyana->alkashi[i]->tm_dead
+				= tm_sec_f(&polyana->alkashi[i]->timer);
 			printmsg(polyana->alkashi[i], "is DEAD!!!!", RED);
 			++isdead;
 		}
 	}
-    pthread_mutex_unlock(&polyana->mts[TIME_MT]);
+	pthread_mutex_unlock(&polyana->mts[TIME_MT]);
 	if (isdead)
 		return (1);
 	return (0);
@@ -74,10 +75,10 @@ t_uchar	checkalkashi(t_alkash *alkash)
 		return (1);
 	}
 	alkash->polyana->lastcheck = tm_msec(&alkash->timer);
-    pthread_mutex_unlock(&alkash->polyana->mts[CHECK_MT]);
-	// printmsg(alkash, "------------CHECK----------------");
-    if (checkdata(alkash->polyana) || checknumbuchal(alkash->polyana))
-			setbitlock(&alkash->polyana->status, IS_DEAD, &alkash->polyana->mts[DEAD_MT]);
+	pthread_mutex_unlock(&alkash->polyana->mts[CHECK_MT]);
+	if (checkdata(alkash->polyana) || checknumbuchal(alkash->polyana))
+		setbitlock(&alkash->polyana->status, IS_DEAD,
+			&alkash->polyana->mts[DEAD_MT]);
 	return (1);
 }
 
@@ -91,7 +92,6 @@ void	*checkpolyana(void *data)
 		usleep(CHECKTIME * METRICS);
 		if (tm_sec(&polyana->timer) > EXECTIME)
 			setbitlock(&polyana->status, IS_DEAD, &polyana->mts[DEAD_MT]);
-		// print_msg(polyana, "------------CHECK----------------");
 		if (checkdata(polyana) || checknumbuchal(polyana))
 			setbitlock(&polyana->status, IS_DEAD, &polyana->mts[DEAD_MT]);
 	}
