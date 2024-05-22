@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 13:58:58 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:28:13 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	*planner(void *data)
 			putbuchlo(alkash);
 			a_sleep(alkash);
 		}
-		finding(alkash);
-		// checkalkashi(alkash);
+		if (!getbit(&alkash->status, IS_FIDING))
+			finding(alkash);
+		usleep(1);
 	}
 	return (NULL);
 }

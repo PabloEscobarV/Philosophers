@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 13:50:48 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 18:21:45 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 	times = malloc(sizeof(t_times));
 	if (!times)
 		return (NULL);
-	times->buchat_tm = buchat_tm;
-	times->sleep_tm = sleep_tm;
+	times->buchat_tm = buchat_tm * METRICS;
+	times->sleep_tm = sleep_tm * METRICS;
 	times->die_tm = die_tm;
 	times->nofepme = nofepme;
 	return (times);
@@ -61,7 +61,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash->id = id;
 	alkash->polyana = polyana;
 	setbit(&alkash->cmnstate, LIFE_STATUS);
-	if (!(id % 2))
+	if (id % 2)
 		setbit(&alkash->cmnstate, PERMITION);
 	gettimeofday(&alkash->timer, NULL);
 	alkash->buchal_tm = alkash->timer;
@@ -106,8 +106,6 @@ t_polyana	*crtpolyana(int count, t_times *times)
 			return (freepolyana(polyana));
 		polyana->buchlo[count] = 0;
 	}
-	if (polyana->count % 2 && polyana->count > 1)
-		resetbit(&polyana->alkashi[polyana->count - 1]->cmnstate, PERMITION);
 	count = MUTEX_COUNT;
 	while (count)
 		pthread_mutex_init(&polyana->mts[--count], NULL);

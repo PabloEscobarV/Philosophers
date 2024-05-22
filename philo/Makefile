@@ -6,7 +6,7 @@
 #    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 16:35:38 by blackrider        #+#    #+#              #
-#    Updated: 2024/05/18 16:59:43 by blackrider       ###   ########.fr        #
+#    Updated: 2024/05/22 13:23:26 by blackrider       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ SRC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I$(HDRDIR) -lpthread
-FSANITFLAG = -fsanitize=thread
+CFLAGS = -Wall -Wextra -I$(HDRDIR) -lpthread
+LDFLAGS = -lpthread
 
 .PHONY: all re clean fclean bonus
 
@@ -36,9 +36,9 @@ fclean: clean
 re: fclean all
 
 $(NAME): $(OBJ)
-	$(CC) $^ -o $@
+	$(CC) $(LDFLAGS) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(OBJDIR)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c -g $(CFLAGS) $< -o $@
 

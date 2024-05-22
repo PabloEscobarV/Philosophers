@@ -6,17 +6,18 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 14:04:08 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:41:05 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdio.h>
 
-void	printmsg(t_alkash *alkash, const char *msg)
+void	printmsg(t_alkash *alkash, const char *msg, const char *color)
 {
 	pthread_mutex_lock(&alkash->polyana->mts[OUT_MT]);
-	printf("%f\t[%d]\t%s\n", tm_sec_f(&alkash->timer), alkash->id, msg);
+	printf("%s%f\t[%d]\t%s%s\n", color, tm_sec_f(&alkash->timer),
+		alkash->id, msg, RESET_COLOR);
 	pthread_mutex_unlock(&alkash->polyana->mts[OUT_MT]);
 }
 
@@ -35,13 +36,14 @@ void	printstatus(t_polyana *polyana)
 	while (i < polyana->count)
 	{
 		if (getbit(&polyana->alkashi[i]->cmnstate, LIFE_STATUS))
-			printf("ALKASH[%d] is ALIVE\tNumber of BUCHAL times: %d\n",
-				polyana->alkashi[i]->id, polyana->alkashi[i]->numbuch);
+			printf("%sALKASH[%d] is ALIVE\tNumber of BUCHAL times: %d%s\n",
+				GREEN, polyana->alkashi[i]->id, polyana->alkashi[i]->numbuch,
+				RESET_COLOR);
 		else
 			printf(
-				"ALKASH[%d] is DEAD!!! in TIME: %f\tNum of BUCHAL times: %d\n",
-				polyana->alkashi[i]->id, polyana->alkashi[i]->tm_dead,
-				polyana->alkashi[i]->numbuch);
+				"%sALKASH[%d] is DEAD!!! in TIME: %f\tNum of BUCHAL times: %d%s\n",
+				RED, polyana->alkashi[i]->id, polyana->alkashi[i]->tm_dead,
+				polyana->alkashi[i]->numbuch, RESET_COLOR);
 		++i;
 	}
 }

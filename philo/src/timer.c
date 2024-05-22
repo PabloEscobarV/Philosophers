@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:25:39 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/18 17:15:16 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:21:15 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,11 @@ float	tm_sec_f(const t_timer *timer)
 	gettimeofday(&endtime, NULL);
 	return (endtime.tv_sec - timer->tv_sec
 		+ (endtime.tv_usec - timer->tv_usec) / 1000000.0F);
+}
+
+void	setmbuchal_tm(t_alkash *alkash)
+{
+	pthread_mutex_lock(&alkash->polyana->mts[TIME_MT]);
+	gettimeofday(&alkash->buchal_tm, NULL);
+	pthread_mutex_unlock(&alkash->polyana->mts[TIME_MT]);
 }

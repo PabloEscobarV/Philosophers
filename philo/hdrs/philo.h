@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 15:09:01 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/22 20:35:45 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,26 @@
 #define BUCHLO_LOCK		1
 #define METRICS			1000L
 #define EXECTIME		20
+#define RESET_COLOR		"\033[0m"
+#define RED				"\033[31m"
+#define GREEN			"\033[32m"
+#define YELLOW			"\033[33m"
+#define BLUE			"\033[34m"
+#define MAGENTA			"\033[35m"
+#define CYAN			"\033[36m"
+#define WHITE			"\033[37m"
 
 typedef unsigned char	t_uchar;
 
-enum
+enum COMMON
 {
 	LIFE_STATUS,
 	PERMITION,
+	OVERNUMBUCHAT,
+};
+
+enum LOCAL
+{
 	IS_LOCKED,
 	IS_BUCHING,
 	IS_SLEEPING,
@@ -33,23 +46,23 @@ enum
 	ERROR
 };
 
-enum
+enum POLYANA_STATE
 {
 	IS_DEAD,
 	ERROR_THCRT,
 	ERROR_THJOIN,
 };
 
-enum
+enum MUTEXES
 {
 	OUT_MT,
 	CHECK_MT,
-	STS_MT,
 	STTS_MT,
 	DEAD_MT,
-	GETBUCHLO_MT,
+	BUCHLO_MT,
 	COUNTER_MT,
-	MUTEX_COUNT
+	TIME_MT,
+	MUTEX_COUNT,
 };
 
 typedef struct timeval	t_timer;
@@ -90,11 +103,10 @@ struct	s_polyna
 
 t_uchar		taskplanner(int count, t_times *times);
 ///////////////////////////////CHECK`S/////////////////////////////
-// t_uchar		checkalkashi(t_alkash *alkash);
-void		checkalkashi(t_polyana *polyana);
+t_uchar		checkalkashi(t_alkash *alkash);
 void		*checkpolyana(void *polyana);
 ///////////////////////////////PRINT/////////////////////////////
-void		printmsg(t_alkash *alkash, const char *msg);
+void		printmsg(t_alkash *alkash, const char *msg, const char *color);
 void		printstatus(t_polyana *polyana);
 void		printbits(t_alkash *alkash);
 void		printdead(t_alkash *alkash);
@@ -117,6 +129,7 @@ long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
 long		tm_sec(const t_timer *timer);
 float		tm_sec_f(const t_timer *timer);
+void		setmbuchal_tm(t_alkash *alkash);
 ///////////////////////////////ACTIONS/////////////////////////////
 void		finding(t_alkash *alkash);
 void		a_sleep(t_alkash *alkash);
@@ -127,6 +140,5 @@ t_uchar		buchat(t_alkash *alkash);
 int			correcti(t_alkash *alkash);
 void		setdead(t_alkash *alkash);
 void		setdeadlk(t_alkash *alkash);
-void		setdeathlk(t_polyana *polyana);
 void		increascounter(t_alkash *alkash);
 long		ft_atoi(const char *nptr);
