@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 11:15:47 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 13:51:54 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,6 @@ char	**crtname(int count, const char *name)
 	return (fullnames);
 }
 
-t_alkash	*crtalkash(int id, t_polyana *polyana)
-{
-	t_alkash	*alkash;
-
-	alkash = malloc(sizeof(t_alkash));
-	if (!alkash)
-		return (NULL);
-	setbit(&alkash->lifestate, LIFE_STATUS);
-	alkash->state = 0;
-	alkash->id = id;
-	alkash->sem_state = sem_open(CHECK_SEM, O_CREAT, 0666, 1);
-	gettimeofday(&alkash->timer, NULL);
-	alkash->lastbuchtm = alkash->timer;
-	alkash->polyana = polyana;
-	return (alkash);
-}
-
 sem_t	*crtsemaphor(const char *name, int val)
 {
 	sem_t	*sem;
@@ -108,6 +91,45 @@ sem_t	**crtpermsem(int count, const char **names)
 	return (sem);
 }
 
+t_alkash	*crtalkash(int id, t_polyana *polyana)
+{
+	int			semval;
+	t_alkash	*alkash;
+
+	alkash = malloc(sizeof(t_alkash));
+	if (!alkash)
+		return (NULL);
+	setbit(&alkash->lifestate, LIFE_STATUS);
+	alkash->numbuch = 0;
+	alkash->state = 0;
+	alkash->id = id;
+	gettimeofday(&alkash->timer, NULL);
+	alkash->lastbuchtm = alkash->timer;
+	alkash->polyana = polyana;
+	return (alkash);
+}
+
+sem_t		**crtsemaphores(int count, const char **names, int val)
+{
+	int		i;
+	sem_t	**sem;	
+
+	if (count < 1 || !names || !(*names))
+		return (NULL);
+	sem = malloc(count * sizeof(sem_t *));
+	if (!sem)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		sem[i] = crtsemaphor(names[i], 1);
+		if (!sem[i])
+			return (freesem(i, names));
+		++i;
+	}
+	return (sem);
+}
+
 t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 {
 	int			semval;
@@ -119,15 +141,12 @@ t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 	polyana->count = count;
 	polyana->count_edev = cnt_dev;
 	polyana->times = times;
-	polyana->permname = crtname(count, "PERMITION.");
-	polyana->check_sm = crtsemaphor(CHECK_SEM, 1);
-	polyana->out_sm = crtsemaphor(OUT_SEM, 1);
-	polyana->buchlo_sm = crtsemaphor(BUCHLO_SEM, polyana->count);
-	polyana->perm_sm = crtpermsem(polyana->count, (const char **) polyana->permname);
-	if (!polyana->out_sm || !polyana->buchlo_sm || !polyana->perm_sm
-		|| !polyana->check_sm)
+	polyana->permname = crtname(count, PERMNAME);
+	polyana->semsname = crtname(COUNTSM, SEMSNAME);
+	polyana->buchlo_sm = crtsemaphor(BUCHLONAME, count);
+	polyana->perm_sm = crtpermsem(polyana->count, (const char **)polyana->permname);
+	polyana->semaphrs = crtsemaphores(COUNTSM, (const char **)polyana->semsname, 1);
+	if (!polyana->buchlo_sm || !polyana->perm_sm || !polyana->semaphrs)
 		return (freepolyana(polyana));
-	sem_getvalue(polyana->out_sm, &semval);
-	printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
 	return (polyana);
 }

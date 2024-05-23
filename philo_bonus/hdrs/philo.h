@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 11:13:34 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 13:16:43 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@
 #define CHECKTIME	5L
 #define SEMERROR	0
 #define DEAD		1
-#define CHECK_SEM	"CHECKSEM"
-#define OUT_SEM		"OUTSEM"
-#define BUCHLO_SEM	"BUCHLOSEM"
-#define PERM_SEM	"PERMSEM"
+#define PERMNAME	"PERMITION."
+#define SEMSNAME	"SEMAPHORES."
+#define BUCHLONAME	"BUCHLO"
 
 typedef unsigned char		t_uchar;
 typedef struct timeval		t_timer;
 typedef struct s_polyana	t_polyana;
 
-enum
+enum	e_state
 {
 	LIFE_STATUS,
 	PERMITION,
@@ -37,6 +36,16 @@ enum
 	IS_SLEEPING,
 	IS_FIDING,
 	ERROR
+};
+
+enum	e_semaphores
+{
+	OUTSM,
+	BUCHALSM,
+	PERMSM,
+	BUCHNUMSM,
+	STATESM,
+	COUNTSM,
 };
 
 typedef struct s_times
@@ -52,10 +61,10 @@ typedef struct	s_alkash
 	t_uchar		lifestate;
 	t_uchar		state;
 	int			id;
+	int			numbuch;
 	t_timer		lastbuchtm;
 	t_timer		timer;
 	t_polyana	*polyana;
-	sem_t		*sem_state;
 }				t_alkash;
 
 
@@ -63,12 +72,12 @@ typedef struct s_polyana
 {
 	int		count;
 	int		count_edev;
-	char	**permname;
 	t_times	*times;
-	sem_t	*out_sm;
+	char	**permname;
+	char	**semsname;
 	sem_t	*buchlo_sm;
-	sem_t	*check_sm;
 	sem_t	**perm_sm;
+	sem_t	**semaphrs;
 }			t_polyana;
 
 t_uchar 	taskplanner(int count, t_times *times);
@@ -87,6 +96,7 @@ char		*ft_strjoinfree(char *s1, char *s2, int pos);
 char		*ft_itoa(int n);
 int			correcti(t_alkash *alkash);
 t_uchar		setdead(t_alkash *alkash);
+void		increaslock(int *data, sem_t *sem);
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);

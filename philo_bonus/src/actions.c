@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 11:18:18 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 13:13:42 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@
 
 void	getbuchlo(t_alkash	*alkash)
 {
+	int	semval;
 	int	i;
 
+	// sem_getvalue(alkash->polyana->perm_sm[alkash->id], &semval);
+	// printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
 	i = alkash->polyana->count_edev;
 	sem_wait(alkash->polyana->perm_sm[alkash->id]);
 	while (i)
@@ -37,11 +40,13 @@ void	getbuchlo(t_alkash	*alkash)
 
 t_uchar	buchat(t_alkash *alkash)
 {
-	if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
-		return (setdead(alkash));
+	// if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
+	// 	return (setdead(alkash));
+
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING\n");
+	increaslock(&alkash->numbuch, alkash->polyana->semaphrs[BUCHNUMSM]);
 	gettimeofday(&alkash->lastbuchtm, NULL);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	return (0);

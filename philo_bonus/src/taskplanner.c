@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 11:18:36 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 13:53:43 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_uchar	checkdeath(t_alkash *alkash)
 {
 	if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
 	{
-		resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sem_state);
+		resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->polyana->semaphrs[STATESM]);
 		return (1);
 	}
 	return (0);
@@ -33,12 +33,19 @@ void	*checker(void *data)
 	t_alkash	*alkash;
 
 	alkash = (t_alkash *)data;
-	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sem_state))
+	// printmsg(alkash, "CHECK POINT: CHECK`S THREAD HAS STARTED");
+	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->polyana->semaphrs[STATESM]))
 	{
 		usleep(CHECKTIME * METRICS);
 		if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
-			resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sem_state);
+		{
+			printmsg(alkash, "is DEAD!!!\n");
+			resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->polyana->semaphrs[STATESM]);
+		}
+		// printmsg(alkash, "CHECK POINT: ------------CHECK-------------");
 	}
+	// printmsg(alkash, "THE END\n");
+	return (NULL);
 }
 
 void	planner(t_alkash *alkash)
@@ -47,19 +54,22 @@ void	planner(t_alkash *alkash)
 
 	if (!alkash)
 	{
-		printmsg(alkash, "BAD MEMMORY ALLOCATION!!!!\n");
+		printmsg(alkash, "BAD MEMMORY ALLOCATION!!!!");
 		exit(-1);
 	}
-	printmsg(alkash, "CHECK");
+	// printmsg(alkash, "CHECK POINT 0: ");
 	pthread_create(&th_check, NULL, checker, alkash);
-	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sem_state))
+	// printmsg(alkash, "CHECK POINT 1");
+	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->polyana->semaphrs[STATESM]))
 	{
+		// printmsg(alkash, "CHECK POINT 2");
 		getbuchlo(alkash);
 		buchat(alkash);
 		putbuchlo(alkash);
 		a_sleep(alkash);
 		finding(alkash);
 	}
+	// printmsg(alkash, "CHECK POINT: EXIT");
 	pthread_join(th_check, NULL);
 	free(alkash);
 	exit(0);
@@ -71,21 +81,22 @@ t_uchar	setforks(t_polyana *polyana)
 	pid_t	id;
 
 	i = 0;
-	planner(crtalkash(i, polyana));
-	// while (i < polyana->count)
-	// {
-	// 	id = fork();
-	// 	if (id < 0)
-	// 		return (1);
-	// 	if (!id)
-	// 		planner(crtalkash(i, polyana));
-	// 	++i;
-	// }
-	// while (i)
-	// {
-	// 	--i;
-	// 	wait(NULL);
-	// }
+	// planner(crtalkash(i, polyana));
+	while (i < polyana->count)
+	{
+		id = fork();
+		if (id < 0)
+			return (1);
+		if (!id)
+			planner(crtalkash(i, polyana));
+		++i;
+	}
+	printf("ALL PROCESSES WAS CREATED!!!!\n");
+	while (i)
+	{
+		--i;
+		wait(NULL);
+	}
 	return (0);
 }
 
@@ -94,13 +105,11 @@ t_uchar taskplanner(int count, t_times *times)
 	int			semval;
     t_polyana	*polyana;
 
-	polyana = crtpolyana(count, 2, times);
+	polyana = crtpolyana(count, 1, times);
 	if (!polyana)
 		return (1);
-	sem_getvalue(polyana->out_sm, &semval);
+	sem_getvalue(polyana->semaphrs[OUTSM], &semval);
 	printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
-	sem_wait(polyana->out_sm);
-	sem_post(polyana->out_sm);
 	if (setforks(polyana))
 		return (1);
 	freepolyana(polyana);
