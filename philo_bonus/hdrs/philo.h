@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 13:31:59 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 11:13:34 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ typedef struct s_polyana
 	int		count_edev;
 	char	**permname;
 	t_times	*times;
-	sem_t	*out_sem;
-	sem_t	*buchlo;
-	sem_t	**permition;
+	sem_t	*out_sm;
+	sem_t	*buchlo_sm;
+	sem_t	*check_sm;
+	sem_t	**perm_sm;
 }			t_polyana;
 
 t_uchar 	taskplanner(int count, t_times *times);

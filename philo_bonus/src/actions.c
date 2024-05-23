@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 10:35:50 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 11:18:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	getbuchlo(t_alkash	*alkash)
 	int	i;
 
 	i = alkash->polyana->count_edev;
-	sem_wait(alkash->polyana->permition[alkash->id]);
+	sem_wait(alkash->polyana->perm_sm[alkash->id]);
 	while (i)
 	{
-		if (sem_wait(alkash->polyana->buchlo))
+		if (sem_wait(alkash->polyana->buchlo_sm))
 		{
 			printf("BAD SEM_WAIT OPERATION!!!\n");
 			exit(-1);
@@ -52,10 +52,10 @@ void	putbuchlo(t_alkash *alkash)
 	int	i;
 
 	i = alkash->polyana->count_edev;
-	sem_post(alkash->polyana->permition[correcti(alkash)]);
+	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
 	while (i)
 	{
-		if (sem_post(alkash->polyana->buchlo))
+		if (sem_post(alkash->polyana->buchlo_sm))
 		{
 			printf("BAD SEM_WAIT OPERATION!!!\n");
 			exit(-1);

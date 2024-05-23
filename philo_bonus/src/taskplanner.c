@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/21 12:00:24 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 11:18:36 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ t_uchar taskplanner(int count, t_times *times)
 	polyana = crtpolyana(count, 2, times);
 	if (!polyana)
 		return (1);
-	sem_getvalue(polyana->out_sem, &semval);
+	sem_getvalue(polyana->out_sm, &semval);
 	printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
-	sem_wait(polyana->out_sem);
-	sem_post(polyana->out_sem);
+	sem_wait(polyana->out_sm);
+	sem_post(polyana->out_sm);
 	if (setforks(polyana))
 		return (1);
 	freepolyana(polyana);
