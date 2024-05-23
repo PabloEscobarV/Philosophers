@@ -6,17 +6,19 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:53:43 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:50:22 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <semaphore.h>
+#include <signal.h>
 
 t_uchar	checkdeath(t_alkash *alkash)
 {
@@ -39,7 +41,7 @@ void	*checker(void *data)
 		usleep(CHECKTIME * METRICS);
 		if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
 		{
-			printmsg(alkash, "is DEAD!!!\n");
+			printmsg(alkash, "is DEAD!!!");
 			resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->polyana->semaphrs[STATESM]);
 		}
 		// printmsg(alkash, "CHECK POINT: ------------CHECK-------------");
@@ -77,35 +79,31 @@ void	planner(t_alkash *alkash)
 
 t_uchar	setforks(t_polyana *polyana)
 {
+	pid_t	id_term;
 	int		i;
-	pid_t	id;
 
 	i = 0;
-	// planner(crtalkash(i, polyana));
 	while (i < polyana->count)
 	{
-		id = fork();
-		if (id < 0)
+		polyana->pids[i] = fork();
+		if (polyana->pids[i] < 0)
 			return (1);
-		if (!id)
+		if (!polyana->pids[i])
 			planner(crtalkash(i, polyana));
 		++i;
 	}
 	printf("ALL PROCESSES WAS CREATED!!!!\n");
+	id_term = wait(NULL);
 	while (i)
-	{
-		--i;
-		wait(NULL);
-	}
+		if (polyana->pids[--i] != id_term)
+			kill(polyana->pids[i], SIGTERM);
 	return (0);
 }
 
-t_uchar taskplanner(int count, t_times *times)
+t_uchar taskplanner(t_polyana *polyana)
 {
 	int			semval;
-    t_polyana	*polyana;
 
-	polyana = crtpolyana(count, 1, times);
 	if (!polyana)
 		return (1);
 	sem_getvalue(polyana->semaphrs[OUTSM], &semval);

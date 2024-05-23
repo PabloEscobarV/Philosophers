@@ -6,11 +6,14 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:22:31 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:14:46 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:38:19 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
+#include <stdlib.h>
+#include <signal.h>
+#include <stdio.h>
 
 int	correcti(t_alkash *alkash)
 {
@@ -37,4 +40,26 @@ void	increaslock(int *data, sem_t *sem)
 	sem_wait(sem);
 	++(*data);
 	sem_post(sem);
+}
+
+void	sighandler(int signum, siginfo_t *si, void *unctx)
+{
+	printf("SIGHADLER!!!!\n");
+	if (signum == SIGINT || signum == SIGTERM)
+		exit(SIGINT);
+}
+
+void setup_signal_handler()
+{
+	struct sigaction	*sa;
+
+	sa = malloc(sizeof(struct sigaction));
+	sa->sa_sigaction = sighandler;
+	sa->sa_flags = SA_SIGINFO;
+	sigaddset(&sa->sa_mask, SIGTERM);
+	sigaddset(&sa->sa_mask, SIGINT);
+	if (sigaction(SIGINT, sa, NULL) < 0)
+		return ;
+	if (sigaction(SIGTERM, sa, NULL) < 0)
+		return ;
 }

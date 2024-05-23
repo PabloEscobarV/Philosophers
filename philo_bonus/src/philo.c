@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:49:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:54:44 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:48:16 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main()
 	t_times		*times;
 	t_polyana	*polyana;
 
-	times = crttimes(1510, 500, 500, 10);
-	taskplanner(3, times);
+	times = crttimes(900, 500, 500, 10);
+	polyana = crtpolyana(count, 1, times);
+	taskplanner(polyana);
 	return (0);
 }

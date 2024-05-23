@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:16:43 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:42:00 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_polyana
 {
 	int		count;
 	int		count_edev;
+	pid_t	*pids;
 	t_times	*times;
 	char	**permname;
 	char	**semsname;
@@ -80,7 +81,7 @@ typedef struct s_polyana
 	sem_t	**semaphrs;
 }			t_polyana;
 
-t_uchar 	taskplanner(int count, t_times *times);
+t_uchar 	taskplanner(t_polyana *polyana);
 /////////////////////////////////////CRT POLYANA/////////////////////////////////////
 t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
 t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times);
@@ -97,6 +98,7 @@ char		*ft_itoa(int n);
 int			correcti(t_alkash *alkash);
 t_uchar		setdead(t_alkash *alkash);
 void		increaslock(int *data, sem_t *sem);
+void 		setup_signal_handler();
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);

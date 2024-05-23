@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:51:54 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:42:07 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 	polyana->count = count;
 	polyana->count_edev = cnt_dev;
 	polyana->times = times;
+	polyana->pids = malloc(count * sizeof(pid_t));
 	polyana->permname = crtname(count, PERMNAME);
 	polyana->semsname = crtname(COUNTSM, SEMSNAME);
 	polyana->buchlo_sm = crtsemaphor(BUCHLONAME, count);
