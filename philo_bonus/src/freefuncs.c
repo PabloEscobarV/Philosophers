@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freefuncs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:49:40 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 21:03:46 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,19 @@ void		*freepolyana(t_polyana *polyana)
 	return (polyana);
 }
 
-void	cleanup(t_alkash *alkash)
+void	*freealkash(t_alkash *alkash)
 {
-	
+	int	i;
+
+	i = COUNTLOCALSM;
+	while (i)
+	{
+		sem_close(alkash->sems[--i]);
+		sem_unlink(alkash->semnames[i]);
+		free(alkash->semnames[i]);
+	}
+	free(alkash->sems);
+	free(alkash->semnames);
+	free(alkash);
+	return (NULL);
 }

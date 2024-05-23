@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 15:53:14 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 20:42:24 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,6 @@ t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 	polyana->semaphrs = crtsemaphores(COUNTSM, (const char **)polyana->semsname, 1);
 	if (!polyana->buchlo_sm || !polyana->perm_sm || !polyana->semaphrs)
 		return (freepolyana(polyana));
+	sem_wait(polyana->semaphrs[DEATHSM]);
 	return (polyana);
 }

@@ -18,6 +18,7 @@
                 "bitlockoper.c",
                 "actions.c",
                 "tools.c",
+                "checker.c",
                 // "checks.c",
                 // "alkash.cpp",
                 // "buchlo.cpp",

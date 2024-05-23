@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 15:54:32 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/23 20:15:09 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_uchar	buchat(t_alkash *alkash)
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING");
 	increaslock(&alkash->numbuch, alkash->sems[NUMBUCHTM]);
-	gettimeofday(&alkash->lastbuchtm, NULL);
+	setlastbuchtmlock(alkash);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	return (0);
 }
