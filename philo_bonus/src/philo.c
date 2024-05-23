@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:49:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:48:16 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:55:49 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 int	main()
 {
-	int			count = 10;
+	int			count = 5;
 	t_times		*times;
 	t_polyana	*polyana;
 
-	times = crttimes(900, 500, 500, 10);
+	times = crttimes(1500, 500, 500, 10);
 	polyana = crtpolyana(count, 1, times);
 	taskplanner(polyana);
 	return (0);

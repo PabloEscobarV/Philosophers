@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:32:56 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 13:13:07 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:20:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	printmsg(t_alkash *alkash, const char *msg)
 	sem_post(alkash->polyana->semaphrs[OUTSM]);
 }
 
-void    printstatus(t_polyana *polyana)
+void	printmsgcolor(t_alkash *alkash, const char *msg, const char *color)
 {
-
+	sem_wait(alkash->polyana->semaphrs[OUTSM]);
+	printf("%s%f\t[%d]\t%s%s\n", color, tm_sec_f(&alkash->timer),
+		alkash->id, msg, RESET_COLOR);
+	sem_post(alkash->polyana->semaphrs[OUTSM]);
 }

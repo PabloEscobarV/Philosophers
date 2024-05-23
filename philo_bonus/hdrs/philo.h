@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:42:00 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:50:03 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,17 @@
 #define DEAD		1
 #define PERMNAME	"PERMITION."
 #define SEMSNAME	"SEMAPHORES."
+#define	SEMSLCNAME	"SEMAPHORESLOCAL."
 #define BUCHLONAME	"BUCHLO"
+#define STATESM		"STATESM"
+#define RESET_COLOR	"\033[0m"
+#define RED			"\033[31m"
+#define GREEN		"\033[32m"
+#define YELLOW		"\033[33m"
+#define BLUE		"\033[34m"
+#define MAGENTA		"\033[35m"
+#define CYAN		"\033[36m"
+#define WHITE		"\033[37m"
 
 typedef unsigned char		t_uchar;
 typedef struct timeval		t_timer;
@@ -38,14 +48,19 @@ enum	e_state
 	ERROR
 };
 
-enum	e_semaphores
+enum	e_cmnsemaphores
 {
 	OUTSM,
 	BUCHALSM,
 	PERMSM,
-	BUCHNUMSM,
-	STATESM,
 	COUNTSM,
+};
+
+enum	e_localsems
+{
+	NUMBUCHTM,
+	LIFESM,
+	COUNTLOCALSM,
 };
 
 typedef struct s_times
@@ -65,6 +80,8 @@ typedef struct	s_alkash
 	t_timer		lastbuchtm;
 	t_timer		timer;
 	t_polyana	*polyana;
+	char		**semnames;
+	sem_t		**sems;
 }				t_alkash;
 
 
@@ -87,7 +104,7 @@ t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
 t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times);
 t_alkash	*crtalkash(int id, t_polyana *polyana);
 /////////////////////////////////////ACTIONS/////////////////////////////////////
-void		getbuchlo(t_alkash	*alkash);
+t_uchar		getbuchlo(t_alkash	*alkash);
 t_uchar		buchat(t_alkash *alkash);
 void		putbuchlo(t_alkash *alkash);
 void		a_sleep(t_alkash *alkash);
@@ -110,6 +127,7 @@ long		tm_sec(const t_timer *timer);
 float		tm_sec_f(const t_timer *timer);
 /////////////////////////////////////PRINTS/////////////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
+void		printmsgcolor(t_alkash *alkash, const char *msg, const char *color);
 /////////////////////////////////////BIT OPERATION/////////////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);

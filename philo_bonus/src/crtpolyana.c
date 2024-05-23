@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crtpolyana.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:42:07 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:53:14 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,6 @@ sem_t	**crtpermsem(int count, const char **names)
 	return (sem);
 }
 
-t_alkash	*crtalkash(int id, t_polyana *polyana)
-{
-	int			semval;
-	t_alkash	*alkash;
-
-	alkash = malloc(sizeof(t_alkash));
-	if (!alkash)
-		return (NULL);
-	setbit(&alkash->lifestate, LIFE_STATUS);
-	alkash->numbuch = 0;
-	alkash->state = 0;
-	alkash->id = id;
-	gettimeofday(&alkash->timer, NULL);
-	alkash->lastbuchtm = alkash->timer;
-	alkash->polyana = polyana;
-	return (alkash);
-}
-
 sem_t		**crtsemaphores(int count, const char **names, int val)
 {
 	int		i;
@@ -128,6 +110,31 @@ sem_t		**crtsemaphores(int count, const char **names, int val)
 		++i;
 	}
 	return (sem);
+}
+
+t_alkash	*crtalkash(int id, t_polyana *polyana)
+{
+	int			semval;
+	t_alkash	*alkash;
+
+	alkash = malloc(sizeof(t_alkash));
+	if (!alkash)
+		return (NULL);
+	setbit(&alkash->lifestate, LIFE_STATUS);
+	alkash->numbuch = 0;
+	alkash->state = 0;
+	alkash->id = id;
+	alkash->semnames = crtname(COUNTLOCALSM, SEMSLCNAME);
+	alkash->sems = crtsemaphores(COUNTLOCALSM, (const char **)alkash->semnames, 1);
+	if (!alkash->sems)
+	{
+		free(alkash);
+		return (NULL);
+	}
+	gettimeofday(&alkash->timer, NULL);
+	alkash->lastbuchtm = alkash->timer;
+	alkash->polyana = polyana;
+	return (alkash);
 }
 
 t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)

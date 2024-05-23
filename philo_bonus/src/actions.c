@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:50:31 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:54:32 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	getbuchlo(t_alkash	*alkash)
+t_uchar	getbuchlo(t_alkash	*alkash)
 {
 	int	semval;
 	int	i;
 
-	// sem_getvalue(alkash->polyana->perm_sm[alkash->id], &semval);
-	// printf("CURENT VALUE OF OUT SEMAPHORE: %d\n", semval);
+	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
+		return (0);
 	i = alkash->polyana->count_edev;
 	sem_wait(alkash->polyana->perm_sm[alkash->id]);
 	while (i)
@@ -36,17 +36,17 @@ void	getbuchlo(t_alkash	*alkash)
 		--i;
 	}
 	printmsg(alkash, "has taken buchat devices");
+	return (1);
 }
 
 t_uchar	buchat(t_alkash *alkash)
 {
-	// if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
-	// 	return (setdead(alkash));
-
+	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
+		return (0);
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING");
-	increaslock(&alkash->numbuch, alkash->polyana->semaphrs[BUCHNUMSM]);
+	increaslock(&alkash->numbuch, alkash->sems[NUMBUCHTM]);
 	gettimeofday(&alkash->lastbuchtm, NULL);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	return (0);
@@ -56,6 +56,9 @@ void	putbuchlo(t_alkash *alkash)
 {
 	int	i;
 
+	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
+		if (!getbit(&alkash->state, IS_BUCHING))
+			return ;
 	i = alkash->polyana->count_edev;
 	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
 	while (i)
@@ -71,6 +74,8 @@ void	putbuchlo(t_alkash *alkash)
 
 void	a_sleep(t_alkash *alkash)
 {
+	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
+		return ;
 	resetbit(&alkash->state, IS_BUCHING);
 	setbit(&alkash->state, IS_SLEEPING);
 	printmsg(alkash, "is SLEEPING");
@@ -79,6 +84,8 @@ void	a_sleep(t_alkash *alkash)
 
 void	finding(t_alkash *alkash)
 {
+	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
+		return ;
 	if (getbit(&alkash->state, IS_FIDING))
 		return ;
 	resetbit(&alkash->state, IS_SLEEPING);

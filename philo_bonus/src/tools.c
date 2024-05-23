@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:22:31 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 14:38:19 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/23 15:55:12 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	correcti(t_alkash *alkash)
 
 t_uchar	setdead(t_alkash *alkash)
 {
-	if (sem_wait(alkash->polyana->semaphrs[STATESM]))
+	if (sem_wait(alkash->sems[LIFESM]))
 		return (SEMERROR);
 	resetbit(&alkash->lifestate, LIFE_STATUS);
-	if (sem_post(alkash->polyana->semaphrs[STATESM]))
+	if (sem_post(alkash->sems[LIFESM]))
 		return (SEMERROR);
 	return (DEAD);
 }
