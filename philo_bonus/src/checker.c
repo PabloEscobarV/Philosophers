@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:28:45 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 21:27:42 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 17:03:32 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	*checker(void *data)
 		usleep(CHECKTIME * METRICS);
 		if (checkdeath(alkash) || checknumbuchtm(alkash))
 		{
-			printmsgcolor(alkash, "is DEAD!!!", RED);
 			resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]);
 			sem_post(alkash->polyana->semaphrs[DEATHSM]);
 			return (NULL);

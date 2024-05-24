@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:22:31 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 15:55:12 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 16:35:58 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,34 @@ t_uchar	setdead(t_alkash *alkash)
 	return (DEAD);
 }
 
-void	increaslock(int *data, sem_t *sem)
+t_uchar	increaslock(t_alkash *alkash)
 {
-	sem_wait(sem);
-	++(*data);
-	sem_post(sem);
+	if (sem_wait(alkash->sems[NUMBUCHTM]))
+		return (SEMERROR);
+	++alkash->numbuch;
+	if (sem_post(alkash->sems[NUMBUCHTM]))
+		return (SEMERROR);
+	return (DEAD);
 }
 
-void	sighandler(int signum, siginfo_t *si, void *unctx)
-{
-	printf("SIGHADLER!!!!\n");
-	if (signum == SIGINT || signum == SIGTERM)
-		exit(SIGINT);
-}
+// void	sighandler(int signum, siginfo_t *si, void *unctx)
+// {
+// 	printf("SIGHADLER!!!!\n");
+// 	if (signum == SIGINT || signum == SIGTERM)
+// 		exit(SIGINT);
+// }
 
-void setup_signal_handler()
-{
-	struct sigaction	*sa;
+// void setup_signal_handler()
+// {
+// 	struct sigaction	*sa;
 
-	sa = malloc(sizeof(struct sigaction));
-	sa->sa_sigaction = sighandler;
-	sa->sa_flags = SA_SIGINFO;
-	sigaddset(&sa->sa_mask, SIGTERM);
-	sigaddset(&sa->sa_mask, SIGINT);
-	if (sigaction(SIGINT, sa, NULL) < 0)
-		return ;
-	if (sigaction(SIGTERM, sa, NULL) < 0)
-		return ;
-}
+// 	sa = malloc(sizeof(struct sigaction));
+// 	sa->sa_sigaction = sighandler;
+// 	sa->sa_flags = SA_SIGINFO;
+// 	sigaddset(&sa->sa_mask, SIGTERM);
+// 	sigaddset(&sa->sa_mask, SIGINT);
+// 	if (sigaction(SIGINT, sa, NULL) < 0)
+// 		return ;
+// 	if (sigaction(SIGTERM, sa, NULL) < 0)
+// 		return ;
+// }

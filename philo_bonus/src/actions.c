@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 20:15:09 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 16:46:22 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_uchar	getbuchlo(t_alkash	*alkash)
 		}
 		--i;
 	}
+	setbit(&alkash->state, IS_LOCKED);
 	printmsg(alkash, "has taken buchat devices");
 	return (1);
 }
@@ -46,7 +47,7 @@ t_uchar	buchat(t_alkash *alkash)
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING");
-	increaslock(&alkash->numbuch, alkash->sems[NUMBUCHTM]);
+	increaslock(alkash);
 	setlastbuchtmlock(alkash);
 	usleep(alkash->polyana->times->buchat_tm * METRICS);
 	return (0);
@@ -57,9 +58,10 @@ void	putbuchlo(t_alkash *alkash)
 	int	i;
 
 	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		if (!getbit(&alkash->state, IS_BUCHING))
+		if (!getbit(&alkash->state, IS_LOCKED))
 			return ;
 	i = alkash->polyana->count_edev;
+	resetbit(&alkash->state, IS_LOCKED);
 	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
 	while (i)
 	{

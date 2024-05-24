@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 10:33:26 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 17:06:53 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 	times->sleep_tm = sleep_tm;
 	times->die_tm = die_tm;
 	times->nofepme = nofepme;
+	if (nofepme > 0)
+		++times->nofepme;
 	return (times);
 }
 

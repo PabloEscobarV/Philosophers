@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 21:04:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 16:54:31 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum	e_cmnstate
 
 enum	e_localstate
 {
+	IS_LOCKED,
 	IS_BUCHING,
 	IS_SLEEPING,
 	IS_FIDING,
@@ -55,7 +56,7 @@ enum	e_localstate
 enum	e_cmnsemaphores
 {
 	DEATHSM,
-	OUTSM,
+	// OUTSM,
 	BUCHALSM,
 	PERMSM,
 	COUNTSM,
@@ -123,7 +124,7 @@ char		*ft_strjoinfree(char *s1, char *s2, int pos);
 char		*ft_itoa(int n);
 int			correcti(t_alkash *alkash);
 t_uchar		setdead(t_alkash *alkash);
-void		increaslock(int *data, sem_t *sem);
+t_uchar		increaslock(t_alkash *alkash);
 void 		setup_signal_handler();
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
@@ -139,6 +140,9 @@ void		setlastbuchtmlock(t_alkash *alkash);
 /////////////////////////////////////PRINTS/////////////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printmsgcolor(t_alkash *alkash, const char *msg, const char *color);
+void		printmsgdata(t_alkash *alkash, const char *msg, int data);
+void		printmsgdatacolor(t_alkash *alkash, const char *msg, const char *color,
+			int data);
 /////////////////////////////////////BIT OPERATION/////////////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
