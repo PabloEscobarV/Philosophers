@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 21:03:46 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 10:25:28 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,23 @@ void		*freepolyana(t_polyana *polyana)
 	{
 		sem_close(polyana->perm_sm[--polyana->count]);
 		sem_unlink(polyana->permname[polyana->count]);
+		free(polyana->permname[polyana->count]);
 	}
 	polyana->count = COUNTSM;
 	while (polyana->count)
 	{
 		sem_close(polyana->semaphrs[--polyana->count]);
 		sem_unlink(polyana->semsname[polyana->count]);
+		free(polyana->semsname[polyana->count]);
 	}
 	sem_close(polyana->buchlo_sm);
-	// sem_unlink(BUCHLO_SEM);
+	sem_unlink(BUCHLONAME);
 	free(polyana->perm_sm);
+	free(polyana->semaphrs);
 	free(polyana->permname);
+	free(polyana->semsname);
 	free(polyana->times);
+	free(polyana->pids);
 	free(polyana);
 	polyana = NULL;
 	return (polyana);

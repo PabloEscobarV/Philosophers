@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 20:42:24 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 10:33:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ sem_t		**crtsemaphores(int count, const char **names, int val)
 
 t_alkash	*crtalkash(int id, t_polyana *polyana)
 {
+	char		*tmp;
 	int			semval;
 	t_alkash	*alkash;
 
@@ -124,7 +125,9 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	alkash->numbuch = 0;
 	alkash->state = 0;
 	alkash->id = id;
-	alkash->semnames = crtname(COUNTLOCALSM, SEMSLCNAME);
+	tmp = ft_strjoinfree(SEMSLCNAME, ft_itoa(id), 1);
+	alkash->semnames = crtname(COUNTLOCALSM, tmp);
+	free(tmp);
 	alkash->sems = crtsemaphores(COUNTLOCALSM, (const char **)alkash->semnames, 1);
 	if (!alkash->sems)
 	{

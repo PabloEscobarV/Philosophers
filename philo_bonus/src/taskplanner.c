@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/23 21:27:42 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/24 10:24:40 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	planner(t_alkash *alkash)
 	pthread_join(th_check, NULL);
 	pthread_join(th_deathcntrl, NULL);
 	freealkash(alkash);
-	freepolyana(alkash->polyana);
 	exit(0);
 }
 
