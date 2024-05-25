@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 10:25:28 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 18:26:41 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void	*freesem(int count, const char **names)
 {
 	while (count)
 		sem_unlink(names[--count]);
-
 	return (NULL);
 }
 
-void		*freepolyana(t_polyana *polyana)
+void	*freepolyana(t_polyana *polyana)
 {
 	while (polyana->count)
 	{
@@ -66,6 +65,7 @@ void	*freealkash(t_alkash *alkash)
 	int	i;
 
 	i = COUNTLOCALSM;
+	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
 	while (i)
 	{
 		sem_close(alkash->sems[--i]);

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 14:05:36 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 18:31:05 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #define DEAD		1
 #define PERMNAME	"PERMITION."
 #define SEMSNAME	"SEMAPHORES."
-#define	SEMSLCNAME	"SEMAPHORESLOCAL."
+#define SEMSLCNAME	"SEMAPHORESLOCAL."
 #define BUCHLONAME	"BUCHLO"
 #define STATESM		"STATESM"
 #define RESET_COLOR	"\033[0m"
@@ -78,7 +78,7 @@ typedef struct s_times
 	long		sleep_tm;
 }				t_times;
 
-typedef struct	s_alkash
+typedef struct s_alkash
 {
 	t_uchar		lifestate;
 	t_uchar		state;
@@ -90,7 +90,6 @@ typedef struct	s_alkash
 	char		**semnames;
 	sem_t		**sems;
 }				t_alkash;
-
 
 typedef struct s_polyana
 {
@@ -105,15 +104,19 @@ typedef struct s_polyana
 	sem_t	**semaphrs;
 }			t_polyana;
 
-t_uchar 	taskplanner(t_polyana *polyana);
-/////////////////////////////////////CHECKER/////////////////////////////////////
+t_uchar		taskplanner(t_polyana *polyana);
+/////////////////////////////////////CHECKER//////////////////////////////////
 void		*checker(void *data);
 void		*deathcontrol(void *data);
-/////////////////////////////////////CRT POLYANA/////////////////////////////////////
+/////////////////////////////////////CRT POLYANA//////////////////////////////
 t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
-t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times);
+t_polyana	*crtpolyana(int count, int cnt_dev, t_times *times);
 t_alkash	*crtalkash(int id, t_polyana *polyana);
-/////////////////////////////////////ACTIONS/////////////////////////////////////
+/////////////////////////////////////CRT POLYANA///////////////////////////////
+sem_t		*crtsemaphor(const char *name, int val);
+sem_t		**crtpermsem(int count, const char **names);
+sem_t		**crtsemaphores(int count, const char **names);
+/////////////////////////////////////ACTIONS///////////////////////////////////
 t_uchar		getbuchlo(t_alkash	*alkash);
 t_uchar		buchat(t_alkash *alkash);
 void		putbuchlo(t_alkash *alkash);
@@ -126,8 +129,7 @@ int			correcti(t_alkash *alkash);
 t_uchar		setdead(t_alkash *alkash);
 t_uchar		increaslock(t_alkash *alkash);
 long		ft_atoi(const char *nptr);
-void 		setup_signal_handler();
-/////////////////////////////////////FREE FUNC/////////////////////////////////////
+/////////////////////////////////////FREE FUNC/////////////////////////////////
 void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);
 void		*freename(char **names);
@@ -142,9 +144,9 @@ void		setlastbuchtmlock(t_alkash *alkash);
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printmsgcolor(t_alkash *alkash, const char *msg, const char *color);
 void		printmsgdata(t_alkash *alkash, const char *msg, int data);
-void		printmsgdatacolor(t_alkash *alkash, const char *msg, const char *color,
-			int data);
-/////////////////////////////////////BIT OPERATION/////////////////////////////////////
+void		printmsgdatacolor(t_alkash *alkash, const char *msg,
+				const char *color, int data);
+/////////////////////////////////////BIT OPERATION//////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);
 t_uchar		getbit(t_uchar *data, t_uchar bit);

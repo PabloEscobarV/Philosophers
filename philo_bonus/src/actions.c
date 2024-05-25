@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 13:36:46 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 17:19:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_uchar	getbuchlo(t_alkash	*alkash)
 {
 	int	i;
 
-	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		return (0);
 	i = alkash->polyana->count_edev;
 	sem_wait(alkash->polyana->perm_sm[alkash->id]);
 	while (i)
@@ -41,14 +39,12 @@ t_uchar	getbuchlo(t_alkash	*alkash)
 
 t_uchar	buchat(t_alkash *alkash)
 {
-	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		return (0);
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
 	printmsg(alkash, "is BUCHING");
 	increaslock(alkash);
 	setlastbuchtmlock(alkash);
-	usleep(alkash->polyana->times->buchat_tm * METRICS);
+	usleep(alkash->polyana->times->buchat_tm);
 	return (0);
 }
 
@@ -56,9 +52,6 @@ void	putbuchlo(t_alkash *alkash)
 {
 	int	i;
 
-	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		if (!getbit(&alkash->state, IS_LOCKED))
-			return ;
 	i = alkash->polyana->count_edev;
 	resetbit(&alkash->state, IS_LOCKED);
 	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
@@ -75,20 +68,14 @@ void	putbuchlo(t_alkash *alkash)
 
 void	a_sleep(t_alkash *alkash)
 {
-	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		return ;
 	resetbit(&alkash->state, IS_BUCHING);
 	setbit(&alkash->state, IS_SLEEPING);
 	printmsg(alkash, "is SLEEPING");
-	usleep(alkash->polyana->times->sleep_tm * METRICS);
+	usleep(alkash->polyana->times->sleep_tm);
 }
 
 void	finding(t_alkash *alkash)
 {
-	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-		return ;
-	if (getbit(&alkash->state, IS_FIDING))
-		return ;
 	resetbit(&alkash->state, IS_SLEEPING);
 	setbit(&alkash->state, IS_FIDING);
 	printmsg(alkash, "is FINDING");
