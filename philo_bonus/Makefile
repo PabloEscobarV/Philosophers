@@ -6,7 +6,7 @@
 #    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 16:35:38 by blackrider        #+#    #+#              #
-#    Updated: 2024/05/18 16:59:43 by blackrider       ###   ########.fr        #
+#    Updated: 2024/05/25 14:23:33 by blackrider       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,5 +40,5 @@ $(NAME): $(OBJ)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(OBJDIR)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c -g $(CFLAGS) $< -o $@
 

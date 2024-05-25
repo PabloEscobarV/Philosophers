@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 17:06:53 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 14:29:32 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 	times->sleep_tm = sleep_tm;
 	times->die_tm = die_tm;
 	times->nofepme = nofepme;
-	if (nofepme > 0)
-		++times->nofepme;
 	return (times);
 }
 
@@ -93,7 +91,7 @@ sem_t	**crtpermsem(int count, const char **names)
 	return (sem);
 }
 
-sem_t		**crtsemaphores(int count, const char **names, int val)
+sem_t		**crtsemaphores(int count, const char **names)
 {
 	int		i;
 	sem_t	**sem;	
@@ -117,7 +115,6 @@ sem_t		**crtsemaphores(int count, const char **names, int val)
 t_alkash	*crtalkash(int id, t_polyana *polyana)
 {
 	char		*tmp;
-	int			semval;
 	t_alkash	*alkash;
 
 	alkash = malloc(sizeof(t_alkash));
@@ -130,7 +127,7 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	tmp = ft_strjoinfree(SEMSLCNAME, ft_itoa(id), 1);
 	alkash->semnames = crtname(COUNTLOCALSM, tmp);
 	free(tmp);
-	alkash->sems = crtsemaphores(COUNTLOCALSM, (const char **)alkash->semnames, 1);
+	alkash->sems = crtsemaphores(COUNTLOCALSM, (const char **)alkash->semnames);
 	if (!alkash->sems)
 	{
 		free(alkash);
@@ -144,9 +141,10 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 
 t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 {
-	int			semval;
     t_polyana   *polyana;
     
+	if (!times || count < 1)
+		return (NULL);
     polyana = malloc(sizeof(t_polyana));
 	if (!polyana)
 		return (NULL);
@@ -158,7 +156,7 @@ t_polyana   *crtpolyana(int count, int cnt_dev, t_times *times)
 	polyana->semsname = crtname(COUNTSM, SEMSNAME);
 	polyana->buchlo_sm = crtsemaphor(BUCHLONAME, count);
 	polyana->perm_sm = crtpermsem(polyana->count, (const char **)polyana->permname);
-	polyana->semaphrs = crtsemaphores(COUNTSM, (const char **)polyana->semsname, 1);
+	polyana->semaphrs = crtsemaphores(COUNTSM, (const char **)polyana->semsname);
 	if (!polyana->buchlo_sm || !polyana->perm_sm || !polyana->semaphrs)
 		return (freepolyana(polyana));
 	sem_wait(polyana->semaphrs[DEATHSM]);

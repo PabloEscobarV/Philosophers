@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 16:54:31 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 14:05:36 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char		*ft_itoa(int n);
 int			correcti(t_alkash *alkash);
 t_uchar		setdead(t_alkash *alkash);
 t_uchar		increaslock(t_alkash *alkash);
+long		ft_atoi(const char *nptr);
 void 		setup_signal_handler();
 /////////////////////////////////////FREE FUNC/////////////////////////////////////
 void		*freepolyana(t_polyana *polyana);

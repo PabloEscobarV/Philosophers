@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:28:45 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 17:03:32 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 14:35:33 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,24 @@
 #include <unistd.h>
 #include <stdio.h>
 
+void	deathpost(t_alkash *alkash)
+{
+	int	i;
+
+	i = alkash->polyana->count;
+	while (i)
+	{
+		sem_post(alkash->polyana->semaphrs[DEATHSM]);
+		--i;
+	}
+}
+
 t_uchar	checknumbuchtm(t_alkash *alkash)
 {
 	if (alkash->polyana->times->nofepme < 0)
 		return (0);
 	sem_wait(alkash->sems[NUMBUCHTM]);
-	if (alkash->numbuch >= alkash->polyana->times->nofepme)
+	if (alkash->numbuch > alkash->polyana->times->nofepme)
 	{
 		sem_post(alkash->sems[NUMBUCHTM]);
 		return (1);
@@ -54,7 +66,7 @@ void	*checker(void *data)
 		if (checkdeath(alkash) || checknumbuchtm(alkash))
 		{
 			resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]);
-			sem_post(alkash->polyana->semaphrs[DEATHSM]);
+			deathpost(alkash);
 			return (NULL);
 		}
 	}
@@ -68,6 +80,5 @@ void	*deathcontrol(void *data)
 	alkash = (t_alkash *)data;
 	sem_wait(alkash->polyana->semaphrs[DEATHSM]);
 	resetbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]);
-	sem_post(alkash->polyana->semaphrs[DEATHSM]);
 	return (NULL);
 }

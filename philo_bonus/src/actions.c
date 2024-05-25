@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/24 16:46:22 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/25 13:36:46 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 t_uchar	getbuchlo(t_alkash	*alkash)
 {
-	int	semval;
 	int	i;
 
 	if (!getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
