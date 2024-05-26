@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:20:24 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 21:13:45 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 21:19:17 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_polyana	*mallocpolyana(int count)
 	return (polyana);
 }
 
-t_uchar		checkpolyanadata(int count, t_times *times)
+t_uchar	checkpolyanadata(int count, t_times *times)
 {
 	if (count < 1)
 	{
@@ -61,7 +61,7 @@ t_uchar		checkpolyanadata(int count, t_times *times)
 	return (0);
 }
 
-t_uchar		crtalkashi(int count, t_polyana *polyana)
+t_uchar	crtalkashi(int count, t_polyana *polyana)
 {
 	while (count)
 	{
