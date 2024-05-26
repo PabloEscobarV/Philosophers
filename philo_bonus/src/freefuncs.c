@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 20:04:56 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 20:45:10 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	freepolyanasems(t_polyana *polyana)
 
 void	*freepolyana(t_polyana *polyana)
 {
+	freepolyanasems(polyana);
 	free(polyana->perm_sm);
 	free(polyana->cmnsems);
 	free(polyana->permname);
