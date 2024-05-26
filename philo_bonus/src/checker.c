@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:28:45 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 18:16:51 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 17:09:03 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_uchar	checkdeath(t_alkash *alkash)
 	sem_wait(alkash->sems[TIMESM]);
 	if (tm_msec(&alkash->lastbuchtm) > alkash->polyana->times->die_tm)
 	{
-		printmsgcolor(alkash, "is DEAD!!!", RED);
+		printmsgcolor(alkash, DEATHMSG, RED);
 		sem_post(alkash->sems[TIMESM]);
 		return (1);
 	}

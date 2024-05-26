@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 18:25:54 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 17:14:58 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,23 @@ t_alkash	*crtalkash(int id, t_polyana *polyana)
 	return (alkash);
 }
 
+t_uchar		checkpolyanaparam(int count, int cnt_dev, t_times *times)
+{
+	if (count < 1 || cnt_dev < 1)
+	{
+		free(times);
+		return (1);
+	}
+	if (!times)
+		return (1);
+	return (0);
+}
+
 t_polyana	*crtpolyana(int count, int cnt_dev, t_times *times)
 {
 	t_polyana	*polyana;
 
-	if (!times || count < 1)
+	if (checkpolyanaparam(count, cnt_dev, times))
 		return (NULL);
 	polyana = malloc(sizeof(t_polyana));
 	if (!polyana)

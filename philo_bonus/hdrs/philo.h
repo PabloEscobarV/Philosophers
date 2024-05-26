@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 18:31:05 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 17:03:47 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,29 @@
 #include <semaphore.h>
 #include <sys/time.h>
 
-#define BIT_MAX		8
-#define METRICS		1000L
-#define CHECKTIME	5L
-#define SEMERROR	0
-#define DEAD		1
-#define PERMNAME	"PERMITION."
-#define SEMSNAME	"SEMAPHORES."
-#define SEMSLCNAME	"SEMAPHORESLOCAL."
-#define BUCHLONAME	"BUCHLO"
-#define STATESM		"STATESM"
-#define RESET_COLOR	"\033[0m"
-#define RED			"\033[31m"
-#define GREEN		"\033[32m"
-#define YELLOW		"\033[33m"
-#define BLUE		"\033[34m"
-#define MAGENTA		"\033[35m"
-#define CYAN		"\033[36m"
-#define WHITE		"\033[37m"
+#define BIT_MAX			8
+#define METRICS			1000L
+#define CHECKTIME		5L
+#define SEMERROR		0
+#define DEAD			1
+#define PERMNAME		"PERMITION."
+#define SEMSNAME		"SEMAPHORES."
+#define SEMSLCNAME		"SEMAPHORESLOCAL."
+#define BUCHLONAME		"BUCHLO"
+#define STATESM			"STATESM"
+#define RESET_COLOR		"\033[0m"
+#define RED				"\033[31m"
+#define GREEN			"\033[32m"
+#define YELLOW			"\033[33m"
+#define BLUE			"\033[34m"
+#define MAGENTA			"\033[35m"
+#define CYAN			"\033[36m"
+#define WHITE			"\033[37m"
+#define GETBUCHLOMSG	"has taken a fork"
+#define BUCHATMSG		"is eating"
+#define SLEEPINGMSG		"is sleeping"
+#define FINDINGMSG		"is thinking"
+#define DEATHMSG		"is died"
 
 typedef unsigned char		t_uchar;
 typedef struct timeval		t_timer;

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 17:19:18 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 17:06:27 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_uchar	getbuchlo(t_alkash	*alkash)
 		--i;
 	}
 	setbit(&alkash->state, IS_LOCKED);
-	printmsg(alkash, "has taken buchat devices");
+	printmsg(alkash, GETBUCHLOMSG);
 	return (1);
 }
 
@@ -41,7 +41,7 @@ t_uchar	buchat(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
-	printmsg(alkash, "is BUCHING");
+	printmsg(alkash, BUCHATMSG);
 	increaslock(alkash);
 	setlastbuchtmlock(alkash);
 	usleep(alkash->polyana->times->buchat_tm);
@@ -70,7 +70,7 @@ void	a_sleep(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_BUCHING);
 	setbit(&alkash->state, IS_SLEEPING);
-	printmsg(alkash, "is SLEEPING");
+	printmsg(alkash, SLEEPINGMSG);
 	usleep(alkash->polyana->times->sleep_tm);
 }
 
@@ -78,5 +78,5 @@ void	finding(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_SLEEPING);
 	setbit(&alkash->state, IS_FIDING);
-	printmsg(alkash, "is FINDING");
+	printmsg(alkash, FINDINGMSG);
 }
