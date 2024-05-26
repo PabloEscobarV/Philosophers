@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 17:03:47 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 20:36:02 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,11 @@
 #define SLEEPINGMSG		"is sleeping"
 #define FINDINGMSG		"is thinking"
 #define DEATHMSG		"is died"
+#define NUMBUCHTMMSG	"NUMBER OF TIMES EACH PHILOSOPHER ATE"
 
 typedef unsigned char		t_uchar;
 typedef struct timeval		t_timer;
 typedef struct s_polyana	t_polyana;
-
-enum	e_cmnstate
-{
-	LIFE_STATUS,
-	ACHIEVNUMBUCH,
-	PERMITION,
-	ERROR = 7
-};
 
 enum	e_localstate
 {
@@ -56,21 +49,19 @@ enum	e_localstate
 	IS_BUCHING,
 	IS_SLEEPING,
 	IS_FIDING,
+	ERROR = 7
 };
 
 enum	e_cmnsemaphores
 {
 	DEATHSM,
-	// OUTSM,
-	BUCHALSM,
-	PERMSM,
 	COUNTSM,
 };
 
 enum	e_localsems
 {
-	LIFESM,
-	NUMBUCHTM,
+	OUTSM,
+	NUMBUCHTMSM,
 	TIMESM,
 	COUNTLOCALSM,
 };
@@ -85,7 +76,6 @@ typedef struct s_times
 
 typedef struct s_alkash
 {
-	t_uchar		lifestate;
 	t_uchar		state;
 	int			id;
 	int			numbuch;
@@ -103,10 +93,10 @@ typedef struct s_polyana
 	pid_t	*pids;
 	t_times	*times;
 	char	**permname;
-	char	**semsname;
+	char	**cmnsemsname;
 	sem_t	*buchlo_sm;
 	sem_t	**perm_sm;
-	sem_t	**semaphrs;
+	sem_t	**cmnsems;
 }			t_polyana;
 
 t_uchar		taskplanner(t_polyana *polyana);
@@ -117,6 +107,7 @@ void		*deathcontrol(void *data);
 t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
 t_polyana	*crtpolyana(int count, int cnt_dev, t_times *times);
 t_alkash	*crtalkash(int id, t_polyana *polyana);
+char		**crtname(int count, const char *name);
 /////////////////////////////////////CRT POLYANA///////////////////////////////
 sem_t		*crtsemaphor(const char *name, int val);
 sem_t		**crtpermsem(int count, const char **names);
@@ -139,6 +130,7 @@ void		*freepolyana(t_polyana *polyana);
 void		*freesem(int count, const char **names);
 void		*freename(char **names);
 void		*freealkash(t_alkash *alkash);
+void		freealkashsems(t_alkash *alkash);
 /////////////////////////////////////TIMER/////////////////////////////////////
 long		tm_usec(const t_timer *timer);
 long		tm_msec(const t_timer *timer);
@@ -148,7 +140,8 @@ void		setlastbuchtmlock(t_alkash *alkash);
 /////////////////////////////////////PRINTS/////////////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg);
 void		printmsgcolor(t_alkash *alkash, const char *msg, const char *color);
-void		printmsgdata(t_alkash *alkash, const char *msg, int data);
+void		printmsglock(t_alkash *alkash, const char *msg);
+void		printmsglkcolor(t_alkash *alkash, const char *msg, const char *col);
 void		printmsgdatacolor(t_alkash *alkash, const char *msg,
 				const char *color, int data);
 /////////////////////////////////////BIT OPERATION//////////////////////////////

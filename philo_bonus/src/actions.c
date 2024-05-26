@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:55:50 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 17:06:27 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 18:19:59 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_uchar	getbuchlo(t_alkash	*alkash)
 		--i;
 	}
 	setbit(&alkash->state, IS_LOCKED);
-	printmsg(alkash, GETBUCHLOMSG);
+	printmsglock(alkash, GETBUCHLOMSG);
 	return (1);
 }
 
@@ -41,10 +41,10 @@ t_uchar	buchat(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_FIDING);
 	setbit(&alkash->state, IS_BUCHING);
-	printmsg(alkash, BUCHATMSG);
-	increaslock(alkash);
+	printmsglock(alkash, BUCHATMSG);
 	setlastbuchtmlock(alkash);
 	usleep(alkash->polyana->times->buchat_tm);
+	increaslock(alkash);
 	return (0);
 }
 
@@ -70,7 +70,7 @@ void	a_sleep(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_BUCHING);
 	setbit(&alkash->state, IS_SLEEPING);
-	printmsg(alkash, SLEEPINGMSG);
+	printmsglock(alkash, SLEEPINGMSG);
 	usleep(alkash->polyana->times->sleep_tm);
 }
 
@@ -78,5 +78,5 @@ void	finding(t_alkash *alkash)
 {
 	resetbit(&alkash->state, IS_SLEEPING);
 	setbit(&alkash->state, IS_FIDING);
-	printmsg(alkash, FINDINGMSG);
+	printmsglock(alkash, FINDINGMSG);
 }

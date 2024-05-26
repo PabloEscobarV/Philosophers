@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:55:08 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 17:35:07 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 20:34:29 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,6 @@ char	**crtname(int count, const char *name)
 	return (fullnames);
 }
 
-t_alkash	*crtalkash(int id, t_polyana *polyana)
-{
-	char		*tmp;
-	t_alkash	*alkash;
-
-	alkash = malloc(sizeof(t_alkash));
-	if (!alkash)
-		return (NULL);
-	setbit(&alkash->lifestate, LIFE_STATUS);
-	alkash->numbuch = 0;
-	alkash->state = 0;
-	alkash->id = id;
-	tmp = ft_strjoinfree(SEMSLCNAME, ft_itoa(id), 1);
-	alkash->semnames = crtname(COUNTLOCALSM, tmp);
-	free(tmp);
-	alkash->sems = crtsemaphores(COUNTLOCALSM, (const char **)alkash->semnames);
-	if (!alkash->sems)
-	{
-		free(alkash);
-		return (NULL);
-	}
-	gettimeofday(&alkash->timer, NULL);
-	alkash->lastbuchtm = alkash->timer;
-	alkash->polyana = polyana;
-	return (alkash);
-}
-
 t_uchar	checkpolyanaparam(int count, int cnt_dev, t_times *times)
 {
 	if (count < 1 || cnt_dev < 1)
@@ -88,6 +61,21 @@ t_uchar	checkpolyanaparam(int count, int cnt_dev, t_times *times)
 	}
 	if (!times)
 		return (1);
+	return (0);
+}
+
+t_uchar	crtpolyanasems(t_polyana *polyana)
+{
+	polyana->permname = crtname(polyana->count, PERMNAME);
+	polyana->cmnsemsname = crtname(COUNTSM, SEMSNAME);
+	polyana->buchlo_sm = crtsemaphor(BUCHLONAME, polyana->count);
+	polyana->perm_sm = crtpermsem(polyana->count,
+			(const char **)polyana->permname);
+	polyana->cmnsems = crtsemaphores(COUNTSM,
+			(const char **)polyana->cmnsemsname);
+	if (!polyana->buchlo_sm || !polyana->perm_sm || !polyana->cmnsems)
+		return (1);
+	sem_wait(polyana->cmnsems[DEATHSM]);
 	return (0);
 }
 
@@ -103,16 +91,10 @@ t_polyana	*crtpolyana(int count, int cnt_dev, t_times *times)
 	polyana->count = count;
 	polyana->count_edev = cnt_dev;
 	polyana->times = times;
-	polyana->pids = malloc(count * sizeof(pid_t));
-	polyana->permname = crtname(count, PERMNAME);
-	polyana->semsname = crtname(COUNTSM, SEMSNAME);
-	polyana->buchlo_sm = crtsemaphor(BUCHLONAME, count);
-	polyana->perm_sm = crtpermsem(polyana->count,
-			(const char **)polyana->permname);
-	polyana->semaphrs = crtsemaphores(COUNTSM,
-			(const char **)polyana->semsname);
-	if (!polyana->buchlo_sm || !polyana->perm_sm || !polyana->semaphrs)
+	if (crtpolyanasems(polyana))
 		return (freepolyana(polyana));
-	sem_wait(polyana->semaphrs[DEATHSM]);
+	polyana->pids = malloc(count * sizeof(pid_t));
+	if (!polyana->pids)
+		return (freepolyana(polyana));
 	return (polyana);
 }

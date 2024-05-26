@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 18:28:18 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 20:34:40 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ void	checkdata(t_alkash *alkash)
 	}
 }
 
+void	actions(t_alkash *alkash)
+{
+	finding(alkash);
+	while (1)
+	{
+		getbuchlo(alkash);
+		buchat(alkash);
+		putbuchlo(alkash);
+		a_sleep(alkash);
+		finding(alkash);
+	}
+}
+
 void	planner(t_alkash *alkash)
 {
 	pthread_t	th_check;
@@ -41,26 +54,15 @@ void	planner(t_alkash *alkash)
 	checkdata(alkash);
 	pthread_create(&th_check, NULL, checker, alkash);
 	pthread_create(&th_deathcntrl, NULL, deathcontrol, alkash);
-	finding(alkash);
-	while (getbitlock(&alkash->lifestate, LIFE_STATUS, alkash->sems[LIFESM]))
-	{
-		getbuchlo(alkash);
-		buchat(alkash);
-		putbuchlo(alkash);
-		a_sleep(alkash);
-		finding(alkash);
-	}
+	actions(alkash);
 	pthread_join(th_check, NULL);
 	pthread_join(th_deathcntrl, NULL);
-	printmsgdatacolor(alkash, "NUMBER OF BUCHAL TIMES:\t", GREEN,
-		alkash->numbuch);
-	freealkash(alkash);
 	exit(0);
 }
 
-t_uchar	setforks(t_polyana *polyana)
+t_uchar	setprocesses(t_polyana *polyana)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < polyana->count)
@@ -86,7 +88,7 @@ t_uchar	taskplanner(t_polyana *polyana)
 	}
 	if (!polyana)
 		return (1);
-	if (setforks(polyana))
+	if (setprocesses(polyana))
 		return (1);
 	freepolyana(polyana);
 	return (0);

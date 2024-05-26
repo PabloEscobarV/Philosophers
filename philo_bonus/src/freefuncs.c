@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:44:20 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/25 18:26:41 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/26 20:04:56 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*freesem(int count, const char **names)
 	return (NULL);
 }
 
-void	*freepolyana(t_polyana *polyana)
+void	freepolyanasems(t_polyana *polyana)
 {
 	while (polyana->count)
 	{
@@ -43,37 +43,23 @@ void	*freepolyana(t_polyana *polyana)
 	polyana->count = COUNTSM;
 	while (polyana->count)
 	{
-		sem_close(polyana->semaphrs[--polyana->count]);
-		sem_unlink(polyana->semsname[polyana->count]);
-		free(polyana->semsname[polyana->count]);
+		sem_close(polyana->cmnsems[--polyana->count]);
+		sem_unlink(polyana->cmnsemsname[polyana->count]);
+		free(polyana->cmnsemsname[polyana->count]);
 	}
 	sem_close(polyana->buchlo_sm);
 	sem_unlink(BUCHLONAME);
+}
+
+void	*freepolyana(t_polyana *polyana)
+{
 	free(polyana->perm_sm);
-	free(polyana->semaphrs);
+	free(polyana->cmnsems);
 	free(polyana->permname);
-	free(polyana->semsname);
+	free(polyana->cmnsemsname);
 	free(polyana->times);
 	free(polyana->pids);
 	free(polyana);
 	polyana = NULL;
 	return (polyana);
-}
-
-void	*freealkash(t_alkash *alkash)
-{
-	int	i;
-
-	i = COUNTLOCALSM;
-	sem_post(alkash->polyana->perm_sm[correcti(alkash)]);
-	while (i)
-	{
-		sem_close(alkash->sems[--i]);
-		sem_unlink(alkash->semnames[i]);
-		free(alkash->semnames[i]);
-	}
-	free(alkash->sems);
-	free(alkash->semnames);
-	free(alkash);
-	return (NULL);
 }
