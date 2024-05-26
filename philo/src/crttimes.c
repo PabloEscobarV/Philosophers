@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   crttimes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 15:04:16 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 21:04:25 by blackrider       ###   ########.fr       */
+/*   Created: 2024/05/26 21:07:49 by blackrider        #+#    #+#             */
+/*   Updated: 2024/05/26 21:08:30 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
 
-int	main(int argc, char **argv)
+t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 {
-	t_timer	timer;
 	t_times	*times;
 
-	if (argc < 5 || argc > 6)
-		return (-1);
-	gettimeofday(&timer, NULL);
-	times = crttimes(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), -1);
+	if (buchat_tm < 0 || sleep_tm < 0 || die_tm < 0)
+		return (NULL);
+	times = malloc(sizeof(t_times));
 	if (!times)
-	{
-		printf("%sBAD TIMES ARGUMENTS!!!%s\n", RED, RESET_COLOR);
-		return (0);
-	}
-	if (argv[5])
-		times->nofepme = ft_atoi(argv[5]);
-	taskplanner(ft_atoi(argv[1]), times);
-	printf("EXECUTION TIME:\t%f\n", tm_sec_f(&timer));
-	return (0);
+		return (NULL);
+	times->buchat_tm = buchat_tm * METRICS;
+	times->sleep_tm = sleep_tm * METRICS;
+	times->die_tm = die_tm;
+	times->nofepme = nofepme;
+	return (times);
 }
