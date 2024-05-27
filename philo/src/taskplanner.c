@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/27 11:02:14 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:34:33 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	*planner(void *data)
 	if (getbitlock(&alkash->polyana->status, IS_DEAD,
 			&alkash->polyana->mts[DEAD_MT]))
 		return (NULL);
-	if (alkash->polyana->count < 2)
-		setdeadlk(alkash);
 	while (!getbitlock(&alkash->polyana->status, IS_DEAD,
 			&alkash->polyana->mts[DEAD_MT]))
 	{
