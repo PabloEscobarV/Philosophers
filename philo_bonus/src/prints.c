@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:32:56 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/27 11:09:14 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/05/27 11:36:54 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	printmsglock(t_alkash *alkash, const char *msg)
 void	printmsglkcolor(t_alkash *alkash, const char *msg, const char *color)
 {
 	sem_wait(alkash->sems[OUTSM]);
-	printf("%s%f\t[%d]\t%s%s\n", color, tm_sec_f(&alkash->timer),
+	printf("%s%li\t%d\t%s%s\n", color, tm_msec(&alkash->timer),
 		alkash->id, msg, RESET_COLOR);
 	sem_post(alkash->sems[OUTSM]);
 }

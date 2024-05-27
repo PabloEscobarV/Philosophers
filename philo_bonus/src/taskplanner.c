@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   taskplanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:20:32 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 20:34:40 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:36:37 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ void	checkdata(t_alkash *alkash)
 	{
 		printmsg(alkash, "BAD MEMMORY ALLOCATION!!!!");
 		exit(-1);
-	}
-	if (alkash->polyana->count < 2)
-	{
-		printmsgcolor(alkash, "is DEAD!!!\n", RED);
-		freealkash(alkash);
-		exit(0);
 	}
 }
 
