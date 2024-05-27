@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:32:56 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 20:51:55 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:09:14 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	printmsgcolor(t_alkash *alkash, const char *msg, const char *color)
 void	printmsglock(t_alkash *alkash, const char *msg)
 {
 	sem_wait(alkash->sems[OUTSM]);
-	printf("%f\t[%d]\t%s\n", tm_sec_f(&alkash->timer), alkash->id, msg);
+	printf("%li\t%d\t%s\n", tm_msec(&alkash->timer), alkash->id, msg);
 	sem_post(alkash->sems[OUTSM]);
 }
 

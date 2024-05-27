@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:09:00 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/27 11:03:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:06:26 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	printmsg(t_alkash *alkash, const char *msg, const char *color)
 {
 	pthread_mutex_lock(&alkash->polyana->mts[OUT_MT]);
-	printf("%s%f\t[%d]\t%s%s\n", color, tm_sec_f(&alkash->timer),
+	printf("%s%li\t%d\t%s%s\n", color, tm_msec(&alkash->timer),
 		alkash->id, msg, RESET_COLOR);
 	pthread_mutex_unlock(&alkash->polyana->mts[OUT_MT]);
 }
