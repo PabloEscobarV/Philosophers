@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
+#    By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 16:35:38 by blackrider        #+#    #+#              #
-#    Updated: 2024/05/22 13:23:26 by blackrider       ###   ########.fr        #
+#    Updated: 2024/05/27 11:03:39 by polenyc          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 CC = gcc
 CFLAGS = -Wall -Wextra -I$(HDRDIR) -lpthread
 LDFLAGS = -lpthread
+FSANITFLAGS = -fsanitize=thread
 
 .PHONY: all re clean fclean bonus
 
