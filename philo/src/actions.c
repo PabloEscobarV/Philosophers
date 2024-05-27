@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:43:30 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/22 20:38:31 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:08:36 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	a_sleep(t_alkash *alkash)
 {
 	resetbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mts[STTS_MT]);
 	setbit(&alkash->status, IS_SLEEPING);
-	printmsg(alkash, "is sleepling", CYAN);
+	printmsg(alkash, SLEEPINGMSG, CYAN);
 	usleep(alkash->polyana->times->sleep_tm);
 }
 
@@ -26,7 +26,7 @@ void	finding(t_alkash *alkash)
 {
 	resetbit(&alkash->status, IS_SLEEPING);
 	setbit(&alkash->status, IS_FIDING);
-	printmsg(alkash, "is finding", YELLOW);
+	printmsg(alkash, FINDINGMSG, YELLOW);
 }
 
 t_uchar	getbuchlo(t_alkash *alkash)
@@ -44,7 +44,7 @@ t_uchar	getbuchlo(t_alkash *alkash)
 	alkash->polyana->buchlo[i] = BUCHLO_LOCK;
 	pthread_mutex_unlock(&alkash->polyana->mts[BUCHLO_MT]);
 	setbit(&alkash->status, IS_LOCKED);
-	printmsg(alkash, "has taken fork`s!!!", MAGENTA);
+	printmsg(alkash, GETBUCHLOMSG, MAGENTA);
 	return (1);
 }
 
@@ -55,10 +55,10 @@ t_uchar	buchat(t_alkash *alkash)
 		return (0);
 	setbitlock(&alkash->cmnstate, IS_BUCHING, &alkash->polyana->mts[STTS_MT]);
 	resetbit(&alkash->status, IS_FIDING);
-	printmsg(alkash, "is BUCHAJE", GREEN);
-	increascounter(alkash);
+	printmsg(alkash, BUCHATMSG, GREEN);
 	setmbuchal_tm(alkash);
 	usleep(alkash->polyana->times->buchat_tm);
+	increascounter(alkash);
 	return (1);
 }
 

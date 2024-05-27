@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:15:10 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/22 20:48:56 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:26:42 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 #define MAGENTA			"\033[35m"
 #define CYAN			"\033[36m"
 #define WHITE			"\033[37m"
+#define GETBUCHLOMSG	"has taken a fork"
+#define BUCHATMSG		"is eating"
+#define SLEEPINGMSG		"is sleeping"
+#define FINDINGMSG		"is thinking"
+#define DEATHMSG		"is died"
+#define NUMBUCHTMMSG	"NUMBER OF TIMES EACH PHILOSOPHER ATE"
 
 typedef unsigned char	t_uchar;
 
@@ -107,15 +113,18 @@ t_uchar		checkalkashi(t_alkash *alkash);
 void		*checkpolyana(void *polyana);
 ///////////////////////////////PRINT/////////////////////////////
 void		printmsg(t_alkash *alkash, const char *msg, const char *color);
-void		printstatus(t_polyana *polyana);
+void		printstatus(t_polyana *polyana, const char *msg);
 void		printbits(t_alkash *alkash);
 void		printdead(t_alkash *alkash);
 void		printdeadlk(t_alkash *alkash);
 ///////////////////////////////POLYANA/////////////////////////////
 t_polyana	*crtpolyana(int count, t_times *times);
 void		*freepolyana(t_polyana *polyana);
-t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
+///////////////////////////////ALKASH/////////////////////////////
 t_alkash	*crtalkash(int id, t_polyana *polyana);
+///////////////////////////////TIMES/////////////////////////////
+t_times		*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme);
+int			cornum(const char *data);
 ///////////////////////////////BIT OPERATIONS/////////////////////////////
 t_uchar		setbit(t_uchar *data, t_uchar bit);
 t_uchar		resetbit(t_uchar *data, t_uchar bit);

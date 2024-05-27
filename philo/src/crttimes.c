@@ -6,12 +6,19 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 21:07:49 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/26 21:08:30 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:26:13 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdrs/philo.h"
 #include <stdlib.h>
+
+int	cornum(const char *data)
+{
+	if (!data)
+		return (-1);
+	return ((int)ft_atoi(data));
+}
 
 t_times	*crttimes(long die_tm, long buchat_tm, long sleep_tm, int nofepme)
 {

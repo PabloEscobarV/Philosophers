@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 13:39:06 by polenyc           #+#    #+#             */
-/*   Updated: 2024/05/22 20:46:11 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 10:56:38 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_uchar	checkdata(t_polyana *polyana)
 				&polyana->mts[STTS_MT]);
 			polyana->alkashi[i]->tm_dead
 				= tm_sec_f(&polyana->alkashi[i]->timer);
-			printmsg(polyana->alkashi[i], "is DEAD!!!!", RED);
+			printmsg(polyana->alkashi[i], DEATHMSG, RED);
 			++isdead;
 		}
 	}

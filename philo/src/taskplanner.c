@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:09:43 by blackrider        #+#    #+#             */
-/*   Updated: 2024/05/22 20:28:13 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/05/27 11:02:14 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_uchar	taskplanner(int count, t_times *times)
 	if (!polyana)
 		return (ERROR);
 	settreads(polyana);
-	printstatus(polyana);
+	printstatus(polyana, NUMBUCHTMMSG);
 	status = polyana->status;
 	freepolyana(polyana);
 	return (status);
